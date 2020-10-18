@@ -10,11 +10,9 @@ export default function Main() {
   const data = useData()
 
   return (
-    <ScrollView style={{
-      flex: 1,
+    <ScrollView style={{backgroundColor: '#333'}} contentContainerStyle={{
       paddingVertical: 40,
       paddingHorizontal: 20,
-      backgroundColor: '#333',
     }}>
       <ExpenseChart />
       <StatusBar barStyle="light-content" />
