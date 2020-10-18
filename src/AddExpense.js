@@ -20,7 +20,7 @@ export default ({categories, addExpense}) => {
       </View>
       <DatePicker date={date} setDate={setDate} />
       <SButton text='Add Expense' action={() => {
-        addExpense({date: new Date(date).toDateString(), text, cost, category})
+        addExpense({date: new Date(date).toDateString(), text, cost: Number(cost), category})
         setText('')
         setCost('')
         setDate(Date.now())
