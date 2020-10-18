@@ -1,9 +1,9 @@
 import React from 'react'
 import { ScrollView, StatusBar } from 'react-native'
 import ExpenseChart from './ExpenseChart'
-import SButton from './components/SButton'
 import useData from './useData'
 import Expense from './Expense'
+import AddExpense from './AddExpense'
 
 
 export default function Main() {
@@ -18,8 +18,8 @@ export default function Main() {
     }}>
       <ExpenseChart />
       <StatusBar barStyle="light-content" />
-      <SButton text='Add expense' action={() => {}} />
-      {data.expenses.map(expense => <Expense expense={expense} key={expense.id} />)}
+      <AddExpense categories={data.categories} addExpense={data.addExpense} />
+      {data.expenses.map(expense => <Expense expense={expense} deleteExpense={data.deleteExpense} key={expense.id} />)}
     </ScrollView>
   );
 }
