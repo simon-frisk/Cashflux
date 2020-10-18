@@ -19,7 +19,13 @@ export default ({categories, addExpense}) => {
         <CategoryPicker categories={categories} category={category} setCategory={setCategory} />
       </View>
       <DatePicker date={date} setDate={setDate} />
-      <SButton text='Add Expense' action={() => addExpense({date: new Date(date).toDateString(), text, cost, category})} />
+      <SButton text='Add Expense' action={() => {
+        addExpense({date: new Date(date).toDateString(), text, cost, category})
+        setText('')
+        setCost('')
+        setDate(Date.now())
+        setCategory(1)
+      }} />
     </View>
   )
 }
