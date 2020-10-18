@@ -5,7 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 export default ({expense, deleteExpense}) => {
   return (
-    <View style={{paddingVertical: 8, borderBottomColor: '#bbb', borderBottomWidth: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+    <View style={{paddingVertical: 8, borderTopColor: '#bbb', borderTopWidth: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
       <View>
         <SText fontSize={23}>{expense.text}</SText>
         <SText color='#bbb'>{expense.category.emoji} {expense.category.name} - {expense.date} - {expense.cost}kr</SText>

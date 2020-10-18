@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { FlatList, TouchableOpacity, View } from 'react-native'
 import SButton from './components/SButton'
 import STextField from './components/STextField'
-import SText from './components/SText';
+import SText from './components/SText'
+import { Entypo } from '@expo/vector-icons'; 
 
 
 export default ({categories, addExpense}) => {
+  const [isToggled, toggle] = useState(false)
+
   const [category, setCategory] = useState(1)
   const [date, setDate] = useState(Date.now())
   const [text, setText] = useState('')
@@ -13,19 +16,27 @@ export default ({categories, addExpense}) => {
 
   return (
     <View style={{marginVertical: 10}}>
-      <STextField placeholder='Text' value={text} onChangeText={setText} />
-      <View style={{flexDirection: 'row'}}>
-        <STextField placeholder='Cost' style={{width: 100, marginRight: 5}} value={cost} onChangeText={setCost} />
-        <CategoryPicker categories={categories} category={category} setCategory={setCategory} />
+      <TouchableOpacity style={{justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row'}} onPress={() => toggle(!isToggled)}>
+        <SText fontSize={25} color='#47f'>Add Expense</SText>
+        <Entypo name={`chevron-${isToggled ? 'up' : 'down'}`} size={30} color="white" />
+      </TouchableOpacity>
+      {isToggled && (
+        <View>
+          <STextField placeholder='Text' value={text} onChangeText={setText} />
+          <View style={{flexDirection: 'row'}}>
+            <STextField placeholder='Cost' style={{width: 100, marginRight: 5}} value={cost} onChangeText={setCost} />
+            <CategoryPicker categories={categories} category={category} setCategory={setCategory} />
+          </View>
+          <DatePicker date={date} setDate={setDate} />
+          <SButton text='Add Expense' action={() => {
+            addExpense({date: new Date(date).toDateString(), text, cost: Number(cost), category})
+            setText('')
+            setCost('')
+            setDate(Date.now())
+            setCategory(1)
+          }} />
       </View>
-      <DatePicker date={date} setDate={setDate} />
-      <SButton text='Add Expense' action={() => {
-        addExpense({date: new Date(date).toDateString(), text, cost: Number(cost), category})
-        setText('')
-        setCost('')
-        setDate(Date.now())
-        setCategory(1)
-      }} />
+      )}
     </View>
   )
 }
