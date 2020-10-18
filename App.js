@@ -1,21 +1,26 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { ScrollView } from 'react-native';
+import ExpenseChart from './src/ExpenseChart'
+import SText from './src/SText'
+import SButton from './src/SButton'
+import AddExpenseModal from './src/AddExpenseModal';
+
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ScrollView style={{
+      flex: 1,
+      paddingVertical: 40,
+      paddingHorizontal: 20,
+      backgroundColor: '#333',
+    }}>
+      <StatusBar barStyle="dark-content" />
+      <ExpenseChart />
+      <SText fontSize={35}>Recordings</SText>
+      <SButton text='+' action={() => {}} />
+      <AddExpenseModal />
+    </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
