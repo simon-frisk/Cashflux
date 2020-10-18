@@ -53,6 +53,13 @@ export default function useData() {
     setExpenses(expenses.filter(expense => expense.id != id))
   }
 
+  function addCategory(category) {
+    const current_ids = categories.map(category => category.id)
+    const id = current_ids.length != 0 ? Math.max(...current_ids) + 1 : 0
+    category.id = id
+    setCategories([...categories, category])
+  }
+
   function mapExpenses() {
     return expenses.map(expense => {
       const category = categories.find(category => category.id == expense.category)
@@ -67,6 +74,7 @@ export default function useData() {
     expenses: mapExpenses(),
     categories,
     addExpense,
-    deleteExpense
+    deleteExpense,
+    addCategory
   }
 }
