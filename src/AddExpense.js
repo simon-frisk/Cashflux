@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FlatList, TouchableOpacity, View } from 'react-native'
 import SButton from './components/SButton'
 import STextField from './components/STextField'
@@ -41,11 +41,25 @@ function CategoryPicker({categories, category, setCategory}) {
 }
 
 function DatePicker({date, setDate}) {
+  const [year, setYear] = useState(new Date(date).getFullYear().toString())
+  const [month, setMonth] = useState(new Date(date).getMonth().toString())
+  const [day, setDay] = useState(new Date(date).getDate().toString())
+
+  useEffect(() => {
+    if(year && month && day) {
+      date = new Date()
+      date.setYear(year)
+      date.setMonth(month)
+      date.setDate(date)
+      setDate(date)
+    }
+  }, [day, month, year])
+
   return (
     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-      <STextField style={{width: '40%'}} maxLength={4} value={new Date(date).getFullYear().toString()} onChangeText={value => setDate(new Date(date).setFullYear(value))} />
-      <STextField style={{width: '25%'}} maxLength={2} value={new Date(date).getMonth().toString()} onChangeText={value => setDate(new Date(date).setMonth(value))} />
-      <STextField style={{width: '25%'}} maxLength={2} value={new Date(date).getDate().toString()} onChangeText={value => setDate(new Date(date).setDate(value))} />
+      <STextField style={{width: '45%'}} maxLength={4} value={year} onChangeText={setYear} />
+      <STextField style={{width: '25%'}} maxLength={2} value={month} onChangeText={setMonth} />
+      <STextField style={{width: '25%'}} maxLength={2} value={day} onChangeText={setDay} />
     </View>
   )
 }
