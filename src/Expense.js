@@ -10,7 +10,7 @@ export default ({expense, deleteExpense}) => {
         <SText fontSize={23}>{expense.text}</SText>
         <SText color='#bbb'>{expense.category.emoji} {expense.category.name} - {expense.date} - {expense.cost}kr</SText>
       </View>
-      <TouchableOpacity onPress={() => deleteExpense(expense.id)}><AntDesign name="delete" size={24} color="#e66" /></TouchableOpacity>
+      <TouchableOpacity onPress={() => deleteExpense(expense.id)}><AntDesign name="delete" size={24} color="#d55" /></TouchableOpacity>
     </View>
   )
 }

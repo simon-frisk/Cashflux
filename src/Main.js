@@ -10,7 +10,7 @@ export default function Main() {
   const data = useData()
 
   return (
-    <ScrollView style={{backgroundColor: '#333'}} contentContainerStyle={{
+    <ScrollView style={{backgroundColor: '#111'}} contentContainerStyle={{
       paddingVertical: 40,
       paddingHorizontal: 20,
     }}>
