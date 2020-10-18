@@ -1,6 +1,6 @@
 import React from 'react';
 import Svg, { Circle } from 'react-native-svg';
-import SText from './SText'
+import SText from './components/SText'
 
 export default function ExpenseChart() {
     const categories = [{
