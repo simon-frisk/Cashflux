@@ -18,7 +18,7 @@ export default function Main() {
     }}>
       <ExpenseChart />
       <StatusBar barStyle="light-content" />
-      <SButton text='+' action={() => {}} />
+      <SButton text='Add expense' action={() => {}} />
       {data.expenses.map(expense => <Expense expense={expense} key={expense.id} />)}
     </ScrollView>
   );
