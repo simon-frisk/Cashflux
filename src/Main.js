@@ -4,6 +4,7 @@ import ExpenseChart from './ExpenseChart'
 import useData from './useData'
 import Expense from './Expense'
 import AddExpense from './AddExpense'
+import Categories from './Categories'
 
 
 export default function Main() {
@@ -14,8 +15,9 @@ export default function Main() {
       paddingVertical: 40,
       paddingHorizontal: 20,
     }}>
-      <ExpenseChart categories={data.categories} expenses={data.expenses} />
       <StatusBar barStyle="light-content" />
+      <ExpenseChart categories={data.categories} expenses={data.expenses} />
+      <Categories categories={data.categories} />
       <AddExpense categories={data.categories} addExpense={data.addExpense} />
       {data.expenses.map(expense => <Expense expense={expense} deleteExpense={data.deleteExpense} key={expense.id} />)}
     </ScrollView>
