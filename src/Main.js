@@ -17,7 +17,7 @@ export default function Main() {
     }}>
       <StatusBar barStyle="light-content" />
       <ExpenseChart categories={data.categories} expenses={data.expenses} />
-      <Categories categories={data.categories} addCategory={data.addCategory} />
+      <Categories categories={data.categories} addCategory={data.addCategory} updateCategory={data.updateCategory} />
       <AddExpense categories={data.categories} addExpense={data.addExpense} />
       {data.expenses.map(expense => <Expense expense={expense} deleteExpense={data.deleteExpense} key={expense.id} />)}
     </ScrollView>

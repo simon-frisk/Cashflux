@@ -60,6 +60,10 @@ export default function useData() {
     setCategories([...categories, category])
   }
 
+  function updateCategory(category) {
+    setCategories([...categories.filter(c => c.id != category.id), category])
+  }
+
   function mapExpenses() {
     return expenses.map(expense => {
       const category = categories.find(category => category.id == expense.category)
@@ -75,6 +79,7 @@ export default function useData() {
     categories,
     addExpense,
     deleteExpense,
-    addCategory
+    addCategory,
+    updateCategory
   }
 }

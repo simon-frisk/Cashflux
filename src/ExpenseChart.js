@@ -14,7 +14,6 @@ export default function ExpenseChart({categories, expenses}) {
                 value: expenses.filter(expense => expense.category.id == category.id).reduce((total, expense) => total + expense.cost, 0),
                 svg: {
                     fill: category.color,
-                    onPress: () => console.log('press'),
                 },
                 key: category.id,
                 arc: { cornerRadius: 7,  }
