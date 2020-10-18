@@ -2,8 +2,8 @@ import React from 'react'
 import { ScrollView, StatusBar } from 'react-native'
 import ExpenseChart from './components/SText'
 import SButton from './components/SButton'
-import SText from './components/SText'
 import useData from './useData'
+import Expense from './Expense'
 
 
 export default function Main() {
@@ -19,7 +19,7 @@ export default function Main() {
       <ExpenseChart />
       <StatusBar barStyle="light-content" />
       <SButton text='+' action={() => {}} />
-      {data.expenses.map(expense => <SText>{expense.text}</SText>)}
+      {data.expenses.map(expense => <Expense expense={expense} />)}
     </ScrollView>
   );
 }
