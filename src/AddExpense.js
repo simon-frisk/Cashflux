@@ -2,13 +2,12 @@ import React, { useState } from 'react'
 import { FlatList, TouchableOpacity, View } from 'react-native'
 import SButton from './components/SButton'
 import STextField from './components/STextField'
+import SModal from './components/SModal'
 import SText from './components/SText'
-import { Entypo } from '@expo/vector-icons'
 import DateTimePicker from '@react-native-community/datetimepicker'
 
-
 export default ({categories, addExpense}) => {
-  const [isToggled, toggle] = useState(false)
+  const [show, setShow] = useState(false)
 
   const [category, setCategory] = useState(1)
   const [date, setDate] = useState(new Date())
@@ -17,27 +16,23 @@ export default ({categories, addExpense}) => {
 
   return (
     <View style={{marginVertical: 10}}>
-      <TouchableOpacity style={{justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row'}} onPress={() => toggle(!isToggled)}>
-        <SText fontSize={25} color='#47f'>Add Expense</SText>
-        <Entypo name={`chevron-${isToggled ? 'up' : 'down'}`} size={30} color="white" />
-      </TouchableOpacity>
-      {isToggled && (
-        <View>
-          <STextField placeholder='Text' value={text} onChangeText={setText} />
-          <View style={{flexDirection: 'row'}}>
-            <STextField placeholder='Cost' style={{width: 100, marginRight: 5}} value={cost} onChangeText={setCost} />
-            <CategoryPicker categories={categories} category={category} setCategory={setCategory} />
-          </View>
-          <DatePicker date={date} onDateChange={setDate} />
-          <SButton text='Add Expense' action={() => {
-            addExpense({date: date.toDateString(), text, cost: Number(cost), category})
-            setText('')
-            setCost('')
-            setDate(new Date())
-            setCategory(1)
-          }} />
-      </View>
-      )}
+      <SButton text='Add expense' action={() => setShow(true)} />
+      <SModal show={show} setShow={setShow}>
+        <SText fontSize={30} color='#47f'>Add Expense</SText>
+        <STextField placeholder='Text' value={text} onChangeText={setText} />
+        <STextField placeholder='Cost' value={cost} onChangeText={setCost} />
+        <CategoryPicker categories={categories} category={category} setCategory={setCategory} />
+        <DatePicker date={date} onDateChange={setDate} />
+        <SButton text='Add Expense' action={() => {
+          addExpense({date: date.toDateString(), text, cost: Number(cost), category})
+          setText('')
+          setCost('')
+          setDate(new Date())
+          setCategory(1)
+          setShow(false)
+        }} />
+        <SButton style={{backgroundColor: 'grey'}} text='Cancel' action={() => setShow(false)} />
+      </SModal>
     </View>
   )
 }
@@ -45,7 +40,7 @@ export default ({categories, addExpense}) => {
 function CategoryPicker({categories, category, setCategory}) {
   return (
     <FlatList data={categories}  horizontal={true} renderItem={({item}) => (
-      <TouchableOpacity style={{backgroundColor: item.id == category ? '#f80' : '#777', marginHorizontal: 3, padding: 5, borderRadius: 5, marginVertical: 5}} onPress={() => setCategory(item.id)}>
+      <TouchableOpacity style={{backgroundColor: item.id == category ? '#f80' : '#777', marginHorizontal: 3, padding: 7, borderRadius: 5, marginVertical: 5}} onPress={() => setCategory(item.id)}>
         <SText>{item.name}</SText>
       </TouchableOpacity>
     )} />
@@ -60,6 +55,7 @@ function DatePicker({date, onDateChange}) {
       <SText style={{textAlign: 'center'}}>{date.toDateString()}</SText>
       {show && (
         <DateTimePicker
+          textColor='white'
           value={date}
           mode='date'
           display='default'

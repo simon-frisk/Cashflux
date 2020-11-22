@@ -43,19 +43,24 @@ function CategoriesMenu({addCategory, categories, updateCategory}) {
 
 function CategoryMenu({category, updateCategory}) {
   const [name, setName] = useState(category.name)
+  const [emoji, setEmoji] = useState(category.emoji)
 
-  function submit() {
+  function update() {
     updateCategory({
       ...category,
       name,
+      emoji,
       color: ['blue', 'green', 'pink', 'aqua', 'orange'][Math.floor(Math.random() * 5)],
     })
   }
 
+  
+
   return (
     <View>
       <STextField placeholder='Name' value={name} onChangeText={setName} />
-      <SButton text='Save' action={submit} />
+      <EmojiPicker emoji={emoji} setEmoji={setEmoji} />
+      <SButton text='Save' action={update} />
     </View>
   )
 }
@@ -75,8 +80,12 @@ function AddCategory({addCategory}) {
   return (
     <>
       <STextField placeholder='Name' value={name} onChangeText={setName} />
-      <STextField maxLength={1} placeholder='Emoji' value={emoji} onChangeText={setEmoji} />
+      <EmojiPicker emoji={emoji} setEmoji={setEmoji} />
       <SButton text='Add category' action={submit} />
     </>
   )
+}
+
+function EmojiPicker({emoji, setEmoji}) {
+  return <STextField maxLength={1} placeholder='Emoji' value={emoji} onChangeText={setEmoji} />
 }
