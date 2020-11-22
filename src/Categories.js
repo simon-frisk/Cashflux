@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
-import { TouchableOpacity, View } from 'react-native'
-import { Entypo } from '@expo/vector-icons';
 import SText from './components/SText'
 import STextField from './components/STextField'
 import SButton from './components/SButton'
+import SModal from './components/SModal'
+import { View } from 'react-native'
 
-export default ({categories, addCategory, updateCategory}) => {
+export default function Categories({categories, addCategory, updateCategory}) {
+  const [show, setShow] = useState(false)
+
   return (
-    <>
-      <View style={{flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10}}>
+    <View>
+       <View style={{flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10}}>
         {categories.map(category => (
           <View style={{flexDirection: 'row', paddingVertical: 3, width: '33%'}}>
             <View style={{backgroundColor: category.color, width: 20, height: 20, borderRadius: '50%', marginRight: 4}} />
@@ -16,28 +18,14 @@ export default ({categories, addCategory, updateCategory}) => {
           </View>
         ))}
       </View>
-      <CategoriesMenu addCategory={addCategory} categories={categories} updateCategory={updateCategory} />
-    </>
-  )
-}
-
-function CategoriesMenu({addCategory, categories, updateCategory}) {
-  const [isToggled, toggle] = useState(false)
-  return (
-    <>
-      <TouchableOpacity style={{justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row'}} onPress={() => toggle(!isToggled)}>
-        <SText fontSize={25} color='#47f'>Categories</SText>
-        <Entypo name={`chevron-${isToggled ? 'up' : 'down'}`} size={30} color="white" />
-      </TouchableOpacity>
-      {isToggled && (
-        <>
-          {categories.map(category => (
-            <CategoryMenu category={category} key={category.id} updateCategory={updateCategory} />
-          ))}
-          <AddCategory addCategory={addCategory} />
-        </>
-      )}
-    </>
+      <SButton style={{backgroundColor: 'grey'}} text='Categories' action={() => setShow(true)} />
+      <SModal show={show}>
+        <SText fontSize={30} color='#47f'>Categories</SText>
+        <SButton style={{backgroundColor: 'grey'}} text='Cancel' action={() => setShow(false)} />
+        {categories.map(category => <CategoryMenu category={category} updateCategory={updateCategory} /> )}
+        <AddCategory addCategory={addCategory} />
+      </SModal>
+    </View>
   )
 }
 
@@ -54,12 +42,13 @@ function CategoryMenu({category, updateCategory}) {
     })
   }
 
-  
-
   return (
-    <View>
-      <STextField placeholder='Name' value={name} onChangeText={setName} />
-      <EmojiPicker emoji={emoji} setEmoji={setEmoji} />
+    <View style={{marginVertical: 10}}>
+      <SText fontSize={25}>{name}</SText>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <STextField style={{width: '40%'}} placeholder='Name' value={name} onChangeText={setName} />
+        <EmojiPicker style={{width: '40%'}} emoji={emoji} setEmoji={setEmoji} />
+      </View>
       <SButton text='Save' action={update} />
     </View>
   )
@@ -86,6 +75,6 @@ function AddCategory({addCategory}) {
   )
 }
 
-function EmojiPicker({emoji, setEmoji}) {
-  return <STextField maxLength={1} placeholder='Emoji' value={emoji} onChangeText={setEmoji} />
+function EmojiPicker({emoji, setEmoji, ...props}) {
+  return <STextField maxLength={1} placeholder='Emoji' value={emoji} onChangeText={setEmoji} {...props} />
 }

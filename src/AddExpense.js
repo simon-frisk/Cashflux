@@ -15,9 +15,9 @@ export default ({categories, addExpense}) => {
   const [cost, setCost] = useState('')
 
   return (
-    <View style={{marginVertical: 10}}>
+    <View>
       <SButton text='Add expense' action={() => setShow(true)} />
-      <SModal show={show} setShow={setShow}>
+      <SModal show={show}>
         <SText fontSize={30} color='#47f'>Add Expense</SText>
         <STextField placeholder='Text' value={text} onChangeText={setText} />
         <STextField placeholder='Cost' value={cost} onChangeText={setCost} />
