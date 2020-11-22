@@ -5,7 +5,7 @@ import SButton from './components/SButton'
 import SModal from './components/SModal'
 import { View } from 'react-native'
 
-export default function Categories({categories, addCategory, updateCategory}) {
+export default function Categories({categories, addCategory, updateCategory, deleteCategory}) {
   const [show, setShow] = useState(false)
 
   return (
@@ -22,14 +22,14 @@ export default function Categories({categories, addCategory, updateCategory}) {
       <SModal show={show}>
         <SText fontSize={30} color='#47f'>Categories</SText>
         <SButton style={{backgroundColor: 'grey'}} text='Cancel' action={() => setShow(false)} />
-        {categories.map(category => <CategoryMenu category={category} updateCategory={updateCategory} /> )}
+        {categories.map(category => <CategoryMenu category={category} updateCategory={updateCategory} deleteCategory={deleteCategory} /> )}
         <AddCategory addCategory={addCategory} />
       </SModal>
     </View>
   )
 }
 
-function CategoryMenu({category, updateCategory}) {
+function CategoryMenu({category, updateCategory, deleteCategory}) {
   const [name, setName] = useState(category.name)
   const [emoji, setEmoji] = useState(category.emoji)
 
@@ -42,6 +42,11 @@ function CategoryMenu({category, updateCategory}) {
     })
   }
 
+  function deleteCat() {
+    console.log('Deleting', category)
+    deleteCategory(category.id)
+  }
+
   return (
     <View style={{marginVertical: 10}}>
       <SText fontSize={25}>{name}</SText>
@@ -50,6 +55,7 @@ function CategoryMenu({category, updateCategory}) {
         <EmojiPicker style={{width: '40%'}} emoji={emoji} setEmoji={setEmoji} />
       </View>
       <SButton text='Save' action={update} />
+      <SButton style={{backgroundColor: 'red'}} text='Delete' action={deleteCat} />
     </View>
   )
 }
