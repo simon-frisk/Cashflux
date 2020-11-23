@@ -43,7 +43,6 @@ function CategoryMenu({category, updateCategory, deleteCategory}) {
   }
 
   function deleteCat() {
-    console.log('Deleting', category)
     deleteCategory(category.id)
   }
 
@@ -70,6 +69,8 @@ function AddCategory({addCategory}) {
       emoji,
       color: ['orange', 'blue', 'green', 'pink', 'aqua'][Math.floor(Math.random() * 5)],
     })
+    setName('')
+    setEmoji('')
   }
 
   return (
