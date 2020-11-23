@@ -12,7 +12,7 @@ export default function Categories({categories, addCategory, updateCategory, del
     <View>
        <View style={{flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10}}>
         {categories.map(category => (
-          <View style={{flexDirection: 'row', paddingVertical: 3, width: '33%'}}>
+          <View style={{flexDirection: 'row', paddingVertical: 3, width: '33%'}} key={category.id}>
             <View style={{backgroundColor: category.color, width: 20, height: 20, borderRadius: '50%', marginRight: 4}} />
             <SText>{category.name}</SText>
           </View>
@@ -22,7 +22,7 @@ export default function Categories({categories, addCategory, updateCategory, del
       <SModal show={show}>
         <SText fontSize={30} color='#47f'>Categories</SText>
         <SButton style={{backgroundColor: 'grey'}} text='Cancel' action={() => setShow(false)} />
-        {categories.map(category => <CategoryMenu category={category} updateCategory={updateCategory} deleteCategory={deleteCategory} /> )}
+        {categories.map(category => <CategoryMenu key={category.id} category={category} updateCategory={updateCategory} deleteCategory={deleteCategory} /> )}
         <AddCategory addCategory={addCategory} />
       </SModal>
     </View>
