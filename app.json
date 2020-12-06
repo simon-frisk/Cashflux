@@ -1,8 +1,12 @@
 {
   "expo": {
     "name": "Expenses",
+    "description": "Expenses is an expense tracking app",
+    "privacy": "public",
     "slug": "Expenses",
+    "platforms": ["ios"],
     "version": "1.0.0",
+    "primaryColor": "#111",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -11,18 +15,18 @@
       "backgroundColor": "#111"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 6000
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.expenses.expensesapp",
+      "userInterfaceStyle": "automatic"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "",
     "githubUrl": "https://github.com/simon-frisk/Expenses"
   }
 }
