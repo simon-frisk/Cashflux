@@ -35,8 +35,15 @@ function ExpensePie({categories, expenses}) {
             key: category.id,
             arc: { cornerRadius: 7,  }
             }))
+    
+    const total = expenses.reduce((total, expense) => total + expense.cost, 0)
 
-    return <PieChart style={{ height: 200}} innerRadius='70%' labelRadius='10px' padAngle={.04} data={pieData} />
+    return <View>
+                <PieChart style={{ height: 200}} innerRadius='70%' labelRadius='10px' padAngle={.04} data={pieData} />
+                <View style={{position: 'absolute', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
+                    <SText fontSize={35}>{total}</SText>
+                </View>
+            </View>
 }
 
 function ExpenseBars({categories, expenses}) {
