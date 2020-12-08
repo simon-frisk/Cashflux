@@ -20,10 +20,12 @@ export default function Categories({categories, addCategory, updateCategory, del
       </View>
       <SButton style={{backgroundColor: 'grey'}} text='Categories' action={() => setShow(true)} />
       <SModal show={show}>
-        <SText fontSize={30} color='#47f'>Categories</SText>
-        <SButton style={{backgroundColor: 'grey'}} text='Cancel' action={() => setShow(false)} />
-        {categories.map(category => <CategoryMenu key={category.id} category={category} updateCategory={updateCategory} deleteCategory={deleteCategory} /> )}
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <SText fontSize={30} color='#47f'>Categories</SText>
+          <SButton style={{backgroundColor: 'grey'}} text='Cancel' action={() => setShow(false)} />
+        </View>
         <AddCategory addCategory={addCategory} />
+        {categories.map(category => <CategoryMenu key={category.id} category={category} updateCategory={updateCategory} deleteCategory={deleteCategory} /> )}
       </SModal>
     </View>
   )
@@ -50,11 +52,13 @@ function CategoryMenu({category, updateCategory, deleteCategory}) {
     <View style={{marginVertical: 10}}>
       <SText fontSize={25}>{name}</SText>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <STextField style={{width: '40%'}} placeholder='Name' value={name} onChangeText={setName} />
-        <EmojiPicker style={{width: '40%'}} emoji={emoji} setEmoji={setEmoji} />
+        <STextField style={{width: '49%'}} placeholder='Name' value={name} onChangeText={setName} />
+        <EmojiPicker style={{width: '49%'}} emoji={emoji} setEmoji={setEmoji} />
       </View>
-      <SButton text='Save' action={update} />
-      <SButton style={{backgroundColor: 'red'}} text='Delete' action={deleteCat} />
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <SButton style={{width: '49%'}} text='Save' action={update} />
+        <SButton style={{backgroundColor: 'red', width: '49%'}} text='Delete' action={deleteCat} />
+      </View>
     </View>
   )
 }
@@ -75,8 +79,11 @@ function AddCategory({addCategory}) {
 
   return (
     <>
-      <STextField placeholder='Name' value={name} onChangeText={setName} />
-      <EmojiPicker emoji={emoji} setEmoji={setEmoji} />
+      <SText fontSize={25}>Add category</SText>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <STextField placeholder='Name' value={name} onChangeText={setName} style={{width: '49%'}} />
+        <EmojiPicker emoji={emoji} setEmoji={setEmoji} style={{width: '49%'}} />
+      </View>
       <SButton text='Add category' action={submit} />
     </>
   )
