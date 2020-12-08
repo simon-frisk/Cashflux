@@ -10,7 +10,12 @@ export default function SModal({show, children}) {
     >
         <ScrollView 
           style={{backgroundColor: '#111'}}
-          contentContainerStyle={{paddingVertical: 40, paddingHorizontal: 20}}>
+          contentContainerStyle={{
+              paddingTop: 40,
+              paddingBottom: 200,
+              paddingHorizontal: 20
+            }}
+          >
             <View>
               {children}
             </View>

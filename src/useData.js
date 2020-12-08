@@ -58,8 +58,11 @@ export default function useData() {
     setCategories([...categories, category])
   }
 
-  function updateCategory(category) {
-    setCategories([...categories.filter(c => c.id != category.id), category])
+  function updateCategory(updated) {
+    setCategories(categories.map(category => {
+      if(category.id != updated.id) return category
+      else return updated
+    }))
   }
 
   function deleteCategory(id) {

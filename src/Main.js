@@ -12,8 +12,8 @@ export default function Main() {
 
   return (
     <ScrollView style={{backgroundColor: '#111'}} contentContainerStyle={{
-      paddingVertical: 40,
-      paddingHorizontal: 20,
+      paddingTop: 40,
+      paddingHorizontal: 20
     }}>
       <StatusBar barStyle="light-content" />
       <Charts categories={data.categories} expenses={data.expenses} />
