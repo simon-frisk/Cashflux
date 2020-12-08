@@ -48,25 +48,17 @@ function CategoryPicker({categories, category, setCategory}) {
 }
 
 function DatePicker({date, onDateChange}) {
-  const [show, setShow] = useState(false)
-
   return (
-    <View>
-      <SText style={{textAlign: 'center'}}>{date.toDateString()}</SText>
-      {show && (
-        <DateTimePicker
-          textColor='white'
-          value={date}
-          mode='date'
-          display='default'
-          onChange={(_, selectedDate) => {
-            const currentDate = selectedDate || date
-            setShow(Platform.OS === 'ios')
-            onDateChange(currentDate)
-          }}
-        />
-      )}
-      <SButton text='Change date' action={() => setShow(!show)} />
+    <View style={{display: 'flex', paddingVertical: 5, justifyContent: 'center'}}>
+      <DateTimePicker
+        value={date}
+        mode='date'
+        display='default'
+        onChange={(_, selectedDate) => {
+          const currentDate = selectedDate || date
+          onDateChange(currentDate)
+        }}
+      />
     </View>
   )
 }

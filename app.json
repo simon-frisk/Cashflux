@@ -1,10 +1,12 @@
 {
   "expo": {
-    "name": "Expenses",
-    "description": "Expenses is an expense tracking app",
+    "name": "Cashflux",
+    "description": "Cashflux is an expense tracking app",
     "privacy": "public",
-    "slug": "Expenses",
-    "platforms": ["ios"],
+    "slug": "Cashflux",
+    "platforms": [
+      "ios"
+    ],
     "version": "1.0.0",
     "primaryColor": "#111",
     "orientation": "portrait",
@@ -27,6 +29,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "githubUrl": "https://github.com/simon-frisk/Expenses"
+    "githubUrl": "https://github.com/simon-frisk/Cashflux"
   }
 }
