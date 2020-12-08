@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SText from './components/SText'
 import STextField from './components/STextField'
 import SButton from './components/SButton'
@@ -90,5 +90,5 @@ function AddCategory({addCategory}) {
 }
 
 function EmojiPicker({emoji, setEmoji, ...props}) {
-  return <STextField maxLength={1} placeholder='Emoji' value={emoji} onChangeText={setEmoji} {...props} />
+  return <STextField maxLength={2} placeholder='Emoji' value={emoji} onChangeText={setEmoji} {...props} />
 }

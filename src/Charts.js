@@ -2,16 +2,8 @@ import React from 'react'
 import { FlatList, View, Dimensions } from 'react-native'
 import SText from './components/SText'
 import { PieChart, StackedBarChart } from 'react-native-svg-charts'
-import { get } from 'react-native/Libraries/Utilities/PixelRatio'
 
 export default function Charts({categories, expenses}) {
-
-    const totalCost = expenses.reduce((total, expense) => total + expense.cost, 0)
-    if(totalCost == 0)
-        return <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                    <SText fontSize={20}>No expenses added</SText>
-                </View>
-
     const components = [ExpensePie, ExpenseBars]
 
     return <FlatList
@@ -27,6 +19,7 @@ export default function Charts({categories, expenses}) {
 }
 
 function ExpensePie({categories, expenses}) {
+    // Page for Expense pie chart
     const getTime = date => date.split(' ')[1] + date.split(' ')[3]
     const time = getTime(new Date().toDateString())
 
