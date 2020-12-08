@@ -1,10 +1,6 @@
 import { useState, useEffect } from 'react'
 import AsyncStorage from '@react-native-community/async-storage'
 
-//[{text: 'New Ipad', cost: 110, category: 1, id: 1, date: 'Sun Oct 18 2020'}, {text: 'Dinner', cost: 80, category: 2, id: 2, date: 'Sat Oct 17 2020'}, {text: 'Linalg book', cost: 200, category: 3, id: 3, date: 'Sat Oct 17 2020'}]
-//[{name: 'Tech', color: '#47f', emoji: '📱', id: 1}, {name: 'Food', color: '#f77', emoji: '🍌', id: 2}, {name: 'Books', color: '#fff', emoji: '📚', id: 3}]
-
-
 export default function useData() {
   const [isInitialSyncDone, setIsInitialSyncDone] = useState(false)
   const [expenses, setExpenses] = useState([])
@@ -46,7 +42,9 @@ export default function useData() {
     const current_ids = expenses.map(expense => expense.id)
     const id = current_ids.length != 0 ? Math.max(...current_ids) + 1 : 0
     expense.id = id
-    setExpenses([...expenses, expense])
+    const newList = [...expenses, expense]
+    newList.sort((a, b) => new Date(a.date) < new Date(b.date))
+    setExpenses(newList)
   }
 
   function deleteExpense(id) {
