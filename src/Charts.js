@@ -53,7 +53,6 @@ function ExpenseBars({categories, expenses}) {
         expenses.forEach(expense => {
             const index = Math.floor((Date.now() - new Date(expense.date)) / (1000 * 3600 * 24 * 7))
             if(index >= numWeeks || isNaN(index)) return
-            console.log(expense, index)
             barData[index][expense.category.name] += expense.cost
         })
         return barData
