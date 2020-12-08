@@ -4,6 +4,7 @@ import STextField from './components/STextField'
 import SButton from './components/SButton'
 import SModal from './components/SModal'
 import { View } from 'react-native'
+import SColorPicker from './components/SColorPicker'
 
 export default function Categories({categories, addCategory, updateCategory, deleteCategory}) {
   const [show, setShow] = useState(false)
@@ -34,13 +35,14 @@ export default function Categories({categories, addCategory, updateCategory, del
 function CategoryMenu({category, updateCategory, deleteCategory}) {
   const [name, setName] = useState(category.name)
   const [emoji, setEmoji] = useState(category.emoji)
+  const [color, setColor] = useState(category.color)
 
   function update() {
     updateCategory({
       ...category,
       name,
       emoji,
-      color: ['blue', 'green', 'pink', 'aqua', 'orange'][Math.floor(Math.random() * 5)],
+      color
     })
   }
 
@@ -51,6 +53,7 @@ function CategoryMenu({category, updateCategory, deleteCategory}) {
   return (
     <View style={{marginVertical: 10}}>
       <SText fontSize={25}>{name}</SText>
+      <SColorPicker color={color} setColor={setColor} />
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <STextField style={{width: '49%'}} placeholder='Name' value={name} onChangeText={setName} />
         <EmojiPicker style={{width: '49%'}} emoji={emoji} setEmoji={setEmoji} />
@@ -66,12 +69,13 @@ function CategoryMenu({category, updateCategory, deleteCategory}) {
 function AddCategory({addCategory}) {
   const [name, setName] = useState('')
   const [emoji, setEmoji] = useState('')
+  const [color, setColor] = useState('')
 
   function submit() {
     addCategory({
       name,
       emoji,
-      color: ['orange', 'blue', 'green', 'pink', 'aqua'][Math.floor(Math.random() * 5)],
+      color
     })
     setName('')
     setEmoji('')
@@ -80,6 +84,7 @@ function AddCategory({addCategory}) {
   return (
     <>
       <SText fontSize={25}>Add category</SText>
+      <SColorPicker color={color} setColor={setColor} />
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <STextField placeholder='Name' value={name} onChangeText={setName} style={{width: '49%'}} />
         <EmojiPicker emoji={emoji} setEmoji={setEmoji} style={{width: '49%'}} />
