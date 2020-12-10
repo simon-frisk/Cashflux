@@ -21,11 +21,9 @@ export default ({expense}) => {
         </View>
         <TouchableOpacity onPress={() => setShowModal(true)} ><Entypo name="dots-three-vertical" size={28} color="white" /></TouchableOpacity>
       </View>
-      <SModal show={showModal}>
-        <SText fontSize={30}>Edit expense</SText>
+      <SModal show={showModal} close={() => setShowModal(false)} title='Expense'>
         <UpdateExpense expense={expense} close={() => setShowModal(false)} />
         <SButton action={() => deleteExpense(expense.id)} text='Delete' style={{backgroundColor: '#f44'}} />
-        <SButton action={() => setShowModal(false)} text='Cancel' style={{backgroundColor: 'grey'}} />
       </SModal>
     </View>
   )

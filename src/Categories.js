@@ -22,11 +22,7 @@ export default function Categories() {
         ))}
       </View>
       <SButton style={{backgroundColor: 'grey'}} text='Categories' action={() => setShow(true)} />
-      <SModal show={show}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <SText fontSize={30} color='#47f'>Categories</SText>
-          <SButton style={{backgroundColor: 'grey'}} text='Cancel' action={() => setShow(false)} />
-        </View>
+      <SModal show={show} title='Categories' close={() => setShow(false)}>
         <AddCategory />
         {categories.map(category => <CategoryMenu key={category.id} category={category} /> )}
       </SModal>

@@ -21,8 +21,7 @@ export default () => {
   return (
     <View>
       <SButton text='Add expense' action={() => setShow(true)} />
-      <SModal show={show}>
-        <SText fontSize={30} color='#47f'>Add Expense</SText>
+      <SModal show={show} close={() => {setShow(false)}} title='Add expense'>
         <STextField placeholder='Text' value={text} onChangeText={setText} />
         <STextField placeholder='Cost' value={cost} onChangeText={setCost} />
         <CategoryPicker categories={categories} category={category} setCategory={setCategory} />
@@ -35,7 +34,6 @@ export default () => {
           setCategory(1)
           setShow(false)
         }} />
-        <SButton style={{backgroundColor: 'grey'}} text='Cancel' action={() => setShow(false)} />
       </SModal>
     </View>
   )
