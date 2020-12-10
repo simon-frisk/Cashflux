@@ -1,5 +1,6 @@
 import React from 'react'
 import {FlatList, TouchableOpacity} from 'react-native'
+import SText from './SText'
 
 export default function CategoryPicker({categories, category, setCategory}) {
   return (

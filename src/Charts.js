@@ -1,25 +1,10 @@
 import React, { useContext } from 'react'
-import { FlatList, View, Dimensions } from 'react-native'
+import { View } from 'react-native'
 import SText from './components/SText'
-import { PieChart, StackedBarChart } from 'react-native-svg-charts'
+import { PieChart } from 'react-native-svg-charts'
 import dataContext from './dataContext'
 
-export default function Charts() {
-    const components = [ExpensePie, ExpenseBars]
-
-    return <FlatList
-                data={components}
-                renderItem={data => <View style={{width: Dimensions.get('window').width - 40}}>
-                        <data.item />
-                    </View>}
-                horizontal={true}
-                pagingEnabled={true}
-                style={{padding: 10}}
-            />
-            
-}
-
-function ExpensePie() {
+export default function ExpensePie() {
     // Page for Expense pie chart
     const {expenses, categories} = useContext(dataContext)
     const getTime = date => date.split(' ')[1] + date.split(' ')[3]
@@ -48,33 +33,4 @@ function ExpensePie() {
                     </View>
                 </View>
             </View>
-}
-
-function ExpenseBars() {
-    const {expenses, categories} = useContext(dataContext)
-    
-    function barData() {
-        const barData = []
-        const numWeeks = 6;
-        const object = categories.reduce((obj, c) => {
-            obj[c.name] = 1
-            return obj
-        }, {})
-        for (let i = 0; i < numWeeks; i++)
-            barData.push({...object})
-        expenses.forEach(expense => {
-            const index = Math.floor((Date.now() - new Date(expense.date)) / (1000 * 3600 * 24 * 7))
-            if(index >= numWeeks || isNaN(index)) return
-            barData[index][expense.category.name] += expense.cost
-        })
-        return barData
-    }
-
-    return <StackedBarChart
-            style={{ height: 200 }}
-            keys={categories.map(c => c.name)}
-            colors={categories.map(c => c.color)}
-            data={barData()}
-            contentInset={{ top: 30, bottom: 30, left: 10, right: 10 }}
-        />
 }
