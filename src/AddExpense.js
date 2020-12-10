@@ -1,13 +1,17 @@
-import React, { useState } from 'react'
-import { FlatList, TouchableOpacity, View } from 'react-native'
+import React, { useContext, useState } from 'react'
+import { View } from 'react-native'
 import SButton from './components/SButton'
 import STextField from './components/STextField'
 import SModal from './components/SModal'
 import SText from './components/SText'
+import CategoryPicker from './components/CategoryPicker'
 import DateTimePicker from '@react-native-community/datetimepicker'
+import dataContext from './dataContext'
 
-export default ({categories, addExpense}) => {
+export default () => {
   const [show, setShow] = useState(false)
+
+  const {addExpense, categories} = useContext(dataContext)
 
   const [category, setCategory] = useState(1)
   const [date, setDate] = useState(new Date())
@@ -34,16 +38,6 @@ export default ({categories, addExpense}) => {
         <SButton style={{backgroundColor: 'grey'}} text='Cancel' action={() => setShow(false)} />
       </SModal>
     </View>
-  )
-}
-
-function CategoryPicker({categories, category, setCategory}) {
-  return (
-    <FlatList data={categories}  horizontal={true} keyExtractor={(item) => item.id.toString()} renderItem={({item}) => (
-      <TouchableOpacity style={{backgroundColor: item.id == category ? '#f80' : '#777', marginHorizontal: 3, padding: 7, borderRadius: 5, marginVertical: 5}} onPress={() => setCategory(item.id)}>
-        <SText>{item.name}</SText>
-      </TouchableOpacity>
-    )} />
   )
 }
 

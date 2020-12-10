@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { FlatList, View, Dimensions } from 'react-native'
 import SText from './components/SText'
 import { PieChart, StackedBarChart } from 'react-native-svg-charts'
+import dataContext from './dataContext'
 
-export default function Charts({categories, expenses}) {
+export default function Charts() {
     const components = [ExpensePie, ExpenseBars]
 
     return <FlatList
                 data={components}
                 renderItem={data => <View style={{width: Dimensions.get('window').width - 40}}>
-                        <data.item categories={categories} expenses={expenses} />
+                        <data.item />
                     </View>}
                 horizontal={true}
                 pagingEnabled={true}
@@ -18,8 +19,9 @@ export default function Charts({categories, expenses}) {
             
 }
 
-function ExpensePie({categories, expenses}) {
+function ExpensePie() {
     // Page for Expense pie chart
+    const {expenses, categories} = useContext(dataContext)
     const getTime = date => date.split(' ')[1] + date.split(' ')[3]
     const time = getTime(new Date().toDateString())
 
@@ -48,7 +50,8 @@ function ExpensePie({categories, expenses}) {
             </View>
 }
 
-function ExpenseBars({categories, expenses}) {
+function ExpenseBars() {
+    const {expenses, categories} = useContext(dataContext)
     
     function barData() {
         const barData = []

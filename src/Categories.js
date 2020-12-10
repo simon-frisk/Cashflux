@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import SText from './components/SText'
 import STextField from './components/STextField'
 import SButton from './components/SButton'
 import SModal from './components/SModal'
 import { View } from 'react-native'
 import SColorPicker from './components/SColorPicker'
+import dataContext from './dataContext'
 
-export default function Categories({categories, addCategory, updateCategory, deleteCategory}) {
+export default function Categories() {
   const [show, setShow] = useState(false)
+  const {categories} = useContext(dataContext)
 
   return (
     <View>
@@ -25,17 +27,19 @@ export default function Categories({categories, addCategory, updateCategory, del
           <SText fontSize={30} color='#47f'>Categories</SText>
           <SButton style={{backgroundColor: 'grey'}} text='Cancel' action={() => setShow(false)} />
         </View>
-        <AddCategory addCategory={addCategory} />
-        {categories.map(category => <CategoryMenu key={category.id} category={category} updateCategory={updateCategory} deleteCategory={deleteCategory} /> )}
+        <AddCategory />
+        {categories.map(category => <CategoryMenu key={category.id} category={category} /> )}
       </SModal>
     </View>
   )
 }
 
-function CategoryMenu({category, updateCategory, deleteCategory}) {
+function CategoryMenu({category}) {
   const [name, setName] = useState(category.name)
   const [emoji, setEmoji] = useState(category.emoji)
   const [color, setColor] = useState(category.color)
+
+  const {updateCategory, deleteCategory} = useContext(dataContext)
 
   function update() {
     updateCategory({
@@ -66,10 +70,12 @@ function CategoryMenu({category, updateCategory, deleteCategory}) {
   )
 }
 
-function AddCategory({addCategory}) {
+function AddCategory() {
   const [name, setName] = useState('')
   const [emoji, setEmoji] = useState('')
   const [color, setColor] = useState('')
+
+  const {addCategory} = useContext(dataContext)
 
   function submit() {
     addCategory({

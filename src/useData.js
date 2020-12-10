@@ -47,6 +47,13 @@ export default function useData() {
     setExpenses(newList)
   }
 
+  function updateExpense(updated) {
+    setExpenses(expenses.map(expense => {
+      if(expense.id == updated.id) return updated
+      else return expense
+    }))
+  }
+
   function deleteExpense(id) {
     setExpenses(expenses.filter(expense => expense.id != id))
   }
@@ -84,6 +91,7 @@ export default function useData() {
     categories,
     addExpense,
     deleteExpense,
+    updateExpense,
     addCategory,
     updateCategory,
     deleteCategory

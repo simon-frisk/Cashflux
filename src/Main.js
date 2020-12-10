@@ -5,7 +5,7 @@ import useData from './useData'
 import Expense from './Expense'
 import AddExpense from './AddExpense'
 import Categories from './Categories'
-
+import dataContext from './dataContext'
 
 export default function Main() {
   const data = useData()
@@ -15,11 +15,13 @@ export default function Main() {
       paddingTop: 40,
       paddingHorizontal: 20
     }}>
-      <StatusBar barStyle="light-content" />
-      <Charts categories={data.categories} expenses={data.expenses} />
-      <Categories categories={data.categories} addCategory={data.addCategory} updateCategory={data.updateCategory} deleteCategory={data.deleteCategory} />
-      <AddExpense categories={data.categories} addExpense={data.addExpense} />
-      {data.expenses.map(expense => <Expense expense={expense} deleteExpense={data.deleteExpense} key={expense.id} />)}
+      <dataContext.Provider value={data}>
+        <StatusBar barStyle="light-content" />
+        <Charts />
+        <Categories />
+        <AddExpense />
+        {data.expenses.map(expense => <Expense expense={expense} key={expense.id} />)}
+      </dataContext.Provider>
     </ScrollView>
   );
 }
