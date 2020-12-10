@@ -34,6 +34,7 @@ export default function SColorPicker({color: current, setColor}) {
             borderColor: current == color ? '#ffee00' : 'grey',
           }}
           onPress={() => setColor(color)}
+          key={color}
         />
       )}
     </ScrollView>

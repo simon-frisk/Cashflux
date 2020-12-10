@@ -15,10 +15,12 @@ export default ({expense}) => {
   return (
     <View style={{paddingVertical: 8, borderTopColor: '#bbb', borderTopWidth: 1}}>
       <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-        <SText fontSize={23}>{expense.text}</SText>
-      <TouchableOpacity onPress={() => setShowModal(true)} ><Entypo name="dots-three-vertical" size={24} color="white" /></TouchableOpacity>
+        <View>
+          <SText fontSize={23}>{expense.text}</SText>
+          <SText color='#bbb'>{expense.category.emoji} {expense.category.name} - {expense.date} - {expense.cost}kr</SText>
+        </View>
+        <TouchableOpacity onPress={() => setShowModal(true)} ><Entypo name="dots-three-vertical" size={28} color="white" /></TouchableOpacity>
       </View>
-      <SText color='#bbb'>{expense.category.emoji} {expense.category.name} - {expense.date} - {expense.cost}kr</SText>
       <SModal show={showModal}>
         <SText fontSize={30}>Edit expense</SText>
         <UpdateExpense expense={expense} close={() => setShowModal(false)} />
@@ -34,7 +36,6 @@ const UpdateExpense = ({expense, close}) => {
   const [date, setDate] = useState(new Date(expense.date))
   const [text, setText] = useState(expense.text)
   const [cost, setCost] = useState(String(expense.cost))
-  console.log(expense, expense.cost, cost)
 
   const {updateExpense} = useContext(dataContext)
 
