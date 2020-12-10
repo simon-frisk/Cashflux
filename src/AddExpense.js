@@ -5,8 +5,8 @@ import STextField from './components/STextField'
 import SModal from './components/SModal'
 import SText from './components/SText'
 import CategoryPicker from './components/CategoryPicker'
-import DateTimePicker from '@react-native-community/datetimepicker'
 import dataContext from './dataContext'
+import SDatePicker from './components/SDatePicker'
 
 export default () => {
   const [show, setShow] = useState(false)
@@ -26,7 +26,7 @@ export default () => {
         <STextField placeholder='Text' value={text} onChangeText={setText} />
         <STextField placeholder='Cost' value={cost} onChangeText={setCost} />
         <CategoryPicker categories={categories} category={category} setCategory={setCategory} />
-        <DatePicker date={date} onDateChange={setDate} />
+        <SDatePicker date={date} onDateChange={setDate} />
         <SButton text='Add Expense' action={() => {
           addExpense({date: date.toDateString(), text, cost: Number(cost), category})
           setText('')
@@ -37,22 +37,6 @@ export default () => {
         }} />
         <SButton style={{backgroundColor: 'grey'}} text='Cancel' action={() => setShow(false)} />
       </SModal>
-    </View>
-  )
-}
-
-function DatePicker({date, onDateChange}) {
-  return (
-    <View style={{display: 'flex', paddingVertical: 5, justifyContent: 'center'}}>
-      <DateTimePicker
-        value={date}
-        mode='date'
-        display='default'
-        onChange={(_, selectedDate) => {
-          const currentDate = selectedDate || date
-          onDateChange(currentDate)
-        }}
-      />
     </View>
   )
 }

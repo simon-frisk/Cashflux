@@ -5,6 +5,8 @@ import SModal from './components/SModal'
 import SButton from './components/SButton'
 import { Entypo } from '@expo/vector-icons'
 import dataContext from './dataContext'
+import SDatePicker from './components/SDatePicker'
+import STextField from './components/STextField'
 
 export default ({expense}) => {
   const [showModal, setShowModal] = useState(false)
@@ -19,7 +21,7 @@ export default ({expense}) => {
       <SText color='#bbb'>{expense.category.emoji} {expense.category.name} - {expense.date} - {expense.cost}kr</SText>
       <SModal show={showModal}>
         <SText fontSize={30}>Edit expense</SText>
-        <UpdateExpense expense={expense} />
+        <UpdateExpense expense={expense} close={() => setShowModal(false)} />
         <SButton action={() => deleteExpense(expense.id)} text='Delete' style={{backgroundColor: '#f44'}} />
         <SButton action={() => setShowModal(false)} text='Cancel' style={{backgroundColor: 'grey'}} />
       </SModal>
@@ -27,11 +29,12 @@ export default ({expense}) => {
   )
 }
 
-const UpdateExpense = ({expense}) => {
+const UpdateExpense = ({expense, close}) => {
   const [category, setCategory] = useState(expense.category.id)
-  const [date, setDate] = useState(expense.date)
+  const [date, setDate] = useState(new Date(expense.date))
   const [text, setText] = useState(expense.text)
-  const [cost, setCost] = useState(expense.cost)
+  const [cost, setCost] = useState(String(expense.cost))
+  console.log(expense, expense.cost, cost)
 
   const {updateExpense} = useContext(dataContext)
 
@@ -39,25 +42,18 @@ const UpdateExpense = ({expense}) => {
     updateExpense({
       ...expense, 
       category,
-      date,
+      date: date.toDateString(),
       text,
-      cost
+      cost: Number(cost)
     })
+    close()
   }
 
   return (
     <>
       <STextField placeholder='Text' value={text} onChangeText={setText} />
       <STextField placeholder='Cost' value={cost} onChangeText={setCost} />
-      <DatePicker date={date} onDateChange={setDate} />
-      <SButton text='Add Expense' action={() => {
-        addExpense({date: date.toDateString(), text, cost: Number(cost), category})
-        setText('')
-        setCost('')
-        setDate(new Date())
-        setCategory(1)
-        setShow(false)
-      }}/>
+      <SDatePicker date={date} onDateChange={setDate} />
       <SButton text='Save' action={update} />
     </>
   )

@@ -48,6 +48,7 @@ export default function useData() {
   }
 
   function updateExpense(updated) {
+    console.log(updated)
     setExpenses(expenses.map(expense => {
       if(expense.id == updated.id) return updated
       else return expense
