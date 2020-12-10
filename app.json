@@ -7,14 +7,14 @@
     "platforms": [
       "ios"
     ],
-    "version": "1.0.0",
-    "primaryColor": "#111",
+    "version": "1.0.1",
+    "primaryColor": "#171717",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#111"
+      "backgroundColor": "#171717"
     },
     "updates": {
       "fallbackToCacheTimeout": 6000
