@@ -41,7 +41,7 @@ function CategoryMenu({category}) {
       <SText fontSize={25}>{name}</SText>
       <CategoryForm
         name={name} setName={setName}
-        emoji={setEmoji} setEmoji={setEmoji}
+        emoji={emoji} setEmoji={setEmoji}
         color={color} setColor={setColor}
         submit={() => updateCategory({...category, name, emoji, color})}
         submitText={'Update'}
