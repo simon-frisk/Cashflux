@@ -8,13 +8,13 @@
       "ios"
     ],
     "version": "1.0.1",
-    "primaryColor": "#171717",
+    "primaryColor": "#111111",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#171717"
+      "backgroundColor": "#111111"
     },
     "updates": {
       "fallbackToCacheTimeout": 6000
@@ -25,9 +25,6 @@
     "ios": {
       "bundleIdentifier": "com.expenses.expensesapp",
       "userInterfaceStyle": "automatic"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     },
     "githubUrl": "https://github.com/simon-frisk/Cashflux"
   }
