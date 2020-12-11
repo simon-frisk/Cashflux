@@ -1,19 +1,16 @@
 import React, { useContext, useState } from 'react'
 import { View } from 'react-native'
 import SButton from './components/SButton'
-import STextField from './components/STextField'
 import SModal from './components/SModal'
-import SText from './components/SText'
-import CategoryPicker from './components/CategoryPicker'
 import dataContext from './dataContext'
-import SDatePicker from './components/SDatePicker'
+import ExpenseForm from './components/ExpenseForm'
 
 export default () => {
   const [show, setShow] = useState(false)
 
-  const {addExpense, categories} = useContext(dataContext)
+  const {addExpense} = useContext(dataContext)
 
-  const [category, setCategory] = useState(1)
+  const [category, setCategory] = useState(null)
   const [date, setDate] = useState(new Date())
   const [text, setText] = useState('')
   const [cost, setCost] = useState('')
@@ -22,18 +19,21 @@ export default () => {
     <View>
       <SButton text='Add expense' action={() => setShow(true)} />
       <SModal show={show} close={() => {setShow(false)}} title='Add expense'>
-        <STextField placeholder='Text' value={text} onChangeText={setText} />
-        <STextField placeholder='Cost' value={cost} onChangeText={setCost} />
-        <CategoryPicker categories={categories} category={category} setCategory={setCategory} />
-        <SDatePicker date={date} onDateChange={setDate} />
-        <SButton text='Add Expense' action={() => {
-          addExpense({date: date.toDateString(), text, cost: Number(cost), category})
-          setText('')
-          setCost('')
-          setDate(new Date())
-          setCategory(1)
-          setShow(false)
-        }} />
+        <ExpenseForm
+          submitTitle='Add expense'
+          text={text}
+          setText={setText}
+          date={date}
+          setDate={setDate}
+          category={category}
+          setCategory={setCategory}
+          cost={cost}
+          setCost={setCost}
+          submit={() => {
+            addExpense({date: date.toDateString(), text, cost: Number(cost), category})
+            setShow(false)
+          }}
+        />
       </SModal>
     </View>
   )

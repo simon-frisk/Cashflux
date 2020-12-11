@@ -5,8 +5,7 @@ import SModal from './components/SModal'
 import SButton from './components/SButton'
 import { Entypo } from '@expo/vector-icons'
 import dataContext from './dataContext'
-import SDatePicker from './components/SDatePicker'
-import STextField from './components/STextField'
+import ExpenseForm from './components/ExpenseForm'
 
 export default ({expense}) => {
   const [showModal, setShowModal] = useState(false)
@@ -37,23 +36,21 @@ const UpdateExpense = ({expense, close}) => {
 
   const {updateExpense} = useContext(dataContext)
 
-  function update() {
-    updateExpense({
-      ...expense, 
-      category,
-      date: date.toDateString(),
-      text,
-      cost: Number(cost)
-    })
-    close()
-  }
-
   return (
-    <>
-      <STextField placeholder='Text' value={text} onChangeText={setText} />
-      <STextField placeholder='Cost' value={cost} onChangeText={setCost} />
-      <SDatePicker date={date} onDateChange={setDate} />
-      <SButton text='Save' action={update} />
-    </>
+    <ExpenseForm
+      submitTitle='Update'
+      text={text}
+      setText={setText}
+      date={date}
+      setDate={setDate}
+      category={category}
+      setCategory={setCategory}
+      cost={cost}
+      setCost={setCost}
+      submit={() => {
+        updateExpense({date: date.toDateString(), text, cost: Number(cost), category})
+        close()
+      }}
+    />
   )
 }
