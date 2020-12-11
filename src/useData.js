@@ -48,7 +48,6 @@ export default function useData() {
   }
 
   function updateExpense(updated) {
-    console.log(updated)
     setExpenses(expenses.map(expense => {
       if(expense.id == updated.id) return updated
       else return expense
@@ -63,7 +62,7 @@ export default function useData() {
     const current_ids = categories.map(category => category.id)
     const id = current_ids.length != 0 ? Math.max(...current_ids) + 1 : 0
     category.id = id
-    setCategories([...categories, category])
+    setCategories([category, ...categories])
   }
 
   function updateCategory(updated) {

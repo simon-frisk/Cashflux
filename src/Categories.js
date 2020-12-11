@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import SText from './components/SText'
 import STextField from './components/STextField'
 import SButton from './components/SButton'
@@ -6,6 +6,8 @@ import SModal from './components/SModal'
 import { View } from 'react-native'
 import SColorPicker from './components/SColorPicker'
 import dataContext from './dataContext'
+import SEmojiPicker from './components/SEmojiPicker'
+import CategoryForm from './components/CategoryForm'
 
 export default function Categories() {
   const [show, setShow] = useState(false)
@@ -37,15 +39,6 @@ function CategoryMenu({category}) {
 
   const {updateCategory, deleteCategory} = useContext(dataContext)
 
-  function update() {
-    updateCategory({
-      ...category,
-      name,
-      emoji,
-      color
-    })
-  }
-
   function deleteCat() {
     deleteCategory(category.id)
   }
@@ -53,15 +46,14 @@ function CategoryMenu({category}) {
   return (
     <View style={{marginVertical: 10}}>
       <SText fontSize={25}>{name}</SText>
-      <SColorPicker color={color} setColor={setColor} />
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <STextField style={{width: '49%'}} placeholder='Name' value={name} onChangeText={setName} />
-        <EmojiPicker style={{width: '49%'}} emoji={emoji} setEmoji={setEmoji} />
-      </View>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <SButton style={{width: '49%'}} text='Save' action={update} />
-        <SButton style={{backgroundColor: 'red', width: '49%'}} text='Delete' action={deleteCat} />
-      </View>
+      <CategoryForm
+        name={name} setName={setName}
+        emoji={setEmoji} setEmoji={setEmoji}
+        color={color} setColor={setColor}
+        submit={() => updateCategory({...category, name, emoji, color})}
+        submitText={'Update'}
+      />
+      <SButton style={{backgroundColor: 'red'}} text='Delete' action={deleteCat} />
     </View>
   )
 }
@@ -73,29 +65,17 @@ function AddCategory() {
 
   const {addCategory} = useContext(dataContext)
 
-  function submit() {
-    addCategory({
-      name,
-      emoji,
-      color
-    })
-    setName('')
-    setEmoji('')
-  }
-
   return (
     <>
       <SText fontSize={25}>Add category</SText>
-      <SColorPicker color={color} setColor={setColor} />
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <STextField placeholder='Name' value={name} onChangeText={setName} style={{width: '49%'}} />
-        <EmojiPicker emoji={emoji} setEmoji={setEmoji} style={{width: '49%'}} />
-      </View>
-      <SButton text='Add category' action={submit} />
+      <CategoryForm
+        name={name} setName={setName}
+        emoji={emoji} setEmoji={setEmoji}
+        color={color} setColor={setColor}
+        submit={() => addCategory({name, emoji, color})}
+        submitText='Add category'
+        shouldReset={true}
+      />
     </>
   )
-}
-
-function EmojiPicker({emoji, setEmoji, ...props}) {
-  return <STextField maxLength={2} placeholder='Emoji' value={emoji} onChangeText={setEmoji} {...props} />
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {ScrollView, TouchableOpacity} from 'react-native'
 
 const colors = [
@@ -16,7 +16,9 @@ const colors = [
 
 export default function SColorPicker({color: current, setColor}) {
 
-  if(!current) setColor(colors[0])
+  useEffect(() => {
+    if(!current) setColor(colors[0])
+  }, [])
 
   return (
     <ScrollView horizontal={true}>
