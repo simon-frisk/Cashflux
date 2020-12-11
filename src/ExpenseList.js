@@ -3,27 +3,7 @@ import { View } from 'react-native'
 import SText from './components/SText'
 import dataContext from './dataContext'
 import Expense from './Expense'
-
-const getMonthString = date => date.split(' ')[1] + date.split(' ')[3]
-
-function getMonthlyExpenses(expenses) {
-  const months = []
-
-  
-  let currentMonth
-  let index = -1
-  for (const expense of expenses) {
-    const month = getMonthString(expense.date)
-    if(month != currentMonth) {
-      index ++
-      currentMonth = month
-      months[index] = []
-    }
-    months[index].push(expense)
-  }
-
-  return months
-}
+import {getMonthString, getMonthlyExpenses} from './util/MonthTools'
 
 export default () => {
   const {expenses} = useContext(dataContext)

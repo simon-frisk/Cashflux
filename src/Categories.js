@@ -12,7 +12,7 @@ export default function Categories() {
 
   return (
     <View>
-       <View style={{flexDirection: 'row', flexWrap: 'wrap', marginVertical: 10}}>
+       <View style={{flexDirection: 'row', flexWrap: 'wrap' }}>
         {categories.map(category => (
           <View style={{flexDirection: 'row', paddingVertical: 3, width: '33%'}} key={category.id}>
             <View style={{backgroundColor: category.color, width: 20, height: 20, borderRadius: '50%', marginRight: 4}} />
@@ -20,7 +20,7 @@ export default function Categories() {
           </View>
         ))}
       </View>
-      <SButton style={{backgroundColor: '#14c'}} text='Categories' action={() => setShow(true)} />
+      <SButton style={{backgroundColor: '#14c', marginTop: 15}} text='Categories' action={() => setShow(true)} />
       <SModal show={show} title='Categories' close={() => setShow(false)}>
         <AddCategory />
         {categories.map(category => <CategoryMenu key={category.id} category={category} /> )}
