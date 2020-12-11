@@ -12,12 +12,6 @@ export default function ExpenseForm({text, setText, category, setCategory, date,
   const [error, setError] = useState('')
   const {categories} = useContext(dataContext)
 
-  useEffect(() => {
-    if(!text) setText('')
-    if(!date) setDate(new Date())
-    if(!cost) setCost('')
-  }, [])
-
   function handleSubmit() {
     if(category == null) {
       setError('Category has to be selected')

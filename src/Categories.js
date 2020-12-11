@@ -1,12 +1,9 @@
 import React, { useContext, useState } from 'react'
 import SText from './components/SText'
-import STextField from './components/STextField'
 import SButton from './components/SButton'
 import SModal from './components/SModal'
-import { View } from 'react-native'
-import SColorPicker from './components/SColorPicker'
+import { View, Alert } from 'react-native'
 import dataContext from './dataContext'
-import SEmojiPicker from './components/SEmojiPicker'
 import CategoryForm from './components/CategoryForm'
 
 export default function Categories() {
@@ -37,11 +34,7 @@ function CategoryMenu({category}) {
   const [emoji, setEmoji] = useState(category.emoji)
   const [color, setColor] = useState(category.color)
 
-  const {updateCategory, deleteCategory} = useContext(dataContext)
-
-  function deleteCat() {
-    deleteCategory(category.id)
-  }
+  const {updateCategory} = useContext(dataContext)
 
   return (
     <View style={{marginVertical: 10}}>
@@ -53,8 +46,29 @@ function CategoryMenu({category}) {
         submit={() => updateCategory({...category, name, emoji, color})}
         submitText={'Update'}
       />
-      <SButton style={{backgroundColor: 'red'}} text='Delete' action={deleteCat} />
+      <DeleteCategory category={category} />
     </View>
+  )
+}
+
+function DeleteCategory({category}) {
+  const {deleteCategory, expenses} = useContext(dataContext)
+
+  function handle() {
+    let expensesLeft = false
+    for (const expense of expenses) {
+      if(expense.category.id === category.id) {
+        expensesLeft = true
+      }
+    }
+
+    if(expensesLeft)
+      Alert.alert('Expenses left', 'There are still expenses left in this category. Before deleting it, all those expenses have to be deleted.')
+    else deleteCategory(category.id)
+  }
+
+  return (
+    <SButton style={{backgroundColor: 'red'}} text='Delete' action={handle} />
   )
 }
 

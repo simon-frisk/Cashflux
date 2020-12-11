@@ -14,12 +14,7 @@ export default function CategoryForm({
   shouldReset
 }) {
   const [error, setError] = useState('')
-
-  useEffect(() => {
-    if(!name) setName('')
-    if(!emoji) setEmoji('')
-  })
-
+  
   function handleSubmit() {
     if(name == '') {
       setError('Name not specified')
