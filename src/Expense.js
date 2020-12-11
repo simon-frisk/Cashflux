@@ -12,7 +12,7 @@ export default ({expense}) => {
   const {deleteExpense} = useContext(dataContext)
 
   return (
-    <View style={{paddingVertical: 8, borderTopColor: '#bbb', borderTopWidth: 1}}>
+    <View style={{paddingVertical: 5, borderTopColor: '#bbb', borderTopWidth: .5}}>
       <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
         <View>
           <SText fontSize={23}>{expense.text}</SText>

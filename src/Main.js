@@ -2,10 +2,10 @@ import React from 'react'
 import { ScrollView, StatusBar } from 'react-native'
 import Charts from './Charts'
 import useData from './useData'
-import Expense from './Expense'
 import AddExpense from './AddExpense'
 import Categories from './Categories'
 import dataContext from './dataContext'
+import ExpenseList from './ExpenseList'
 
 export default function Main() {
   const data = useData()
@@ -20,7 +20,7 @@ export default function Main() {
         <Charts />
         <Categories />
         <AddExpense />
-        {data.expenses.map(expense => <Expense expense={expense} key={expense.id} />)}
+        <ExpenseList />
       </dataContext.Provider>
     </ScrollView>
   );
