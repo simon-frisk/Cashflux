@@ -34,7 +34,7 @@ export default () => {
     <View>
       {monthlyExpenses.map(month => (
         <>
-          <SText color='#bbb' style={{marginTop: 10, marginBottom: 5}}>{getMonthString(month[0].date)}</SText>
+          <SText color='#bbb' style={{marginTop: 20, marginBottom: 5}}>{getMonthString(month[0].date)}</SText>
           <View  />
           {month.map(expense => <Expense expense={expense} key={expense.id} />)}
         </>
