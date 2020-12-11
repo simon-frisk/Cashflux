@@ -10,10 +10,10 @@ export default () => {
 
   const {addExpense} = useContext(dataContext)
 
-  const [category, setCategory] = useState(null)
-  const [date, setDate] = useState(new Date())
-  const [text, setText] = useState('')
-  const [cost, setCost] = useState('')
+  const [category, setCategory] = useState()
+  const [date, setDate] = useState()
+  const [text, setText] = useState()
+  const [cost, setCost] = useState()
 
   return (
     <View>
