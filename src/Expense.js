@@ -9,14 +9,14 @@ import ExpenseForm from './components/ExpenseForm'
 
 export default ({expense}) => {
   const [showModal, setShowModal] = useState(false)
-  const {deleteExpense} = useContext(dataContext)
+  const {deleteExpense, currency} = useContext(dataContext)
 
   return (
     <View style={{paddingVertical: 5, borderTopColor: '#bbb', borderTopWidth: .5}}>
       <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
         <View>
           <SText fontSize={23}>{expense.text}</SText>
-          <SText color='#bbb'>{expense.category.emoji} {expense.category.name} - {expense.date} - {expense.cost}kr</SText>
+          <SText color='#bbb'>{expense.category.emoji} {expense.category.name} - {expense.date} - {expense.cost}{currency}</SText>
         </View>
         <TouchableOpacity onPress={() => setShowModal(true)} ><Entypo name="dots-three-vertical" size={28} color="white" /></TouchableOpacity>
       </View>

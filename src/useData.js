@@ -5,6 +5,7 @@ export default function useData() {
   const [isInitialSyncDone, setIsInitialSyncDone] = useState(false)
   const [expenses, setExpenses] = useState([])
   const [categories, setCategories] = useState([])
+  const [currency, setCurrency] = useState('')
 
   useEffect(() => {
     if(!isInitialSyncDone) {
@@ -19,6 +20,7 @@ export default function useData() {
     try {
       const expensesJSON = await AsyncStorage.getItem('expenses')
       const categoriesJSON = await AsyncStorage.getItem('categories')
+      const currencyData = await AsyncStorage.getItem('currency')
       if (!expensesJSON || !categoriesJSON){
         setCategories([])
         setExpenses([])
@@ -27,6 +29,8 @@ export default function useData() {
         setCategories(JSON.parse(categoriesJSON))
         setExpenses(JSON.parse(expensesJSON))
       }
+      if(!currencyData) setCurrency('kr')
+      else setCurrency(currencyData)
       setIsInitialSyncDone(true)
     } catch(error) {}
   }
@@ -35,6 +39,7 @@ export default function useData() {
     try {
       await AsyncStorage.setItem('categories', JSON.stringify(categories))
       await AsyncStorage.setItem('expenses', JSON.stringify(expenses))
+      await AsyncStorage.setItem('currency', currency)
     } catch(error) { }
   }
 
@@ -94,6 +99,7 @@ export default function useData() {
     updateExpense,
     addCategory,
     updateCategory,
-    deleteCategory
+    deleteCategory,
+    currency, setCurrency
   }
 }

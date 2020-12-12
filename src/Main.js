@@ -6,6 +6,7 @@ import AddExpense from './AddExpense'
 import Categories from './Categories'
 import dataContext from './dataContext'
 import ExpenseList from './ExpenseList'
+import Options from './Options'
 
 export default function Main() {
   const data = useData()
@@ -17,6 +18,7 @@ export default function Main() {
     }}>
       <dataContext.Provider value={data}>
         <StatusBar barStyle="light-content" />
+        <Options />
         <Charts />
         <Categories />
         <AddExpense />

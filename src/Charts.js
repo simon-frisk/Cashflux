@@ -7,7 +7,7 @@ import {getMonthString, getMonthlyExpenses} from './util/MonthTools'
 
 export default function ExpensePie() {
     // Page for Expense pie chart
-    const {expenses, categories} = useContext(dataContext)
+    const {expenses, categories, currency} = useContext(dataContext)
     const [selectedMonthIndex, setSelectedMonthIndex] = useState(0)
 
     const monthlyExpenses = getMonthlyExpenses(expenses)
@@ -32,7 +32,7 @@ export default function ExpensePie() {
             <View>
                 <PieChart style={{ height: 200, marginVertical: 15 }} innerRadius='70%' padAngle={.05} data={pieData} />
                 <View style={{position: 'absolute', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
-                    <SText fontSize={30}>{total}kr</SText>
+                    <SText fontSize={30}>{total}{currency}</SText>
                 </View>
             </View>
         </View>
