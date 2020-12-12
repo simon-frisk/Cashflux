@@ -25,7 +25,8 @@ export default ({
             marginHorizontal: 4,
             padding: 8,
             borderRadius: 10,
-            marginVertical: 5,
+            marginBottom: 15,
+            marginTop: 5,
             ...boxStyle
           }}
           onPress={() => setSelected(item)}
