@@ -5,7 +5,7 @@ import { Octicons } from '@expo/vector-icons'
 import SModal from './components/SModal'
 import dataContext from './dataContext'
 
-const currencies = ['kr', '$', '£', '€']
+const currencies = ['kr', '$', '£', '€', '¥', 'CHf']
 
 export default () => {
   const [showModal, setShowModal] = useState(false)
