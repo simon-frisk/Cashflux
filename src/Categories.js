@@ -14,9 +14,9 @@ export default function Categories() {
     <View>
        <View style={{flexDirection: 'row', flexWrap: 'wrap' }}>
         {categories.map(category => (
-          <View style={{flexDirection: 'row', paddingVertical: 3, width: '33%'}} key={category.id}>
+          <View style={{flexDirection: 'row', paddingVertical: 3, width: '33%' }} key={category.id.toString()}>
             <View style={{backgroundColor: category.color, width: 20, height: 20, borderRadius: '50%', marginRight: 4}} />
-            <SText>{category.name}</SText>
+            <SText style={{flexShrink: 1}}>{category.name}</SText>
           </View>
         ))}
       </View>
