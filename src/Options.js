@@ -4,6 +4,7 @@ import SText from './components/SText'
 import { Octicons } from '@expo/vector-icons'
 import SModal from './components/SModal'
 import dataContext from './dataContext'
+import * as WebBrowser from 'expo-web-browser'
 
 const currencies = ['kr', '$', '£', '€', '¥', 'CHf']
 
@@ -21,6 +22,15 @@ export default () => {
       </TouchableOpacity>
       <SModal show={showModal} close={() => setShowModal(false)} title='Options'>
         <CurrencySelector />
+        <SText fontSize={30}>More</SText>
+        <SText>For privacy policy and support, visit {' '}
+          <SText
+            color='#47f'
+            onPress={() =>
+              WebBrowser.openBrowserAsync('https://cashflux.simonfrisk.com')
+            }
+          >cashflux website</SText>
+        </SText>
       </SModal>
     </>
   )
