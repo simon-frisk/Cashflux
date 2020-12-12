@@ -13,11 +13,11 @@ export default () => {
   return (
     <View>
       {monthlyExpenses.map(month => (
-        <>
+        <View key={month[0].date}>
           <SText color='#bbb' style={{marginTop: 20, marginBottom: 5}}>{getMonthString(month[0].date)}</SText>
           <View  />
           {month.map(expense => <Expense expense={expense} key={expense.id} />)}
-        </>
+        </View>
       ))}
     </View>
   )
