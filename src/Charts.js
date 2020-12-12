@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react'
-import { FlatList, TouchableOpacity, View } from 'react-native'
+import { View } from 'react-native'
 import SText from './components/SText'
 import { PieChart } from 'react-native-svg-charts'
 import dataContext from './dataContext'
 import {getMonthString, getMonthlyExpenses} from './util/MonthTools'
+import SSelectionSlider from './components/SSelectionSlider'
 
 export default function ExpensePie() {
     // Page for Expense pie chart
@@ -28,7 +29,13 @@ export default function ExpensePie() {
 
     return (
         <View>
-            <MonthSelector months={monthlyExpenses} month={selectedMonthIndex} setMonth={setSelectedMonthIndex} />
+            <SSelectionSlider
+                items={monthlyExpenses}
+                selected={monthlyExpenses[selectedMonthIndex]}
+                setSelected={month => setSelectedMonthIndex(monthlyExpenses.indexOf(month))}
+                keyExtractor={month => month[0].date}
+                textExtractor={month => getMonthString(month[0].date)}
+            />
             <View>
                 <PieChart style={{ height: 200, marginVertical: 15 }} innerRadius='70%' padAngle={.05} data={pieData} />
                 <View style={{position: 'absolute', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
@@ -36,21 +43,5 @@ export default function ExpensePie() {
                 </View>
             </View>
         </View>
-    )
-}
-
-function MonthSelector({months, month, setMonth}) {
-    return (
-        <FlatList data={months} horizontal={true} keyExtractor={(item) => item} renderItem={({item}) => (
-            <TouchableOpacity
-                style={{
-                    backgroundColor: months.indexOf(item) == month ? '#47f' : '#777',
-                    marginHorizontal: 3, padding: 7, borderRadius: 10
-                }}
-                onPress={() => setMonth(months.indexOf(item))}
-            >
-                <SText>{getMonthString(item[0].date)}</SText>
-            </TouchableOpacity>
-            )} />
     )
 }

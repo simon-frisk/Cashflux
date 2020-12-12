@@ -48,7 +48,8 @@ const UpdateExpense = ({expense, close}) => {
       cost={cost}
       setCost={setCost}
       submit={() => {
-        updateExpense({date: date.toDateString(), text, cost: Number(cost), category})
+        console.log('new', category)
+        updateExpense({...expense, date: date.toDateString(), text, cost: Number(cost), category})
         close()
       }}
     />
