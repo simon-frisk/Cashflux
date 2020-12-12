@@ -35,6 +35,7 @@ export default function ExpensePie() {
                 setSelected={month => setSelectedMonthIndex(monthlyExpenses.indexOf(month))}
                 keyExtractor={month => month[0].date}
                 textExtractor={month => getMonthString(month[0].date)}
+                selectColor='#47f'
             />
             <View>
                 <PieChart style={{ height: 200, marginVertical: 15 }} innerRadius='70%' padAngle={.05} data={pieData} />
