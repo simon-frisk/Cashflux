@@ -1,7 +1,7 @@
 import React from 'react'
-import { ScrollView, StatusBar } from 'react-native'
+import { ActivityIndicator, ScrollView, StatusBar, View } from 'react-native'
 import Charts from './Charts'
-import useData from './useData'
+import useData from './data/useData'
 import AddExpense from './AddExpense'
 import Categories from './Categories'
 import dataContext from './dataContext'
@@ -10,6 +10,13 @@ import Options from './Options'
 
 export default function Main() {
   const data = useData()
+
+  if (data.loading)
+    return (
+      <View style={{backgroundColor: '#111', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center'}}>
+        <ActivityIndicator />
+      </View>
+    )
   
   return (
     <ScrollView style={{backgroundColor: '#111'}} contentContainerStyle={{
@@ -25,6 +32,6 @@ export default function Main() {
         <ExpenseList />
       </dataContext.Provider>
     </ScrollView>
-  );
+  )
 }
 

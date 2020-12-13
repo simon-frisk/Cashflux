@@ -1,51 +1,52 @@
-import { useState, useEffect } from 'react'
 import AsyncStorage from '@react-native-community/async-storage'
-import { signupemail, signinemail, signout } from './data/firebase'
+import { useState, useEffect } from 'react'
+import { signupemail, signinemail, signout, storeDataFirebase, subscribeFirebase } from './firebase'
+import { getDataLocal, storeDataLocal } from './localStorage'
 
 export default function useData() {
-  const [isInitialSyncDone, setIsInitialSyncDone] = useState(false)
   const [expenses, setExpenses] = useState([])
   const [categories, setCategories] = useState([])
   const [currency, setCurrency] = useState('')
-  const [user, setUser] = useState(null)
-  
-  useEffect(() => {
-    if(!isInitialSyncDone) {
-      initialDataSync()
-    }
-    else {
-      saveData()
-    }
-  })
+  const [user, setUser] = useState()
 
-  async function initialDataSync() {
-    try {
-      const expensesJSON = await AsyncStorage.getItem('expenses')
-      const categoriesJSON = await AsyncStorage.getItem('categories')
-      const currencyData = await AsyncStorage.getItem('currency')
-      const userJSON = await AsyncStorage.getItem('user')
-      if (!expensesJSON || !categoriesJSON){
-        setCategories([])
-        setExpenses([])
-      }
-      else {
-        setCategories(JSON.parse(categoriesJSON))
-        setExpenses(JSON.parse(expensesJSON))
-      }
-      if(userJSON) setUser(JSON.parse(userJSON))
-      if(!currencyData) setCurrency('kr')
-      else setCurrency(currencyData)
-      setIsInitialSyncDone(true)
-    } catch(error) {}
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => { initialLoad() }, [])
+  useEffect(() => { userChange() }, [user])
+  useEffect(() => { storeData() })
+  
+  async function initialLoad() {
+    const userJSON = await AsyncStorage.getItem('user')
+    setUser(JSON.parse(userJSON))
   }
 
-  async function saveData() {
-    try {
-      await AsyncStorage.setItem('categories', JSON.stringify(categories))
-      await AsyncStorage.setItem('expenses', JSON.stringify(expenses))
-      await AsyncStorage.setItem('currency', currency)
-      await AsyncStorage.setItem('user', JSON.stringify(user))
-    } catch(error) { }
+  async function userChange() {
+    await AsyncStorage.setItem('user', JSON.stringify(user))
+    if(user) {
+      subscribeFirebase(user.user.uid, data => {
+        setCategories(data.categories || [])
+        setExpenses(data.expenses || [])
+        setCurrency(data.currency || 'kr')
+        setLoading(false)
+      })
+    } else {
+      let data = await getDataLocal()
+      setCategories(data.categories || [])
+      setExpenses(data.expenses || [])
+      setCurrency(data.currency || 'kr')
+      setLoading(false)
+    }
+  }
+
+  async function storeData() {
+    if(!loading) {
+      if(user) {
+        storeDataFirebase(user.user.uid, {
+          expenses, categories, currency
+        })
+      }
+      await storeDataLocal({ categories, expenses, currency })
+    }
   }
 
   function addExpense(expense) {
@@ -87,6 +88,7 @@ export default function useData() {
   }
 
   function mapExpenses() {
+    if(!expenses) return null
     return expenses.map(expense => {
       const category = categories.find(category => category.id == expense.category)
       return {
@@ -118,7 +120,7 @@ export default function useData() {
     setUser(null)
     signout()
   }
-
+  
   return {
     expenses: mapExpenses(),
     categories,
@@ -133,5 +135,6 @@ export default function useData() {
     signinwithemailandpassword,
     signupwithemailandpassword,
     signOutUser,
+    loading
   }
 }
