@@ -11,13 +11,12 @@ const firebaseConfig = {
 }
 
 firebase.initializeApp(firebaseConfig)
-
 const db = firebase.firestore()
 
-let cleanupfunction
-
-function cleanup() {
-  if(cleanupfunction) cleanupfunction()
+export function signupananym() {
+  return firebase
+    .auth()
+    .signInAnonymously()
 }
 
 export function signupemail(email, password) {
@@ -36,15 +35,18 @@ export function signout() {
   firebase.auth().signOut()
 }
 
-export function subscribeFirebase(userId, setData) {
-  cleanup()
-  cleanupfunction = db
+export function subscribeData(userId, setData) {
+  try {
+    db
     .collection('users')
     .doc(userId)
     .onSnapshot(doc => setData(doc.data()))
+  } catch(error) {
+    console.log(error)
+  }
 }
 
-export function storeDataFirebase(userId, userData) {
+export function storeData(userId, userData) {
   db
     .collection('users')
     .doc(userId)

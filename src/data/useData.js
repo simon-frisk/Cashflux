@@ -1,52 +1,40 @@
 import AsyncStorage from '@react-native-community/async-storage'
 import { useState, useEffect } from 'react'
-import { signupemail, signinemail, signout, storeDataFirebase, subscribeFirebase } from './firebase'
-import { getDataLocal, storeDataLocal } from './localStorage'
+import { signupemail, signinemail, signupananym, signout, subscribeData, storeData } from './firebase'
 
 export default function useData() {
   const [expenses, setExpenses] = useState([])
   const [categories, setCategories] = useState([])
-  const [currency, setCurrency] = useState('')
+  const [currency, setCurrency] = useState('kr')
   const [user, setUser] = useState()
 
   const [loading, setLoading] = useState(true)
 
   useEffect(() => { initialLoad() }, [])
-  useEffect(() => { userChange() }, [user])
-  useEffect(() => { storeData() })
-  
+  useEffect(() => { saveData() })
+
   async function initialLoad() {
     const userJSON = await AsyncStorage.getItem('user')
-    setUser(JSON.parse(userJSON))
-  }
-
-  async function userChange() {
-    await AsyncStorage.setItem('user', JSON.stringify(user))
-    if(user) {
-      subscribeFirebase(user.user.uid, data => {
-        setCategories(data.categories || [])
-        setExpenses(data.expenses || [])
-        setCurrency(data.currency || 'kr')
-        setLoading(false)
-      })
-    } else {
-      let data = await getDataLocal()
-      setCategories(data.categories || [])
-      setExpenses(data.expenses || [])
-      setCurrency(data.currency || 'kr')
-      setLoading(false)
-    }
-  }
-
-  async function storeData() {
-    if(!loading) {
-      if(user) {
-        storeDataFirebase(user.user.uid, {
-          expenses, categories, currency
-        })
+    let loadedUser = JSON.parse(userJSON)
+    if(!userJSON)
+      loadedUser = await signupananym()
+    subscribeData(loadedUser.user.uid, data => {
+      setUser(loadedUser)
+      console.log('upd')
+      if(data) {
+        setCategories(data.categories)
+        setExpenses(data.expenses)
+        setCurrency(data.currency)
       }
-      await storeDataLocal({ categories, expenses, currency })
-    }
+      setLoading(false)
+    })
+  }
+
+  async function saveData() {
+    if(!loading)
+      storeData(user.user.uid, {
+        expenses, categories, currency
+      })
   }
 
   function addExpense(expense) {
@@ -119,8 +107,9 @@ export default function useData() {
   async function signOutUser() {
     setUser(null)
     signout()
+    storeData()
   }
-  
+
   return {
     expenses: mapExpenses(),
     categories,
