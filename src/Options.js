@@ -1,11 +1,13 @@
 import React, { useContext, useState } from 'react'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import SText from './components/SText'
 import { Octicons } from '@expo/vector-icons'
 import SModal from './components/SModal'
+import STextField from './components/STextField'
 import dataContext from './dataContext'
 import * as WebBrowser from 'expo-web-browser'
 import SSelectionSlider from './components/SSelectionSlider'
+import SButton from './components/SButton'
 
 const currencies = ['kr', '$', '£', '€', '¥', 'CHf']
 
@@ -23,7 +25,8 @@ export default () => {
       </TouchableOpacity>
       <SModal show={showModal} close={() => setShowModal(false)} title='Options'>
         <CurrencySelector />
-        <SText fontSize={30}>More</SText>
+        <Account />
+        <SText fontSize={35}>More</SText>
         <SText>For privacy policy and support, visit {' '}
           <SText
             color='#47f'
@@ -42,7 +45,7 @@ function CurrencySelector() {
 
   return (
     <>
-      <SText fontSize={28}>Currency</SText>
+      <SText fontSize={35}>Currency</SText>
       <SSelectionSlider
         items={currencies}
         selected={currency}
@@ -52,5 +55,74 @@ function CurrencySelector() {
         boxStyle={{paddingHorizontal: 10}}
       />
     </>
+  )
+}
+
+function Account() {
+  const {user, signOutUser} = useContext(dataContext)
+
+  return (
+    <View>
+      <SText fontSize={35}>Account</SText>
+      {!!user && (
+        <>
+          <SText>Signed in as {user.user.email}</SText>
+          <SButton text='Signout' action={signOutUser} />
+        </>
+      )}
+      {! user && (
+        <>
+          <SText>Create or log in to and account to save your data and sync it across devices</SText>
+          <View>
+            <Signupform />
+            <Signinform />
+          </View>
+        </>
+      )}
+    </View>
+  )
+}
+
+function Signupform() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState()
+  const {signupwithemailandpassword} = useContext(dataContext)
+
+  async function submit() {
+    const result = await signupwithemailandpassword(email, password)
+    setError(result)
+  }
+
+  return (
+    <View>
+      <SText fontSize={25}>Sign up</SText>
+      <STextField placeholder='email' value={email} onChangeText={setEmail} autoCapitalize='none' />
+      <STextField placeholder='password' value={password} onChangeText={setPassword} secureTextEntry={true} />
+      {!!error && <SText color='red'>{error}</SText>}
+      <SButton text='Sign up' action={submit} />
+    </View>
+  )
+}
+
+function Signinform() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState()
+  const {signinwithemailandpassword} = useContext(dataContext)
+
+  async function submit() {
+    const result = await signinwithemailandpassword(email, password)
+    setError(result)
+  }
+
+  return (
+    <View>
+      <SText fontSize={25}>Sign in</SText>
+      <STextField placeholder='email' value={email} onChangeText={setEmail} autoCapitalize='none' />
+      <STextField placeholder='password' value={password} onChangeText={setPassword} secureTextEntry={true} />
+      {!!error && <SText color='red'>{error}</SText>}
+      <SButton text='Sign in' action={submit} />
+    </View>
   )
 }

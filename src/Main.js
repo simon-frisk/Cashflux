@@ -10,7 +10,7 @@ import Options from './Options'
 
 export default function Main() {
   const data = useData()
-
+  
   return (
     <ScrollView style={{backgroundColor: '#111'}} contentContainerStyle={{
       paddingTop: 40,

@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import AsyncStorage from '@react-native-community/async-storage'
+import { signupemail, signinemail, signout } from './data/firebase'
 
 export default function useData() {
   const [isInitialSyncDone, setIsInitialSyncDone] = useState(false)
   const [expenses, setExpenses] = useState([])
   const [categories, setCategories] = useState([])
   const [currency, setCurrency] = useState('')
-
+  const [user, setUser] = useState(null)
+  
   useEffect(() => {
     if(!isInitialSyncDone) {
       initialDataSync()
@@ -21,6 +23,7 @@ export default function useData() {
       const expensesJSON = await AsyncStorage.getItem('expenses')
       const categoriesJSON = await AsyncStorage.getItem('categories')
       const currencyData = await AsyncStorage.getItem('currency')
+      const userJSON = await AsyncStorage.getItem('user')
       if (!expensesJSON || !categoriesJSON){
         setCategories([])
         setExpenses([])
@@ -29,6 +32,7 @@ export default function useData() {
         setCategories(JSON.parse(categoriesJSON))
         setExpenses(JSON.parse(expensesJSON))
       }
+      if(userJSON) setUser(JSON.parse(userJSON))
       if(!currencyData) setCurrency('kr')
       else setCurrency(currencyData)
       setIsInitialSyncDone(true)
@@ -40,6 +44,7 @@ export default function useData() {
       await AsyncStorage.setItem('categories', JSON.stringify(categories))
       await AsyncStorage.setItem('expenses', JSON.stringify(expenses))
       await AsyncStorage.setItem('currency', currency)
+      await AsyncStorage.setItem('user', JSON.stringify(user))
     } catch(error) { }
   }
 
@@ -53,7 +58,6 @@ export default function useData() {
   }
 
   function updateExpense(updated) {
-    console.log(updated)
     setExpenses(expenses.map(expense => {
       if(expense.id == updated.id) return updated
       else return expense
@@ -92,6 +96,29 @@ export default function useData() {
     })
   }
 
+  async function signupwithemailandpassword(email, password) {
+    try {
+      const user = await signupemail(email, password)
+      setUser(user)
+    } catch(error) {
+      return error.message
+    }
+  }
+
+  async function signinwithemailandpassword(email, password) {
+    try {
+      const user = await signinemail(email, password)
+      setUser(user)
+    } catch(error) {
+      return error.message
+    }
+  }
+
+  async function signOutUser() {
+    setUser(null)
+    signout()
+  }
+
   return {
     expenses: mapExpenses(),
     categories,
@@ -101,6 +128,10 @@ export default function useData() {
     addCategory,
     updateCategory,
     deleteCategory,
-    currency, setCurrency
+    currency, setCurrency,
+    user,
+    signinwithemailandpassword,
+    signupwithemailandpassword,
+    signOutUser,
   }
 }
