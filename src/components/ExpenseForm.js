@@ -45,7 +45,7 @@ export default function ExpenseForm({text, setText, category, setCategory, date,
         items={categories.map(c => c.id)}
         selected={category}
         setSelected={setCategory}
-        keyExtractor={category => category}
+        keyExtractor={category => category.toString()}
         textExtractor={categoryId => categories.find(category => category.id == categoryId).name}
       />
       <SDatePicker date={date} onDateChange={setDate} />
