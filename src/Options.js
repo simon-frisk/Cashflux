@@ -75,18 +75,17 @@ function CurrencySelector() {
 }
 
 function Account() {
-  const {user, signOutUser} = useContext(dataContext)
+  const {user, signout} = useContext(dataContext)
 
   return (
     <View>
       <SText fontSize={35}>Account</SText>
-      {!!user && (
+      {user.isAnonymous === false ? (
         <>
-          <SText>Signed in as {user.user.email}</SText>
-          <SButton text='Signout' action={signOutUser} />
+          <SText>Signed in {user.email}</SText>
+          <SButton text='Signout' action={signout} />
         </>
-      )}
-      {! user && (
+      ) : (
         <>
           <SText>Create or log in to and account to save your data and sync it across devices</SText>
           <View>
@@ -103,10 +102,10 @@ function Signupform() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState()
-  const {signupwithemailandpassword} = useContext(dataContext)
+  const {linkemail} = useContext(dataContext)
 
   async function submit() {
-    const result = await signupwithemailandpassword(email, password)
+    const result = await linkemail(email, password)
     setError(result)
   }
 
@@ -125,10 +124,10 @@ function Signinform() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState()
-  const {signinwithemailandpassword} = useContext(dataContext)
+  const {signinemail} = useContext(dataContext)
 
   async function submit() {
-    const result = await signinwithemailandpassword(email, password)
+    const result = await signinemail(email, password)
     setError(result)
   }
 

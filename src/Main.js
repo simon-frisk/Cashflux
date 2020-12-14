@@ -11,7 +11,7 @@ import Options from './Options'
 export default function Main() {
   const data = useData()
 
-  if (data.loading)
+  if (!data.initialLoadDone)
     return (
       <View style={{backgroundColor: '#111', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center'}}>
         <ActivityIndicator />
@@ -22,7 +22,7 @@ export default function Main() {
     <dataContext.Provider value={data}>
       <ScrollView style={{backgroundColor: '#111'}} contentContainerStyle={{
         paddingTop: 40,
-        paddingHorizontal: 20
+        paddingHorizontal: 15
       }}>
           <StatusBar barStyle="light-content" />
           <Options />

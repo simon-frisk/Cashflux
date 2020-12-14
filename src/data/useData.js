@@ -1,78 +1,85 @@
-import AsyncStorage from '@react-native-community/async-storage'
 import { useState, useEffect } from 'react'
-import { signupemail, signinemail, signupananym, signout, subscribeData, storeData } from './firebase'
+import * as firebaseApi from './firebase'
 
 export default function useData() {
   const [expenses, setExpenses] = useState([])
   const [categories, setCategories] = useState([])
   const [currency, setCurrency] = useState('kr')
   const [user, setUser] = useState()
+  const [initialLoadDone, setInitialLoadDone] = useState(false)
 
-  const [loading, setLoading] = useState(true)
+  useEffect(() => loadUser(), [])
+  useEffect(() => { subscribeData() }, [user])
 
-  useEffect(() => { initialLoad() }, [])
-  useEffect(() => { saveData() })
-
-  async function initialLoad() {
-    const userJSON = await AsyncStorage.getItem('user')
-    let loadedUser = JSON.parse(userJSON)
-    if(!userJSON)
-      loadedUser = await signupananym()
-    subscribeData(loadedUser.user.uid, data => {
-      setUser(loadedUser)
-      console.log('upd')
-      if(data) {
-        setCategories(data.categories)
-        setExpenses(data.expenses)
-        setCurrency(data.currency)
-      }
-      setLoading(false)
+  function loadUser() {
+    return firebaseApi.subscribeUserChange(async newUser => {
+      if(!newUser)
+        newUser = (await firebaseApi.signupananym()).user
+      setUser(newUser)
     })
   }
 
-  async function saveData() {
-    if(!loading)
-      storeData(user.user.uid, {
-        expenses, categories, currency
-      })
+  function subscribeData() {
+    if(!user) return
+    firebaseApi.subscribeData(user.uid, data => {
+      if(data) {
+        setCurrency(data.currency)
+        setCategories(data.categories)
+        setExpenses(data.expenses)
+      }
+      else saveData(expenses, categories, currency)
+      setInitialLoadDone(true)
+    })
+  }
+
+  async function saveData(expenses, categories, currency) {
+    if(!user) return
+    firebaseApi.storeData(user.uid, {
+      expenses, categories, currency
+    })
   }
 
   function addExpense(expense) {
     const current_ids = expenses.map(expense => expense.id)
     const id = current_ids.length != 0 ? Math.max(...current_ids) + 1 : 0
     expense.id = id
-    const newList = [...expenses, expense]
-    newList.sort((a, b) => new Date(a.date) < new Date(b.date))
-    setExpenses(newList)
+    const newExpenses = [...expenses, expense]
+    newExpenses.sort((a, b) => new Date(a.date) < new Date(b.date))
+    saveData(newExpenses, categories, currency)
   }
 
   function updateExpense(updated) {
-    setExpenses(expenses.map(expense => {
+    const newExpenses = expenses.map(expense => {
       if(expense.id == updated.id) return updated
       else return expense
-    }))
+    })
+    saveData(newExpenses, categories, currency)
   }
 
   function deleteExpense(id) {
-    setExpenses(expenses.filter(expense => expense.id != id))
+    const newExpenses = expenses.filter(expense => expense.id != id)
+    saveData(newExpenses, categories, currency)
   }
 
   function addCategory(category) {
     const current_ids = categories.map(category => category.id)
     const id = current_ids.length != 0 ? Math.max(...current_ids) + 1 : 0
     category.id = id
-    setCategories([category, ...categories])
+    const newCategories = [category, ...categories]
+    saveData(expenses, newCategories, currency)
   }
 
   function updateCategory(updated) {
-    setCategories(categories.map(category => {
+    const newCategories = categories.map(category => {
       if(category.id != updated.id) return category
       else return updated
-    }))
+    })
+    saveData(expenses, newCategories, currency)
   }
 
   function deleteCategory(id) {
-    setCategories(categories.filter(category => category.id != id))
+    const newCategories = categories.filter(category => category.id != id)
+    saveData(expenses, newCategories, currency)
   }
 
   function mapExpenses() {
@@ -86,28 +93,23 @@ export default function useData() {
     })
   }
 
-  async function signupwithemailandpassword(email, password) {
+  async function linkemail(email, password) {
     try {
-      const user = await signupemail(email, password)
-      setUser(user)
+      const user = await firebaseApi.linkemail(email, password)
+      setUser({...user})
     } catch(error) {
       return error.message
     }
   }
 
-  async function signinwithemailandpassword(email, password) {
+  async function signinemail(email, password) {
     try {
-      const user = await signinemail(email, password)
-      setUser(user)
+      const oldUser = user
+      await firebaseApi.signinemail(email, password)
+      firebaseApi.deleteUser(oldUser)
     } catch(error) {
       return error.message
     }
-  }
-
-  async function signOutUser() {
-    setUser(null)
-    signout()
-    storeData()
   }
 
   return {
@@ -119,11 +121,11 @@ export default function useData() {
     addCategory,
     updateCategory,
     deleteCategory,
-    currency, setCurrency,
+    currency,
+    setCurrency: currency => saveData(expenses, categories, currency),
     user,
-    signinwithemailandpassword,
-    signupwithemailandpassword,
-    signOutUser,
-    loading
+    linkemail, signinemail,
+    signout: firebaseApi.signout,
+    initialLoadDone
   }
 }

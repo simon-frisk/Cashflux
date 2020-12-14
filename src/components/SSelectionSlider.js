@@ -1,5 +1,5 @@
 import React from 'react'
-import {FlatList, TouchableOpacity} from 'react-native'
+import {ScrollView, TouchableOpacity} from 'react-native'
 import SText from './SText'
 
 export default ({
@@ -11,15 +11,11 @@ export default ({
   boxStyle, 
   keyExtractor,
   textExtractor
-}) => {
-
-  return (
-    <FlatList
-      data={items}
-      horizontal={true}
-      keyExtractor={(item) => keyExtractor(item)}
-      renderItem={({item}) => (
+}) =>  (
+    <ScrollView horizontal={true}>
+      {items.map(item => (
         <TouchableOpacity
+          key={keyExtractor(item)}
           style={{
             backgroundColor: item == selected ? selectColor || '#f80' : '#777',
             marginHorizontal: 4,
@@ -34,7 +30,6 @@ export default ({
         >
           <SText fontSize={fontSize || 20}>{textExtractor(item)}</SText>
         </TouchableOpacity>
-      )}
-    />
+      ))}
+    </ScrollView>
   )
-}

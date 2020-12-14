@@ -1,5 +1,6 @@
 import * as firebase from 'firebase'
-import 'firebase/firestore'
+import '@firebase/auth'
+import '@firebase/firestore'
 
 const firebaseConfig = {
   apiKey: "AIzaSyAifdu6aMhVImca0itoAp7LAJFQHea2178",
@@ -10,8 +11,14 @@ const firebaseConfig = {
   appId: "1:865404205910:web:059c640caef423593ab4f7"
 }
 
-firebase.initializeApp(firebaseConfig)
+if (!firebase.apps.length)
+  firebase.initializeApp(firebaseConfig);
+
 const db = firebase.firestore()
+
+export function subscribeUserChange(onChange) {
+  return firebase.auth().onAuthStateChanged(user => onChange(user))
+}
 
 export function signupananym() {
   return firebase
@@ -19,25 +26,33 @@ export function signupananym() {
     .signInAnonymously()
 }
 
-export function signupemail(email, password) {
-  return firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
+export async function linkemail(email, password) {
+  const credential = firebase.auth.EmailAuthProvider.credential(email, password)
+  await firebase.auth().currentUser.linkWithCredential(credential)
+  return firebase.auth().currentUser
 }
 
-export function signinemail(email, password) {
+export async function signinemail(email, password) {
   return firebase
     .auth()
     .signInWithEmailAndPassword(email, password)
 }
 
-export function signout() {
-  firebase.auth().signOut()
+export async function signout() {
+  await firebase.auth().signOut()
 }
 
-export function subscribeData(userId, setData) {
+export async function deleteUser(user) {
+  const uid = user.uid
+  user.delete()
+  db.collection('users').doc(uid).delete()
+}
+
+let unsubscribe = () => {}
+export async function subscribeData(userId, setData) {
   try {
-    db
+    unsubscribe()
+    unsubscribe = await db
       .collection('users')
       .doc(userId)
       .onSnapshot(doc => setData(doc.data()))
