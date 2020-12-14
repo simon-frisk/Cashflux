@@ -19,7 +19,7 @@ export default function Charts() {
                 bounces={false}
             >
                 {components.map(Component => (
-                    <View style={{width: Dimensions.get('window').width - 40}}>
+                    <View style={{width: Dimensions.get('window').width - 40}} key={components.indexOf(Component)}>
                         <Component />
                     </View>
                 ))}
@@ -86,7 +86,7 @@ function BarChart() {
         >
             {monthlyCategories.map(month => {
                 return (
-                    <View style={{marginHorizontal: 6, justifyContent: 'flex-end'}}>
+                    <View style={{marginHorizontal: 6, justifyContent: 'flex-end'}} key={month.string}>
                         <>
                             <SText fontSize={15}>{month.total}{currency}</SText>
                             {categories.map(category => {
