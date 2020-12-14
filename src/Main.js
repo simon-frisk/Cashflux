@@ -19,19 +19,19 @@ export default function Main() {
     )
   
   return (
-    <ScrollView style={{backgroundColor: '#111'}} contentContainerStyle={{
-      paddingTop: 40,
-      paddingHorizontal: 20
-    }}>
-      <dataContext.Provider value={data}>
-        <StatusBar barStyle="light-content" />
-        <Options />
-        <Charts />
-        <Categories />
-        <AddExpense />
-        <ExpenseList />
-      </dataContext.Provider>
-    </ScrollView>
+    <dataContext.Provider value={data}>
+      <ScrollView style={{backgroundColor: '#111'}} contentContainerStyle={{
+        paddingTop: 40,
+        paddingHorizontal: 20
+      }}>
+          <StatusBar barStyle="light-content" />
+          <Options />
+          <Charts />
+          <Categories />
+          <AddExpense />
+          <ExpenseList />
+      </ScrollView>
+    </dataContext.Provider>
   )
 }
 

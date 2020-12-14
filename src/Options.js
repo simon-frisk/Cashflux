@@ -16,10 +16,26 @@ export default () => {
 
   return (
     <>
-      <TouchableOpacity onPress={() => setShowModal(true)} style={{position: 'absolute', top: 0, right: 0, padding: 10, margin: 30, zIndex: 10}}>
+      <TouchableOpacity
+        onPress={() => setShowModal(true)}
+        style={{
+          position: 'absolute',
+          right: 10,
+          top: 25,
+          zIndex: 10,
+          width: 80,
+          height: 35,
+          borderRadius: 10,
+          backgroundColor: '#333',
+          borderColor: '#666',
+          borderWidth: .5,
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
         <Octicons
           name="gear"
-          size={30}
+          size={20}
           color="white"
         />
       </TouchableOpacity>

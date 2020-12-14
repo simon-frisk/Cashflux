@@ -38,17 +38,21 @@ export function signout() {
 export function subscribeData(userId, setData) {
   try {
     db
-    .collection('users')
-    .doc(userId)
-    .onSnapshot(doc => setData(doc.data()))
+      .collection('users')
+      .doc(userId)
+      .onSnapshot(doc => setData(doc.data()))
   } catch(error) {
     console.log(error)
   }
 }
 
 export function storeData(userId, userData) {
-  db
-    .collection('users')
-    .doc(userId)
-    .set(userData)
+  try {
+    db
+      .collection('users')
+      .doc(userId)
+      .set(userData)
+  } catch(error) {
+    console.log(error)
+  }
 }

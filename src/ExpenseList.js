@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import SText from './components/SText'
 import dataContext from './dataContext'
 import Expense from './Expense'
-import {getMonthString, getMonthlyExpenses} from './util/MonthTools'
+import { getMonthlyExpenses} from './util/DateTools'
 
 export default () => {
   const {expenses} = useContext(dataContext)
@@ -13,10 +13,10 @@ export default () => {
   return (
     <View>
       {monthlyExpenses.map(month => (
-        <View key={month[0].date}>
-          <SText color='#bbb' style={{marginTop: 20, marginBottom: 5}}>{getMonthString(month[0].date)}</SText>
+        <View key={month.string}>
+          <SText color='#bbb' style={{marginTop: 20, marginBottom: 5}}>{month.string}</SText>
           <View  />
-          {month.map(expense => <Expense expense={expense} key={expense.id.toString()} />)}
+          {month.expenses.map(expense => <Expense expense={expense} key={expense.id.toString()} />)}
         </View>
       ))}
     </View>

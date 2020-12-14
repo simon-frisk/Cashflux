@@ -6,6 +6,7 @@ import SButton from './components/SButton'
 import { Entypo } from '@expo/vector-icons'
 import dataContext from './dataContext'
 import ExpenseForm from './components/ExpenseForm'
+import { getDayString } from './util/DateTools'
 
 export default ({expense}) => {
   const [showModal, setShowModal] = useState(false)
@@ -16,7 +17,7 @@ export default ({expense}) => {
       <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
         <View>
           <SText fontSize={23}>{expense.text}</SText>
-          <SText color='#bbb'>{expense.category.emoji} {expense.category.name} - {expense.date} - {expense.cost}{currency}</SText>
+          <SText color='#bbb'>{expense.category.emoji} {expense.category.name} - {getDayString(expense.date)} - {expense.cost}{currency}</SText>
         </View>
         <TouchableOpacity onPress={() => setShowModal(true)} ><Entypo name="dots-three-vertical" size={28} color="white" /></TouchableOpacity>
       </View>
