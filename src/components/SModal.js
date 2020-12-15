@@ -19,13 +19,11 @@ export default function SModal({show, close, title, children}) {
                 backgroundColor: '#333',
                 alignItems: 'center',
                 justifyContent: 'center',
-                borderBottomColor: '#666',
-                borderBottomWidth: .5
             }}
             >
               <SText fontSize={20}>{title}</SText>
               <TouchableOpacity onPress={close} style={{position: 'absolute', right: 20}}>
-                <AntDesign name="closecircle" size={20} color="white" />
+                <AntDesign name="closecircle" size={22} color="#bbb" />
               </TouchableOpacity>
             </View>
         </TouchableWithoutFeedback>
