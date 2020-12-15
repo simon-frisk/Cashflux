@@ -12,15 +12,19 @@ export default function Categories() {
 
   return (
     <View>
-       <View style={{flexDirection: 'row', flexWrap: 'wrap' }}>
-        {categories.map(category => (
-          <View style={{flexDirection: 'row', paddingVertical: 3, width: '33%' }} key={category.id.toString()}>
-            <View style={{backgroundColor: category.color, width: 20, height: 20, borderRadius: '50%', marginRight: 4}} />
-            <SText style={{flexShrink: 1}}>{category.name}</SText>
-          </View>
-        ))}
+       <View
+        style={{ backgroundColor: '#333', padding: 10, borderRadius: 10, marginVertical: 10 }}
+      >
+        <View style={{flexDirection: 'row', flexWrap: 'wrap',}}>
+          {categories.map(category => (
+            <View style={{flexDirection: 'row', paddingVertical: 3, width: '50%' }} key={category.id.toString()}>
+              <View style={{backgroundColor: category.color, width: 20, height: 20, borderRadius: '50%', marginRight: 4}} />
+              <SText style={{flexShrink: 1}}>{category.name}</SText>
+            </View>
+          ))}
+        </View>
+        <SButton text='Categories' action={() => setShow(true)} style={{backgroundColor: '#777'}} />
       </View>
-      <SButton style={{backgroundColor: '#777', marginTop: 15}} text='Categories' action={() => setShow(true)} />
       <SModal show={show} title='Categories' close={() => setShow(false)}>
         <AddCategory />
         {categories.map(category => <CategoryMenu key={category.id.toString()} category={category} /> )}

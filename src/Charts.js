@@ -3,28 +3,26 @@ import { Dimensions, ScrollView, View } from 'react-native'
 import SText from './components/SText'
 import { PieChart } from 'react-native-svg-charts'
 import dataContext from './dataContext'
-import { getMonthlyExpenses, getMonthlyCategories } from './util/DateTools'
+import { getMonthlyCategories } from './util/DateTools'
 import SSelectionSlider from './components/SSelectionSlider'
 
 export default function Charts() {
     const components = [ExpensePie, BarChart]
     
     return (
-        <View style={{marginBottom: 15}}>
-            <ScrollView
-                horizontal={true}
-                pagingEnabled={true}
-                style={{height: 300}}
-                showsHorizontalScrollIndicator={false}
-                bounces={false}
-            >
-                {components.map(Component => (
-                    <View style={{width: Dimensions.get('window').width - 30}} key={components.indexOf(Component)}>
-                        <Component />
-                    </View>
-                ))}
-            </ScrollView>
-        </View>
+        <ScrollView
+            horizontal={true}
+            pagingEnabled={true}
+            style={{height: 300}}
+            showsHorizontalScrollIndicator={false}
+            bounces={false}
+        >
+            {components.map(Component => (
+                <View style={{width: Dimensions.get('window').width - 30}} key={components.indexOf(Component)}>
+                    <Component />
+                </View>
+            ))}
+        </ScrollView>
     )
 }
 
@@ -34,6 +32,13 @@ function ExpensePie() {
     const [monthIndex, setMonthIndex] = useState(0)
 
     const monthlyCategories = getMonthlyCategories(expenses)
+
+    if(monthlyCategories.length == 1 && monthlyCategories[0].total == 0)
+        return (
+            <View style={{alignItems: 'center', justifyContent: 'center', height: '100%'}}>
+                <SText>Add expenses to see piechart</SText>
+            </View>
+        )
     
     const pieData = categories
         .map(category => ({

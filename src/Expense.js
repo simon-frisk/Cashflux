@@ -19,7 +19,7 @@ export default ({expense}) => {
           <SText fontSize={23}>{expense.text}</SText>
           <SText color='#bbb'>{expense.category.emoji} {expense.category.name} - {getDayString(expense.date)} - {expense.cost}{currency}</SText>
         </View>
-        <TouchableOpacity onPress={() => setShowModal(true)} ><Entypo name="dots-three-vertical" size={28} color="white" /></TouchableOpacity>
+        <TouchableOpacity onPress={() => setShowModal(true)} ><Entypo name="dots-three-vertical" size={28} style={{padding: 10}} color="white" /></TouchableOpacity>
       </View>
       <SModal show={showModal} close={() => setShowModal(false)} title='Expense'>
         <UpdateExpense expense={expense} />
