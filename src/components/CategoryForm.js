@@ -48,7 +48,7 @@ export default function CategoryForm({
         <STextField style={{width: '49%'}} placeholder='Name' value={name} onChangeText={setName} />
         <SEmojiPicker style={{width: '49%'}} emoji={emoji} setEmoji={setEmoji} />
       </View>
-      {!!error && <SText color='red'>{error}</SText>}
+      {!!error && <SText color='#ff453a'>{error}</SText>}
       {!effect && <SButton text={submitText} action={handleSubmit} />}
     </View>
   )

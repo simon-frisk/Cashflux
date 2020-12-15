@@ -55,7 +55,7 @@ export default function ExpenseForm({text, setText, category, setCategory, date,
         textExtractor={categoryId => categories.find(category => category.id == categoryId).name}
       />
       <SDatePicker date={date} onDateChange={setDate} />
-      {!!error && <SText color='red'>{error}</SText>}
+      {!!error && <SText color='#ff453a'>{error}</SText>}
       {!effect && <SButton text={submitTitle} action={handleSubmit} />}
     </View>
   )

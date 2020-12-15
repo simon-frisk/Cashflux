@@ -27,8 +27,6 @@ export default () => {
           height: 35,
           borderRadius: 10,
           backgroundColor: '#333',
-          borderColor: '#666',
-          borderWidth: .5,
           alignItems: 'center',
           justifyContent: 'center'
         }}
@@ -114,7 +112,7 @@ function Signupform() {
       <SText fontSize={25}>Sign up</SText>
       <STextField placeholder='email' value={email} onChangeText={setEmail} autoCapitalize='none' />
       <STextField placeholder='password' value={password} onChangeText={setPassword} secureTextEntry={true} />
-      {!!error && <SText color='red'>{error}</SText>}
+      {!!error && <SText color='#ff453a'>{error}</SText>}
       <SButton text='Sign up' action={submit} />
     </View>
   )
@@ -136,7 +134,7 @@ function Signinform() {
       <SText fontSize={25}>Sign in</SText>
       <STextField placeholder='email' value={email} onChangeText={setEmail} autoCapitalize='none' />
       <STextField placeholder='password' value={password} onChangeText={setPassword} secureTextEntry={true} />
-      {!!error && <SText color='red'>{error}</SText>}
+      {!!error && <SText color='#ff453a'>{error}</SText>}
       <SButton text='Sign in' action={submit} />
     </View>
   )

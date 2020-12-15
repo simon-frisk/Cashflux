@@ -13,11 +13,11 @@ export default ({expense}) => {
   const {deleteExpense, currency} = useContext(dataContext)
 
   return (
-    <View style={{paddingVertical: 5, borderTopColor: '#bbb', borderTopWidth: .5}}>
+    <View style={{paddingVertical: 5, borderTopColor: '#333', borderTopWidth: 1.5}}>
       <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
         <View>
-          <SText fontSize={23}>{expense.text}</SText>
-          <SText color='#bbb'>{expense.category.emoji} {expense.category.name} - {getDayString(expense.date)} - {expense.cost}{currency}</SText>
+          <SText fontSize={25}>{expense.text}</SText>
+          <SText color='#aaa'>{expense.category.emoji} {expense.category.name} - {getDayString(expense.date)} - {expense.cost}{currency}</SText>
         </View>
         <TouchableOpacity onPress={() => setShowModal(true)} ><Entypo name="dots-three-vertical" size={28} style={{padding: 10}} color="white" /></TouchableOpacity>
       </View>

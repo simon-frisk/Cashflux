@@ -47,13 +47,13 @@ function ExpensePie() {
                 fill: category.color,
             },
             key: category.id,
-            arc: { cornerRadius: 100,  }
+            arc: { cornerRadius: 10,  }
         }))
     
     return (
         <View>
             <View>
-                <PieChart style={{ height: 220, marginVertical: 15 }} innerRadius='70%' padAngle={.07} data={pieData} />
+                <PieChart style={{ height: 220, marginVertical: 15 }} innerRadius='70%' padAngle={.04} data={pieData} />
                 <View style={{position: 'absolute', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
                     <SText fontSize={30}>{monthlyCategories[monthIndex].total}{currency}</SText>
                 </View>

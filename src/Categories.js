@@ -13,9 +13,9 @@ export default function Categories() {
   return (
     <View>
        <View
-        style={{ backgroundColor: '#333', padding: 10, borderRadius: 10, marginVertical: 10 }}
+        style={{ backgroundColor: '#333', padding: 12, borderRadius: 15, marginVertical: 5 }}
       >
-        <View style={{flexDirection: 'row', flexWrap: 'wrap',}}>
+        <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
           {categories.map(category => (
             <View style={{flexDirection: 'row', paddingVertical: 3, width: '50%' }} key={category.id.toString()}>
               <View style={{backgroundColor: category.color, width: 20, height: 20, borderRadius: '50%', marginRight: 4}} />
@@ -23,7 +23,7 @@ export default function Categories() {
             </View>
           ))}
         </View>
-        <SButton text='Categories' action={() => setShow(true)} style={{backgroundColor: '#777'}} />
+        <SButton text='Categories' action={() => setShow(true)} style={{backgroundColor: '#666'}} />
       </View>
       <SModal show={show} title='Categories' close={() => setShow(false)}>
         <AddCategory />
@@ -42,7 +42,10 @@ function CategoryMenu({category}) {
 
   return (
     <View style={{marginVertical: 10}}>
-      <SText fontSize={25}>{name}</SText>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+        <SText fontSize={30}>{name}</SText>
+        <DeleteCategory category={category} />
+      </View>
       <CategoryForm
         name={name} setName={setName}
         emoji={emoji} setEmoji={setEmoji}
@@ -50,7 +53,6 @@ function CategoryMenu({category}) {
         submit={() => updateCategory({...category, name, emoji, color})}
         effect={true}
       />
-      <DeleteCategory category={category} />
     </View>
   )
 }
@@ -72,7 +74,7 @@ function DeleteCategory({category}) {
   }
 
   return (
-    <SButton style={{backgroundColor: 'red'}} text='Delete' action={handle} />
+    <SButton style={{backgroundColor: '#ff453a', width: '30%'}} text='Delete' action={handle} />
   )
 }
 

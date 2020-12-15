@@ -25,16 +25,15 @@ export default function SColorPicker({color: current, setColor}) {
       {colors.map(color => 
         <TouchableOpacity 
           style={{
-            width: 40, 
-            height: 40,
-            borderRadius: '12%',
-            marginRight: 6,
-            marginBottom: 10,
-            marginTop: 5,
+            width: 35, 
+            height: 35,
+            borderRadius: 10,
+            marginRight: 5,
+            marginVertical: 5,
             backgroundColor: color,
             overflow: 'hidden',
-            borderWidth: 4,
-            borderColor: current == color ? '#ffee00' : 'grey',
+            borderWidth: 3,
+            borderColor: current == color ? '#ffee00' : '#555',
           }}
           onPress={() => setColor(color)}
           key={color}
