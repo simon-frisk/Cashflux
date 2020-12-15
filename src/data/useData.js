@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react'
 import * as firebaseApi from './firebase'
 
 export default function useData() {
-  const [expenses, setExpenses] = useState([])
-  const [categories, setCategories] = useState([])
   const [currency, setCurrency] = useState('kr')
+  const [categories, setCategories] = useState([])
+  const [expenses, setExpenses] = useState([])
   const [user, setUser] = useState()
   const [initialLoadDone, setInitialLoadDone] = useState(false)
 
   useEffect(() => loadUser(), [])
-  useEffect(() => { subscribeData() }, [user])
+  useEffect(() => subscribeData(), [user])
 
   function loadUser() {
     return firebaseApi.subscribeUserChange(async newUser => {
@@ -21,13 +21,12 @@ export default function useData() {
 
   function subscribeData() {
     if(!user) return
-    firebaseApi.subscribeData(user.uid, data => {
-      if(data) {
+    return firebaseApi.subscribeData(user.uid, data => {
+      if(data)  {
         setCurrency(data.currency)
         setCategories(data.categories)
         setExpenses(data.expenses)
-      }
-      else saveData(expenses, categories, currency)
+      } else saveData(expenses, categories, currency)
       setInitialLoadDone(true)
     })
   }

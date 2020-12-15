@@ -11,10 +11,14 @@ export default function CategoryForm({
   emoji, setEmoji,
   color, setColor,
   submit, submitText,
-  shouldReset
+  effect
 }) {
   const [error, setError] = useState('')
   
+  useEffect(() => {
+    if(effect) handleSubmit()
+  }, [name, emoji, color])
+
   function handleSubmit() {
     if(name == '') {
       setError('Name not specified')
@@ -29,12 +33,12 @@ export default function CategoryForm({
       return
     }
     submit()
-    if(shouldReset) {
+    if(!effect) {
       setName('')
       setEmoji('')
       setColor(null)
     }
-    setError(false)
+    setError('')
   }
 
   return (
@@ -45,7 +49,7 @@ export default function CategoryForm({
         <SEmojiPicker style={{width: '49%'}} emoji={emoji} setEmoji={setEmoji} />
       </View>
       {!!error && <SText color='red'>{error}</SText>}
-      <SButton text={submitText} action={handleSubmit} />
+      {!effect && <SButton text={submitText} action={handleSubmit} />}
     </View>
   )
 }

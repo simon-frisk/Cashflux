@@ -48,11 +48,9 @@ export async function deleteUser(user) {
   db.collection('users').doc(uid).delete()
 }
 
-let unsubscribe = () => {}
-export async function subscribeData(userId, setData) {
+export function subscribeData(userId, setData) {
   try {
-    unsubscribe()
-    unsubscribe = await db
+    return db
       .collection('users')
       .doc(userId)
       .onSnapshot(doc => setData(doc.data()))

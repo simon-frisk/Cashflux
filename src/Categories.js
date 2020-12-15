@@ -44,7 +44,7 @@ function CategoryMenu({category}) {
         emoji={emoji} setEmoji={setEmoji}
         color={color} setColor={setColor}
         submit={() => updateCategory({...category, name, emoji, color})}
-        submitText={'Update'}
+        effect={true}
       />
       <DeleteCategory category={category} />
     </View>
@@ -88,7 +88,6 @@ function AddCategory() {
         color={color} setColor={setColor}
         submit={() => addCategory({name, emoji, color})}
         submitText='Add category'
-        shouldReset={true}
       />
     </>
   )

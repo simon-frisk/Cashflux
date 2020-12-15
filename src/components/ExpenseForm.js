@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import dataContext from '../dataContext'
 import SButton from './SButton'
@@ -8,9 +8,15 @@ import SText from './SText'
 import SSelectionSlider from './SSelectionSlider'
 
 
-export default function ExpenseForm({text, setText, category, setCategory, date, setDate, cost, setCost, submit, submitTitle}) {
+export default function ExpenseForm({text, setText, category, setCategory, date, setDate, cost, setCost, submit, submitTitle, effect}) {
   const [error, setError] = useState('')
   const {categories} = useContext(dataContext)
+
+  console.log(text)
+
+  useEffect(() => {
+    if(effect) handleSubmit()
+  }, [text, category, date, cost])
 
   function handleSubmit() {
     if(category == null) {
@@ -30,11 +36,13 @@ export default function ExpenseForm({text, setText, category, setCategory, date,
       return
     }
     submit()
-    setText('')
-    setCost('')
-    setDate(new Date())
-    setCategory(1)
-    setError(false)
+    if(!effect) {
+      setText('')
+      setCost('')
+      setDate(new Date())
+      setCategory(1)
+    }
+    setError('')
   }
 
   return (
@@ -50,7 +58,7 @@ export default function ExpenseForm({text, setText, category, setCategory, date,
       />
       <SDatePicker date={date} onDateChange={setDate} />
       {!!error && <SText color='red'>{error}</SText>}
-      <SButton text={submitTitle} action={handleSubmit} />
+      {!effect && <SButton text={submitTitle} action={handleSubmit} />}
     </View>
   )
 }

@@ -22,14 +22,14 @@ export default ({expense}) => {
         <TouchableOpacity onPress={() => setShowModal(true)} ><Entypo name="dots-three-vertical" size={28} color="white" /></TouchableOpacity>
       </View>
       <SModal show={showModal} close={() => setShowModal(false)} title='Expense'>
-        <UpdateExpense expense={expense} close={() => setShowModal(false)} />
+        <UpdateExpense expense={expense} />
         <SButton action={() => deleteExpense(expense.id)} text='Delete' style={{backgroundColor: '#f44'}} />
       </SModal>
     </View>
   )
 }
 
-const UpdateExpense = ({expense, close}) => {
+const UpdateExpense = ({expense}) => {
   const [category, setCategory] = useState(expense.category.id)
   const [date, setDate] = useState(new Date(expense.date))
   const [text, setText] = useState(expense.text)
@@ -39,7 +39,6 @@ const UpdateExpense = ({expense, close}) => {
 
   return (
     <ExpenseForm
-      submitTitle='Update'
       text={text}
       setText={setText}
       date={date}
@@ -48,10 +47,8 @@ const UpdateExpense = ({expense, close}) => {
       setCategory={setCategory}
       cost={cost}
       setCost={setCost}
-      submit={() => {
-        updateExpense({...expense, date: date.toDateString(), text, cost: Number(cost), category})
-        close()
-      }}
+      submit={() => updateExpense({...expense, date: date.toDateString(), text, cost: Number(cost), category})}
+      effect={true}
     />
   )
 }
