@@ -12,8 +12,6 @@ export default function ExpenseForm({text, setText, category, setCategory, date,
   const [error, setError] = useState('')
   const {categories} = useContext(dataContext)
 
-  console.log(text)
-
   useEffect(() => {
     if(effect) handleSubmit()
   }, [text, category, date, cost])
