@@ -33,6 +33,7 @@ export default function useData() {
 
   async function saveData(expenses, categories, currency) {
     if(!user) return
+    expenses.sort((e1, e2) => new Date(e1.date) < new Date(e2.date))
     firebaseApi.storeData(user.uid, {
       expenses, categories, currency
     })
@@ -43,7 +44,6 @@ export default function useData() {
     const id = current_ids.length != 0 ? Math.max(...current_ids) + 1 : 0
     expense.id = id
     const newExpenses = [...expenses, expense]
-    newExpenses.sort((a, b) => new Date(a.date) < new Date(b.date))
     saveData(newExpenses, categories, currency)
   }
 
