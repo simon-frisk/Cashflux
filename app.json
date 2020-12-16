@@ -28,6 +28,9 @@
       "bundleIdentifier": "com.expenses.expensesapp",
       "userInterfaceStyle": "automatic"
     },
-    "githubUrl": "https://github.com/simon-frisk/Cashflux"
+    "githubUrl": "https://github.com/simon-frisk/Cashflux",
+    "android": {
+      "package": "com.expenses.expensesapp"
+    }
   }
 }

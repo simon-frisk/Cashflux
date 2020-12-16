@@ -1,3 +1,4 @@
+import 'expo-firestore-offline-persistence'
 import * as firebase from 'firebase'
 import '@firebase/auth'
 import '@firebase/firestore'
@@ -11,8 +12,10 @@ const firebaseConfig = {
   appId: "1:865404205910:web:059c640caef423593ab4f7"
 }
 
-if (!firebase.apps.length)
+if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
+  firebase.firestore().enablePersistence()
+}
 
 const db = firebase.firestore()
 
