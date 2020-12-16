@@ -1,7 +1,10 @@
 import React from 'react'
 import { TextInput } from "react-native"
+import useStyle from '../util/useStyle'
 
 export default props => {
+  const style = useStyle()
+
   return <TextInput 
     {...props} 
     style={{
@@ -10,7 +13,7 @@ export default props => {
       borderRadius: 9,
       fontSize: 16,
       color: '#333',
-      fontFamily: 'Arial Rounded MT Bold',
+      fontFamily: style.font,
       marginVertical: 5,
       ...props.style
     }}

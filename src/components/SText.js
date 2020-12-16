@@ -1,6 +1,11 @@
 import React from 'react'
 import {Text} from 'react-native'
+import useStyle from '../util/useStyle'
 
-export default props => (
-    <Text {...props} style={{ fontSize: props.fontSize || 17, fontFamily: 'Arial Rounded MT Bold', color: props.color || 'white', ...props.style}}>{props.children}</Text>
-)
+export default props => {
+    const style = useStyle()
+
+    return (
+        <Text {...props} style={{ fontSize: props.fontSize || 17, fontFamily: style.font, color: props.color || 'white', ...props.style}}>{props.children}</Text>
+    )
+}
