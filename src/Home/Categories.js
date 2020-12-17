@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react'
-import SText from './components/SText'
-import SButton from './components/SButton'
-import SModal from './components/SModal'
 import { View, Alert } from 'react-native'
-import dataContext from './dataContext'
-import CategoryForm from './components/CategoryForm'
-import useStyle from './util/useStyle'
+import SText from '../components/SText'
+import SButton from '../components/SButton'
+import SModal from '../components/SModal'
+import dataContext from '../dataContext'
+import CategoryForm from '../components/CategoryForm'
+import useStyle from '../util/useStyle'
 
 export default function Categories() {
   const [show, setShow] = useState(false)

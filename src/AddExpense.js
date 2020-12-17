@@ -1,13 +1,9 @@
 import React, { useContext, useState } from 'react'
-import { View } from 'react-native'
-import SButton from './components/SButton'
-import SModal from './components/SModal'
 import dataContext from './dataContext'
 import ExpenseForm from './components/ExpenseForm'
+import SPageContainer from './components/SPageContainer'
 
-export default () => {
-  const [show, setShow] = useState(false)
-
+export default function AddExpense({navigation}) {
   const {addExpense} = useContext(dataContext)
 
   const [category, setCategory] = useState()
@@ -16,25 +12,22 @@ export default () => {
   const [cost, setCost] = useState('')
 
   return (
-    <View>
-      <SButton text='Add expense' action={() => setShow(true)} />
-      <SModal show={show} close={() => {setShow(false)}} title='Add expense'>
-        <ExpenseForm
-          submitTitle='Add expense'
-          text={text}
-          setText={setText}
-          date={date}
-          setDate={setDate}
-          category={category}
-          setCategory={setCategory}
-          cost={cost}
-          setCost={setCost}
-          submit={() => {
-            addExpense({date: date.toDateString(), text, cost: Number(cost), category})
-            setShow(false)
-          }}
-        />
-      </SModal>
-    </View>
+    <SPageContainer>
+      <ExpenseForm
+        submitTitle='Add expense'
+        text={text}
+        setText={setText}
+        date={date}
+        setDate={setDate}
+        category={category}
+        setCategory={setCategory}
+        cost={cost}
+        setCost={setCost}
+        submit={() => {
+          addExpense({date: date.toDateString(), text, cost: Number(cost), category})
+          navigation.goBack()
+        }}
+      />
+    </SPageContainer>
   )
 }

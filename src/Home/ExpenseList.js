@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 import { View } from 'react-native'
-import SText from './components/SText'
-import dataContext from './dataContext'
+import SText from '../components/SText'
+import dataContext from '../dataContext'
+import { getMonthlyExpenses} from '../util/DateTools'
+import useStyle from '../util/useStyle'
 import Expense from './Expense'
-import { getMonthlyExpenses} from './util/DateTools'
-import useStyle from './util/useStyle'
 
 export default () => {
   const {expenses} = useContext(dataContext)

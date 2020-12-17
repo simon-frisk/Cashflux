@@ -1,14 +1,21 @@
+import 'react-native-gesture-handler';
 import React from 'react'
-import { ActivityIndicator, ScrollView, View } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
+import { enableScreens } from 'react-native-screens'
+import { createNativeStackNavigator } from 'react-native-screens/native-stack'
 import { StatusBar } from 'expo-status-bar'
-import Charts from './Charts/Charts'
 import useData from './data/useData'
-import AddExpense from './AddExpense'
-import Categories from './Categories'
 import dataContext from './dataContext'
-import ExpenseList from './ExpenseList'
-import Options from './Options'
+import Home from './Home/Home'
 import useStyle from './util/useStyle'
+import Options from './Options'
+import Expense from './Expense'
+import AddExpense from './AddExpense'
+import { DefaultTheme, DarkTheme } from '@react-navigation/native';
+
+enableScreens()
+const Stack = createNativeStackNavigator();
 
 export default function Main() {
   const data = useData()
@@ -23,18 +30,15 @@ export default function Main() {
   
   return (
     <dataContext.Provider value={data}>
-      <ScrollView style={{backgroundColor: style.backgroundColor}} contentContainerStyle={{
-        paddingTop: 40,
-        paddingHorizontal: 15
-      }}>
-          <StatusBar style={style.themeMode == 'Dark' ? 'light' : 'dark'} />
-          <Options />
-          <Charts />
-          <Categories />
-          <AddExpense />
-          <ExpenseList />
-      </ScrollView>
+      <StatusBar style={style.themeMode == 'Dark' ? 'light' : 'dark'} />
+      <NavigationContainer theme={style.navigationTheme}>
+        <Stack.Navigator>
+          <Stack.Screen name='Home' component={Home} options={{headerShown: false}} />
+          <Stack.Screen name='Options' component={Options} />
+          <Stack.Screen name='Expense' component={Expense} />
+          <Stack.Screen name='Addexpense' component={AddExpense} options={{title:'Add expense'}} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </dataContext.Provider>
   )
 }
-

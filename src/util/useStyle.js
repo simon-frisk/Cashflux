@@ -5,7 +5,7 @@ const dark = {
   backgroundColor: '#111',
   foregroundColor: '#333',
   interfaceColor: '#333',
-  primaryColor: '#47f',
+  primaryColor: "rgb(10, 132, 255)",
   secondaryColor: '#f80',
   errorColor: '#ff453a',
   text: 'white',
@@ -13,14 +13,27 @@ const dark = {
 }
 
 const light = {
-  backgroundColor: '#eee',
+  backgroundColor: 'rgb(242, 242, 242)',
   foregroundColor: 'white',
   interfaceColor: '#999',
-  primaryColor: '#36e',
+  primaryColor: "rgb(0, 122, 255)",
   secondaryColor: '#f80',
   errorColor: '#ff453a',
   text: 'black',
   lightText: '#666'
+}
+
+function getNavigationTheme(theme, isDark) {
+  return {
+    dark: isDark,
+    colors: {
+      primary: theme.primaryColor,
+      background: theme.backgroundColor,
+      card: theme.foregroundColor,
+      text: theme.text,
+      border: isDark ? "rgb(39, 39, 41)" : "rgb(216, 216, 216)",
+    }
+  }
 }
 
 let modeState = 'System'
@@ -41,6 +54,7 @@ export default function useStyle(mode) {
   return {
     font,
     ...theme,
-    themeMode
+    themeMode,
+    navigationTheme: getNavigationTheme(theme, themeMode == 'Dark')
   }
 }

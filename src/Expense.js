@@ -1,56 +1,44 @@
 import React, { useContext, useState } from 'react'
-import { TouchableOpacity, View } from 'react-native'
-import SText from './components/SText'
-import SModal from './components/SModal'
 import SButton from './components/SButton'
-import { Entypo } from '@expo/vector-icons'
 import dataContext from './dataContext'
 import ExpenseForm from './components/ExpenseForm'
-import { getDayString } from './util/DateTools'
 import useStyle from './util/useStyle'
+import SPageContainer from './components/SPageContainer'
 
-export default ({expense}) => {
-  const [showModal, setShowModal] = useState(false)
+export default function Expense({route, navigation}) {
+  const { expense } = route.params
+
   const style = useStyle()
-  const {deleteExpense, currency} = useContext(dataContext)
+  const {updateExpense, deleteExpense} = useContext(dataContext)
 
-  return (
-    <View style={{paddingVertical: 5, borderTopColor: style.themeMode == 'Dark' ? style.interfaceColor : '#ddd', borderTopWidth: 1.5}}>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-        <View>
-          <SText fontSize={25}>{expense.text}</SText>
-          <SText color={style.lightText}>{expense.category.emoji} {expense.category.name} - {getDayString(expense.date)} - {expense.cost}{currency}</SText>
-        </View>
-        <TouchableOpacity onPress={() => setShowModal(true)} ><Entypo name="dots-three-vertical" size={28} style={{padding: 10}} color={style.lightText} /></TouchableOpacity>
-      </View>
-      <SModal show={showModal} close={() => setShowModal(false)} title='Expense'>
-        <UpdateExpense expense={expense} />
-        <SButton action={() => deleteExpense(expense.id)} text='Delete' style={{backgroundColor: style.errorColor}} />
-      </SModal>
-    </View>
-  )
-}
-
-const UpdateExpense = ({expense}) => {
   const [category, setCategory] = useState(expense.category.id)
   const [date, setDate] = useState(new Date(expense.date))
   const [text, setText] = useState(expense.text)
   const [cost, setCost] = useState(String(expense.cost))
 
-  const {updateExpense} = useContext(dataContext)
 
   return (
-    <ExpenseForm
-      text={text}
-      setText={setText}
-      date={date}
-      setDate={setDate}
-      category={category}
-      setCategory={setCategory}
-      cost={cost}
-      setCost={setCost}
-      submit={() => updateExpense({...expense, date: date.toDateString(), text, cost: Number(cost), category})}
-      effect={true}
-    />
+    <SPageContainer>
+      <ExpenseForm
+        text={text}
+        setText={setText}
+        date={date}
+        setDate={setDate}
+        category={category}
+        setCategory={setCategory}
+        cost={cost}
+        setCost={setCost}
+        submit={() => updateExpense({...expense, date: date.toDateString(), text, cost: Number(cost), category})}
+        effect={true}
+      />
+      <SButton
+        action={() => {
+          deleteExpense(expense.id)
+          navigation.goBack()
+        }}
+        text='Delete'
+        style={{backgroundColor: style.errorColor}}
+      />
+    </SPageContainer>
   )
 }

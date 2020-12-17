@@ -1,59 +1,34 @@
 import React, { useContext, useState } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { View } from 'react-native'
 import SText from './components/SText'
-import { Octicons } from '@expo/vector-icons'
-import SModal from './components/SModal'
 import STextField from './components/STextField'
 import dataContext from './dataContext'
 import * as WebBrowser from 'expo-web-browser'
 import SSelectionSlider from './components/SSelectionSlider'
 import SButton from './components/SButton'
 import useStyle from './util/useStyle'
+import SPageContainer from './components/SPageContainer'
 
 const currencies = ['kr', '$', '£', '€', '¥', 'CHf']
 
-export default () => {
-  const [showModal, setShowModal] = useState(false)
+export default function Options() {
   const style = useStyle()
 
   return (
-    <>
-      <TouchableOpacity
-        onPress={() => setShowModal(true)}
-        style={{
-          position: 'absolute',
-          right: 10,
-          top: 25,
-          zIndex: 10,
-          width: 80,
-          height: 35,
-          borderRadius: 10,
-          backgroundColor: style.interfaceColor,
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      >
-        <Octicons
-          name="gear"
-          size={20}
-          color="white"
-        />
-      </TouchableOpacity>
-      <SModal show={showModal} close={() => setShowModal(false)} title='Options'>
-        <CurrencySelector />
-        <ThemeSelector />
-        <Account />
-        <SText fontSize={35}>More</SText>
-        <SText>For privacy policy and support, visit {' '}
-          <SText
-            color={style.primaryColor}
-            onPress={() =>
-              WebBrowser.openBrowserAsync('https://cashflux.simonfrisk.com')
-            }
-          >cashflux website</SText>
-        </SText>
-      </SModal>
-    </>
+    <SPageContainer>
+      <CurrencySelector />
+      <ThemeSelector />
+      <Account />
+      <SText fontSize={35}>More</SText>
+      <SText>For privacy policy and support, visit {' '}
+        <SText
+          color={style.primaryColor}
+          onPress={() =>
+            WebBrowser.openBrowserAsync('https://cashflux.simonfrisk.com')
+          }
+        >cashflux website</SText>
+      </SText>
+    </SPageContainer>
   )
 }
 
