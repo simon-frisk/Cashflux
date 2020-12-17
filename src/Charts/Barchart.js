@@ -48,8 +48,8 @@ function BarBlock({height, category}) {
 
   useEffect(() => {
     Animated.timing(heightAnimation, {
-      toValue: inView ? height : height * 0.7,
-      duration: 500,
+      toValue: inView ? height : height * 0.5,
+      duration: 1000,
       useNativeDriver: false
     }).start()
   }, [inView])

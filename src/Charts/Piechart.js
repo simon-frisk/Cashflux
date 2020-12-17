@@ -5,6 +5,7 @@ import { PieChart } from 'react-native-svg-charts'
 import dataContext from '../dataContext'
 import { getMonthlyCategories } from '../util/DateTools'
 import SSelectionSlider from '../components/SSelectionSlider'
+import { Text } from 'react-native-svg'
 
 export default function ExpensePie() {
   const {expenses, categories, currency} = useContext(dataContext)
@@ -21,6 +22,7 @@ export default function ExpensePie() {
   const pieData = categories
       .map(category => ({
           value: monthlyCategories[monthIndex][category.id] || 0,
+          emoji: category.emoji,
           svg: {
               fill: category.color,
           },
@@ -31,7 +33,9 @@ export default function ExpensePie() {
   return (
       <View>
           <View>
-              <PieChart style={{ height: 220, marginVertical: 15 }} innerRadius='70%' padAngle={.04} data={pieData} />
+              <PieChart style={{ height: 220, marginVertical: 15 }} innerRadius='65%' padAngle={ .05 } data={pieData}>
+                <Labels />
+              </PieChart>
               <View style={{position: 'absolute', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
                   <SText fontSize={30}>{monthlyCategories[monthIndex].total}{currency}</SText>
               </View>
@@ -46,4 +50,26 @@ export default function ExpensePie() {
           />
       </View>
   )
+}
+
+function Labels({slices}) {
+
+  return slices.map((slice, index) => {
+    if(slice.endAngle - slice.startAngle < 0.4) return <View key={index} />
+    return (
+      <Text
+        key={index}
+        x={slice.pieCentroid[0]}
+        y={slice.pieCentroid[1]}
+        fill={'white'}
+        textAnchor={'middle'}
+        alignmentBaseline={'middle'}
+        fontSize={27}
+        stroke={'black'}
+        strokeWidth={0.2}
+      >
+        {slice.data.emoji}
+      </Text>
+    )
+  })
 }
