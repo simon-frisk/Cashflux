@@ -10,7 +10,7 @@ export default function Charts() {
         <ScrollView
             horizontal={true}
             pagingEnabled={true}
-            style={{height: 300}}
+            style={{height: 400}}
             showsHorizontalScrollIndicator={false}
             bounces={false}
         >

@@ -26,11 +26,11 @@ export default function BarChart() {
       >
         {monthlyCategories.map(month => {
           return (
-            <View style={{marginHorizontal: 6, justifyContent: 'flex-end'}} key={month.string}>
+            <View style={{marginHorizontal: 5, justifyContent: 'flex-end'}} key={month.string}>
               <SText fontSize={15}>{month.total}{currency}</SText>
               {categories.map(category => {
                   const current = month[category.id] || 0
-                  const height = current / highestMonth * 220
+                  const height = current / highestMonth * 300
                   if(height < 5) return
                   else return <BarBlock height={height} category={category} key={category.name.toString() + month.string} />
               })}
@@ -59,7 +59,7 @@ function BarBlock({height, category}) {
       <Animated.View
         style={{
           height: heightAnimation,
-          width: 50,
+          width: 60,
           backgroundColor: category.color, 
           marginVertical: 2, 
           borderRadius: 5,
@@ -67,7 +67,7 @@ function BarBlock({height, category}) {
           justifyContent: 'center'
         }}
       >
-        {height > 25 && <SText>{category.emoji}</SText>}
+        {height > 22 && <SText fontSize={15}>{category.emoji}</SText>}
       </Animated.View>
     </InView>
   )

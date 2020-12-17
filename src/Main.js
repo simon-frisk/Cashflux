@@ -12,7 +12,8 @@ import useStyle from './util/useStyle'
 import Options from './Options'
 import Expense from './Expense'
 import AddExpense from './AddExpense'
-import { DefaultTheme, DarkTheme } from '@react-navigation/native';
+import Category from './Category';
+import AddCategory from './AddCategory';
 
 enableScreens()
 const Stack = createNativeStackNavigator();
@@ -37,6 +38,8 @@ export default function Main() {
           <Stack.Screen name='Options' component={Options} />
           <Stack.Screen name='Expense' component={Expense} />
           <Stack.Screen name='Addexpense' component={AddExpense} options={{title:'Add expense'}} />
+          <Stack.Screen name='Category' component={Category} />
+          <Stack.Screen name='Addcategory' component={AddCategory} options={{title: 'Add category'}} />
         </Stack.Navigator>
       </NavigationContainer>
     </dataContext.Provider>

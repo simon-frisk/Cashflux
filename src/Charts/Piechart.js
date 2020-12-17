@@ -34,31 +34,31 @@ export default function ExpensePie() {
       }))
   
   return (
+    <View style={{height: '100%'}}>
       <View>
-          <View>
-              <PieChart style={{ height: 220, marginVertical: 15 }} innerRadius='65%' padAngle={ .05 } data={pieData}>
-                <Labels />
-              </PieChart>
-              <View style={{position: 'absolute', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
-                  <SText fontSize={30}>{monthlyCategories[monthIndex].total}{currency}</SText>
-              </View>
-          </View>
-          <SSelectionSlider
-              items={monthlyCategories}
-              selected={monthlyCategories[monthIndex]}
-              setSelected={month => setMonthIndex(monthlyCategories.indexOf(month))}
-              keyExtractor={month => month.string}
-              textExtractor={month => month.string}
-              selectColor={style.primaryColor}
-          />
+        <PieChart style={{ height: 250, marginVertical: 45 }} innerRadius='68%' padAngle={ .05 } data={pieData}>
+          <Labels />
+        </PieChart>
+        <View style={{position: 'absolute', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
+          <SText fontSize={30}>{monthlyCategories[monthIndex].total}{currency}</SText>
+        </View>
       </View>
+      <SSelectionSlider
+        items={monthlyCategories}
+        selected={monthlyCategories[monthIndex]}
+        setSelected={month => setMonthIndex(monthlyCategories.indexOf(month))}
+        keyExtractor={month => month.string}
+        textExtractor={month => month.string}
+        selectColor={style.primaryColor}
+        boxStyle={{alignSelf: 'flex-end'}}
+      />
+    </View>
   )
 }
 
 function Labels({slices}) {
-
   return slices.map((slice, index) => {
-    if(slice.endAngle - slice.startAngle < 0.4) return <View key={index} />
+    if(slice.endAngle - slice.startAngle < 0.3) return <View key={index} />
     return (
       <Text
         key={index}
