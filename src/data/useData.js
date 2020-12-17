@@ -5,6 +5,7 @@ export default function useData() {
   const [currency, setCurrency] = useState('kr')
   const [categories, setCategories] = useState([])
   const [expenses, setExpenses] = useState([])
+  const [theme, setTheme] = useState('Dark')
   const [user, setUser] = useState()
   const [initialLoadDone, setInitialLoadDone] = useState(false)
 
@@ -26,16 +27,17 @@ export default function useData() {
         setCurrency(data.currency)
         setCategories(data.categories)
         setExpenses(data.expenses)
-      } else saveData(expenses, categories, currency)
+        setTheme(data.theme)
+      } else saveData(expenses, categories, currency, theme)
       setInitialLoadDone(true)
     })
   }
 
-  async function saveData(expenses, categories, currency) {
+  async function saveData(expenses, categories, currency, theme) {
     if(!user) return
     expenses.sort((e1, e2) => new Date(e1.date) < new Date(e2.date))
     firebaseApi.storeData(user.uid, {
-      expenses, categories, currency
+      expenses, categories, currency, theme
     })
   }
 
@@ -44,7 +46,7 @@ export default function useData() {
     const id = current_ids.length != 0 ? Math.max(...current_ids) + 1 : 0
     expense.id = id
     const newExpenses = [...expenses, expense]
-    saveData(newExpenses, categories, currency)
+    saveData(newExpenses, categories, currency, theme)
   }
 
   function updateExpense(updated) {
@@ -52,12 +54,12 @@ export default function useData() {
       if(expense.id == updated.id) return updated
       else return expense
     })
-    saveData(newExpenses, categories, currency)
+    saveData(newExpenses, categories, currency, theme)
   }
 
   function deleteExpense(id) {
     const newExpenses = expenses.filter(expense => expense.id != id)
-    saveData(newExpenses, categories, currency)
+    saveData(newExpenses, categories, currency, theme)
   }
 
   function addCategory(category) {
@@ -65,7 +67,7 @@ export default function useData() {
     const id = current_ids.length != 0 ? Math.max(...current_ids) + 1 : 0
     category.id = id
     const newCategories = [category, ...categories]
-    saveData(expenses, newCategories, currency)
+    saveData(expenses, newCategories, currency, theme)
   }
 
   function updateCategory(updated) {
@@ -73,12 +75,12 @@ export default function useData() {
       if(category.id != updated.id) return category
       else return updated
     })
-    saveData(expenses, newCategories, currency)
+    saveData(expenses, newCategories, currency, theme)
   }
 
   function deleteCategory(id) {
     const newCategories = categories.filter(category => category.id != id)
-    saveData(expenses, newCategories, currency)
+    saveData(expenses, newCategories, currency, theme)
   }
 
   function mapExpenses() {
@@ -110,7 +112,7 @@ export default function useData() {
       return error.message
     }
   }
-
+  
   return {
     expenses: mapExpenses(),
     categories,
@@ -121,10 +123,12 @@ export default function useData() {
     updateCategory,
     deleteCategory,
     currency,
-    setCurrency: currency => saveData(expenses, categories, currency),
+    setCurrency: currency => saveData(expenses, categories, currency, theme),
     user,
     linkemail, signinemail,
     signout: firebaseApi.signout,
+    theme,
+    setTheme: theme => saveData(expenses, categories, currency, theme),
     initialLoadDone
   }
 }

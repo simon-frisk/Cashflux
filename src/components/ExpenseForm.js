@@ -6,11 +6,13 @@ import STextField from './STextField'
 import SDatePicker from './SDatePicker'
 import SText from './SText'
 import SSelectionSlider from './SSelectionSlider'
+import useStyle from '../util/useStyle'
 
 
 export default function ExpenseForm({text, setText, category, setCategory, date, setDate, cost, setCost, submit, submitTitle, effect}) {
   const [error, setError] = useState('')
   const {categories} = useContext(dataContext)
+  const style = useStyle()
 
   useEffect(() => {
     if(effect) handleSubmit()
@@ -55,7 +57,7 @@ export default function ExpenseForm({text, setText, category, setCategory, date,
         textExtractor={categoryId => categories.find(category => category.id == categoryId).name}
       />
       <SDatePicker date={date} onDateChange={setDate} />
-      {!!error && <SText color='#ff453a'>{error}</SText>}
+      {!!error && <SText color={style.errorColor}>{error}</SText>}
       {!effect && <SButton text={submitTitle} action={handleSubmit} />}
     </View>
   )

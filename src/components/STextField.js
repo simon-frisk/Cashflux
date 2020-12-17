@@ -8,16 +8,16 @@ export default props => {
   return <TextInput 
     {...props} 
     style={{
-      backgroundColor: '#eee', 
+      backgroundColor: style.themeMode == 'Dark' ? '#eee' : '#ccc', 
       padding: 8, 
       borderRadius: 9,
       fontSize: 16,
       color: '#333',
-      fontFamily: style.font,
+      ...style.font,
       marginVertical: 5,
       ...props.style
     }}
-    placeholderTextColor='#aaa'
+    placeholderTextColor={style.themeMode == 'Dark' ? '#aaa' : '#888'}
     clearButtonMode='while-editing'
     keyboardAppearance='dark'
   />

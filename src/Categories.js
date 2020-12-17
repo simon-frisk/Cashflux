@@ -5,15 +5,17 @@ import SModal from './components/SModal'
 import { View, Alert } from 'react-native'
 import dataContext from './dataContext'
 import CategoryForm from './components/CategoryForm'
+import useStyle from './util/useStyle'
 
 export default function Categories() {
   const [show, setShow] = useState(false)
   const {categories} = useContext(dataContext)
+  const style = useStyle()
 
   return (
     <View>
        <View
-        style={{ backgroundColor: '#333', padding: 12, borderRadius: 15, marginVertical: 5 }}
+        style={{ backgroundColor: style.foregroundColor, padding: 12, borderRadius: 15, marginVertical: 5 }}
       >
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
           {categories.map(category => (
@@ -23,7 +25,7 @@ export default function Categories() {
             </View>
           ))}
         </View>
-        <SButton text='Categories' action={() => setShow(true)} style={{backgroundColor: '#666'}} />
+        <SButton text='Categories' action={() => setShow(true)} style={{backgroundColor: '#777'}} />
       </View>
       <SModal show={show} title='Categories' close={() => setShow(false)}>
         <AddCategory />
@@ -59,6 +61,7 @@ function CategoryMenu({category}) {
 
 function DeleteCategory({category}) {
   const {deleteCategory, expenses} = useContext(dataContext)
+  const style = useStyle()
 
   function handle() {
     let expensesLeft = false
@@ -74,7 +77,7 @@ function DeleteCategory({category}) {
   }
 
   return (
-    <SButton style={{backgroundColor: '#ff453a', width: '30%'}} text='Delete' action={handle} />
+    <SButton style={{backgroundColor: style.errorColor, width: '30%'}} text='Delete' action={handle} />
   )
 }
 

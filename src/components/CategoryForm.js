@@ -5,6 +5,7 @@ import SText from './SText'
 import STextField from './STextField'
 import SEmojiPicker from './SEmojiPicker'
 import SButton from './SButton'
+import useStyle from '../util/useStyle'
 
 export default function CategoryForm({
   name, setName,
@@ -13,6 +14,7 @@ export default function CategoryForm({
   submit, submitText,
   effect
 }) {
+  const style = useStyle()
   const [error, setError] = useState('')
   
   useEffect(() => {
@@ -48,7 +50,7 @@ export default function CategoryForm({
         <STextField style={{width: '49%'}} placeholder='Name' value={name} onChangeText={setName} />
         <SEmojiPicker style={{width: '49%'}} emoji={emoji} setEmoji={setEmoji} />
       </View>
-      {!!error && <SText color='#ff453a'>{error}</SText>}
+      {!!error && <SText color={style.errorColor}>{error}</SText>}
       {!effect && <SButton text={submitText} action={handleSubmit} />}
     </View>
   )

@@ -6,6 +6,16 @@ export default props => {
     const style = useStyle()
 
     return (
-        <Text {...props} style={{ fontSize: props.fontSize || 17, fontFamily: style.font, color: props.color || 'white', ...props.style}}>{props.children}</Text>
+        <Text
+            {...props}
+            style={{
+                fontSize: props.fontSize || 17,
+                ...style.font,
+                color: props.color || style.text,
+                ...props.style
+            }}
+        >
+                {props.children}
+        </Text>
     )
 }

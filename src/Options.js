@@ -8,11 +8,13 @@ import dataContext from './dataContext'
 import * as WebBrowser from 'expo-web-browser'
 import SSelectionSlider from './components/SSelectionSlider'
 import SButton from './components/SButton'
+import useStyle from './util/useStyle'
 
 const currencies = ['kr', '$', '£', '€', '¥', 'CHf']
 
 export default () => {
   const [showModal, setShowModal] = useState(false)
+  const style = useStyle()
 
   return (
     <>
@@ -26,7 +28,7 @@ export default () => {
           width: 80,
           height: 35,
           borderRadius: 10,
-          backgroundColor: '#333',
+          backgroundColor: style.interfaceColor,
           alignItems: 'center',
           justifyContent: 'center'
         }}
@@ -39,11 +41,12 @@ export default () => {
       </TouchableOpacity>
       <SModal show={showModal} close={() => setShowModal(false)} title='Options'>
         <CurrencySelector />
+        <ThemeSelector />
         <Account />
         <SText fontSize={35}>More</SText>
         <SText>For privacy policy and support, visit {' '}
           <SText
-            color='#47f'
+            color={style.primaryColor}
             onPress={() =>
               WebBrowser.openBrowserAsync('https://cashflux.simonfrisk.com')
             }
@@ -67,6 +70,23 @@ function CurrencySelector() {
         keyExtractor={currency => currency}
         textExtractor={currency => currency}
         boxStyle={{paddingHorizontal: 10}}
+      />
+    </>
+  )
+}
+
+function ThemeSelector() {
+  const { theme, setTheme } = useContext(dataContext)
+  
+  return (
+    <>
+      <SText fontSize={35}>Theme</SText>
+      <SSelectionSlider
+        items={['System', 'Light', 'Dark']}
+        selected={theme}
+        setSelected={setTheme}
+        keyExtractor={theme => theme}
+        textExtractor={theme => theme}
       />
     </>
   )
@@ -101,6 +121,7 @@ function Signupform() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState()
   const {linkemail} = useContext(dataContext)
+  const style = useStyle()
 
   async function submit() {
     const result = await linkemail(email, password)
@@ -112,13 +133,14 @@ function Signupform() {
       <SText fontSize={25}>Sign up</SText>
       <STextField placeholder='email' value={email} onChangeText={setEmail} autoCapitalize='none' />
       <STextField placeholder='password' value={password} onChangeText={setPassword} secureTextEntry={true} />
-      {!!error && <SText color='#ff453a'>{error}</SText>}
+      {!!error && <SText color={style.errorColor}>{error}</SText>}
       <SButton text='Sign up' action={submit} />
     </View>
   )
 }
 
 function Signinform() {
+  const style = useStyle()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState()
@@ -134,7 +156,7 @@ function Signinform() {
       <SText fontSize={25}>Sign in</SText>
       <STextField placeholder='email' value={email} onChangeText={setEmail} autoCapitalize='none' />
       <STextField placeholder='password' value={password} onChangeText={setPassword} secureTextEntry={true} />
-      {!!error && <SText color='#ff453a'>{error}</SText>}
+      {!!error && <SText color={style.errorColor}>{error}</SText>}
       <SButton text='Sign in' action={submit} />
     </View>
   )

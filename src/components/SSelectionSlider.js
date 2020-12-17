@@ -1,5 +1,6 @@
 import React from 'react'
 import {ScrollView, TouchableOpacity} from 'react-native'
+import useStyle from '../util/useStyle'
 import SText from './SText'
 
 export default ({
@@ -11,13 +12,16 @@ export default ({
   boxStyle, 
   keyExtractor,
   textExtractor
-}) =>  (
+}) =>  {
+  const style = useStyle()
+
+  return (
     <ScrollView horizontal={true}>
       {items.map(item => (
         <TouchableOpacity
           key={keyExtractor(item)}
           style={{
-            backgroundColor: item == selected ? selectColor || '#f80' : '#333',
+            backgroundColor: item == selected ? selectColor || style.secondaryColor : style.interfaceColor,
             marginHorizontal: 4,
             padding: 8,
             borderRadius: 10,
@@ -28,8 +32,9 @@ export default ({
           }}
           onPress={() => setSelected(item)}
         >
-          <SText fontSize={fontSize || 20}>{textExtractor(item)}</SText>
+          <SText fontSize={fontSize || 20} color='white'>{textExtractor(item)}</SText>
         </TouchableOpacity>
       ))}
     </ScrollView>
   )
+}

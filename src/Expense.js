@@ -7,23 +7,25 @@ import { Entypo } from '@expo/vector-icons'
 import dataContext from './dataContext'
 import ExpenseForm from './components/ExpenseForm'
 import { getDayString } from './util/DateTools'
+import useStyle from './util/useStyle'
 
 export default ({expense}) => {
   const [showModal, setShowModal] = useState(false)
+  const style = useStyle()
   const {deleteExpense, currency} = useContext(dataContext)
 
   return (
-    <View style={{paddingVertical: 5, borderTopColor: '#333', borderTopWidth: 1.5}}>
+    <View style={{paddingVertical: 5, borderTopColor: style.themeMode == 'Dark' ? style.interfaceColor : '#ddd', borderTopWidth: 1.5}}>
       <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
         <View>
           <SText fontSize={25}>{expense.text}</SText>
-          <SText color='#aaa'>{expense.category.emoji} {expense.category.name} - {getDayString(expense.date)} - {expense.cost}{currency}</SText>
+          <SText color={style.lightText}>{expense.category.emoji} {expense.category.name} - {getDayString(expense.date)} - {expense.cost}{currency}</SText>
         </View>
-        <TouchableOpacity onPress={() => setShowModal(true)} ><Entypo name="dots-three-vertical" size={28} style={{padding: 10}} color="white" /></TouchableOpacity>
+        <TouchableOpacity onPress={() => setShowModal(true)} ><Entypo name="dots-three-vertical" size={28} style={{padding: 10}} color={style.lightText} /></TouchableOpacity>
       </View>
       <SModal show={showModal} close={() => setShowModal(false)} title='Expense'>
         <UpdateExpense expense={expense} />
-        <SButton action={() => deleteExpense(expense.id)} text='Delete' style={{backgroundColor: '#f44'}} />
+        <SButton action={() => deleteExpense(expense.id)} text='Delete' style={{backgroundColor: style.errorColor}} />
       </SModal>
     </View>
   )

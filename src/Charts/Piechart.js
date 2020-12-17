@@ -6,8 +6,11 @@ import dataContext from '../dataContext'
 import { getMonthlyCategories } from '../util/DateTools'
 import SSelectionSlider from '../components/SSelectionSlider'
 import { Text } from 'react-native-svg'
+import useStyle from '../util/useStyle'
 
 export default function ExpensePie() {
+  const style = useStyle()
+
   const {expenses, categories, currency} = useContext(dataContext)
   const [monthIndex, setMonthIndex] = useState(0)
   const monthlyCategories = getMonthlyCategories(expenses)
@@ -46,7 +49,7 @@ export default function ExpensePie() {
               setSelected={month => setMonthIndex(monthlyCategories.indexOf(month))}
               keyExtractor={month => month.string}
               textExtractor={month => month.string}
-              selectColor='#47f'
+              selectColor={style.primaryColor}
           />
       </View>
   )
@@ -61,12 +64,9 @@ function Labels({slices}) {
         key={index}
         x={slice.pieCentroid[0]}
         y={slice.pieCentroid[1]}
-        fill={'white'}
         textAnchor={'middle'}
         alignmentBaseline={'middle'}
         fontSize={27}
-        stroke={'black'}
-        strokeWidth={0.2}
       >
         {slice.data.emoji}
       </Text>
