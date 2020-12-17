@@ -20,6 +20,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.0.tar.gz",
+    "react-native-component-inview": "^1.0.2",
     "react-native-svg": "12.1.0",
     "react-native-svg-charts": "^5.4.0",
     "react-native-web": "~0.13.12"

@@ -1,6 +1,6 @@
 import React from 'react'
 import { ActivityIndicator, ScrollView, StatusBar, View } from 'react-native'
-import Charts from './Charts'
+import Charts from './Charts/Charts'
 import useData from './data/useData'
 import AddExpense from './AddExpense'
 import Categories from './Categories'
