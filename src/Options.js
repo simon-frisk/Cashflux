@@ -1,33 +1,23 @@
 import React, { useContext, useState } from 'react'
 import { View } from 'react-native'
-import SText from './components/SText'
-import STextField from './components/STextField'
-import dataContext from './dataContext'
+import { useNavigation } from '@react-navigation/native'
 import * as WebBrowser from 'expo-web-browser'
+import dataContext from './dataContext'
+import SText from './components/SText'
 import SSelectionSlider from './components/SSelectionSlider'
 import SButton from './components/SButton'
-import useStyle from './util/useStyle'
 import SPageContainer from './components/SPageContainer'
+import useStyle from './util/useStyle'
 
 const currencies = ['kr', '$', '£', '€', '¥', 'CHf']
 
 export default function Options() {
-  const style = useStyle()
-
   return (
     <SPageContainer>
       <CurrencySelector />
       <ThemeSelector />
       <Account />
-      <SText fontSize={35}>More</SText>
-      <SText>For privacy policy and support, visit {' '}
-        <SText
-          color={style.primaryColor}
-          onPress={() =>
-            WebBrowser.openBrowserAsync('https://cashflux.simonfrisk.com')
-          }
-        >cashflux website</SText>
-      </SText>
+      <More />
     </SPageContainer>
   )
 }
@@ -69,6 +59,7 @@ function ThemeSelector() {
 
 function Account() {
   const {user, signout} = useContext(dataContext)
+  const navigation = useNavigation()
 
   return (
     <View>
@@ -80,10 +71,18 @@ function Account() {
         </>
       ) : (
         <>
-          <SText>Create or log in to and account to save your data and sync it across devices</SText>
-          <View>
-            <Signupform />
-            <Signinform />
+          <SText>Create or log in to an account to save your data and sync it across devices</SText>
+          <View style={{flexDirection: 'row'}}>
+            <SButton 
+              text='Sign up' 
+              action={() => navigation.navigate('Signup')}
+              style={{marginVertical: 10, marginRight: 10}}
+            />
+            <SButton 
+              text='Sign in' 
+              action={() => navigation.navigate('Signin')}
+              style={{marginVertical: 10, marginRight: 10}}
+            />
           </View>
         </>
       )}
@@ -91,48 +90,21 @@ function Account() {
   )
 }
 
-function Signupform() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState()
-  const {linkemail} = useContext(dataContext)
+function More() {
+  useContext(dataContext)
   const style = useStyle()
-
-  async function submit() {
-    const result = await linkemail(email, password)
-    setError(result)
-  }
 
   return (
     <View>
-      <SText fontSize={25}>Sign up</SText>
-      <STextField placeholder='email' value={email} onChangeText={setEmail} autoCapitalize='none' />
-      <STextField placeholder='password' value={password} onChangeText={setPassword} secureTextEntry={true} />
-      {!!error && <SText color={style.errorColor}>{error}</SText>}
-      <SButton text='Sign up' action={submit} />
-    </View>
-  )
-}
-
-function Signinform() {
-  const style = useStyle()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState()
-  const {signinemail} = useContext(dataContext)
-
-  async function submit() {
-    const result = await signinemail(email, password)
-    setError(result)
-  }
-
-  return (
-    <View>
-      <SText fontSize={25}>Sign in</SText>
-      <STextField placeholder='email' value={email} onChangeText={setEmail} autoCapitalize='none' />
-      <STextField placeholder='password' value={password} onChangeText={setPassword} secureTextEntry={true} />
-      {!!error && <SText color={style.errorColor}>{error}</SText>}
-      <SButton text='Sign in' action={submit} />
+      <SText fontSize={35}>More</SText>
+      <SText>For privacy policy and support, visit {' '}
+        <SText
+          style={{color: style.primaryColor}}
+          onPress={() =>
+            WebBrowser.openBrowserAsync('https://cashflux.simonfrisk.com')
+          }
+        >cashflux website</SText>
+      </SText>
     </View>
   )
 }

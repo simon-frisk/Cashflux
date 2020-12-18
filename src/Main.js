@@ -14,6 +14,8 @@ import Expense from './Expense'
 import AddExpense from './AddExpense'
 import Category from './Category';
 import AddCategory from './AddCategory';
+import Signup from './Signup';
+import Signin from './Signin';
 
 enableScreens()
 const Stack = createNativeStackNavigator();
@@ -40,6 +42,8 @@ export default function Main() {
           <Stack.Screen name='Addexpense' component={AddExpense} options={{title:'Add expense'}} />
           <Stack.Screen name='Category' component={Category} />
           <Stack.Screen name='Addcategory' component={AddCategory} options={{title: 'Add category'}} />
+          <Stack.Screen name='Signup' component={Signup} />
+          <Stack.Screen name='Signin' component={Signin} />
         </Stack.Navigator>
       </NavigationContainer>
     </dataContext.Provider>
