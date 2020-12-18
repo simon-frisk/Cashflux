@@ -1,8 +1,9 @@
 import 'react-native-gesture-handler'
 import React, {useEffect, useRef} from 'react'
-import { ActivityIndicator, View } from 'react-native'
+import { ActivityIndicator, View, TouchableOpacity } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { enableScreens } from 'react-native-screens'
+import { Octicons } from '@expo/vector-icons'
 import { createNativeStackNavigator } from 'react-native-screens/native-stack'
 import * as Analytics from 'expo-firebase-analytics'
 import { StatusBar } from 'expo-status-bar'
@@ -58,7 +59,24 @@ export default function Main() {
             ? 'Getstarted'
             : 'Home'
         }>
-          <Stack.Screen name='Home' component={Home} options={{headerShown: false}} />
+          <Stack.Screen
+            name='Home'
+            component={Home}
+            options={({navigation}) => ({
+              headerRight: () => (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Options')}
+                >
+                  <Octicons
+                    name="gear"
+                    size={25}
+                    color={style.text}
+                  />
+                </TouchableOpacity>
+              ),
+              title: '',
+            })}
+          />
           <Stack.Screen name='Options' component={Options} />
           <Stack.Screen name='Expense' component={Expense} />
           <Stack.Screen name='Addexpense' component={AddExpense} options={{title:'Add expense'}} />
