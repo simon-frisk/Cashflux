@@ -21,15 +21,15 @@ export default function Categories() {
           >
             <View 
               style={{
-                width: 70, 
-                height: 70, 
+                width: 50, 
+                height: 50, 
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
             >
               <SText fontSize={40}>+</SText>
             </View>
-            <SText fontSize={13}>Add category</SText>
+            <SText fontSize={10}>Add category</SText>
           </TouchableOpacity>
           {categories.map(category => (
             <TouchableOpacity
@@ -39,18 +39,18 @@ export default function Categories() {
             >
               <View 
                 style={{
-                  width: 70, 
-                  height: 70, 
-                  borderRadius: 35,
-                  borderColor: category.color, 
-                  borderWidth: 4,
+                  width: 50, 
+                  height: 50, 
+                  borderRadius: 25,
+                  borderColor: category.color,
+                  borderWidth: 2,
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
               >
-                <SText fontSize={35}>{category.emoji}</SText>
+                <SText fontSize={30}>{category.emoji}</SText>
               </View>
-              <SText fontSize={13}>{category.name}</SText>
+              <SText fontSize={10}>{category.name}</SText>
             </TouchableOpacity>
           ))}
         </ScrollView>

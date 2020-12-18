@@ -25,7 +25,7 @@ export default ({
             marginHorizontal: 4,
             padding: 8,
             borderRadius: 10,
-            marginBottom: 15,
+            marginBottom: 10,
             marginTop: 5,
             alignSelf: 'center',
             ...boxStyle
