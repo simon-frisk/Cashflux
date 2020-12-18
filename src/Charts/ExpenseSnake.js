@@ -32,16 +32,16 @@ export default function ExpenseSnake({width}) {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                marginBottom: 5
               }}
             >
               <View
                 style={{
                   backgroundColor: expense.category.color,
                   width: 30,
-                  height: expense.cost / 5,
+                  height: expense.cost / 15,
                   borderRadius: 5,
-                  marginRight: 10
+                  marginRight: 10,
+                  marginVertical: 2
                 }}
                 />
               <SText fontSize={15} color={style.lightText}>
