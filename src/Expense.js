@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import * as Analytics from 'expo-firebase-analytics'
 import SButton from './components/SButton'
 import dataContext from './dataContext'
 import ExpenseForm from './components/ExpenseForm'
@@ -16,6 +17,22 @@ export default function Expense({route, navigation}) {
   const [text, setText] = useState(expense.text)
   const [cost, setCost] = useState(String(expense.cost))
 
+  function handleUpdate() {
+    updateExpense({
+      ...expense, 
+      date: date.toDateString(), 
+      text, 
+      cost: Number(cost), 
+      category
+    })
+    Analytics.logEvent('UpdateExpense')
+  }
+  
+  function handleDelete() {
+    deleteExpense(expense.id)
+    navigation.goBack()
+    Analytics.logEvent('DeleteExpense')
+  }
 
   return (
     <SPageContainer>
@@ -28,14 +45,11 @@ export default function Expense({route, navigation}) {
         setCategory={setCategory}
         cost={cost}
         setCost={setCost}
-        submit={() => updateExpense({...expense, date: date.toDateString(), text, cost: Number(cost), category})}
-        effect={true}
+        submit={handleUpdate}
+        submitTitle='Update'
       />
       <SButton
-        action={() => {
-          deleteExpense(expense.id)
-          navigation.goBack()
-        }}
+        action={handleDelete}
         text='Delete'
         style={{backgroundColor: style.errorColor}}
       />

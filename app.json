@@ -5,7 +5,8 @@
     "privacy": "public",
     "slug": "Cashflux",
     "platforms": [
-      "ios"
+      "ios",
+      "android"
     ],
     "version": "1.0.2",
     "primaryColor": "#111111",
@@ -26,11 +27,26 @@
     ],
     "ios": {
       "bundleIdentifier": "com.expenses.expensesapp",
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "googleServicesFile": "./keys/GoogleService-Info.plist"
     },
     "githubUrl": "https://github.com/simon-frisk/Cashflux",
     "android": {
-      "package": "com.expenses.expensesapp"
+      "package": "com.expenses.expensesapp",
+      "googleServicesFile": "./keys/google-services.json"
+    },
+    "web": {
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyAifdu6aMhVImca0itoAp7LAJFQHea2178",
+          "authDomain": "cashflux-cd86a.firebaseapp.com",
+          "projectId": "cashflux-cd86a",
+          "storageBucket": "cashflux-cd86a.appspot.com",
+          "messagingSenderId": "865404205910",
+          "appId": "1:865404205910:web:059c640caef423593ab4f7",
+          "measurementId": "G-HH2FKDJGDP"
+        }
+      }
     }
   }
 }

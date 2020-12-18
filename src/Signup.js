@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import * as Analytics from 'expo-firebase-analytics'
 import SButton from './components/SButton'
 import SPageContainer from './components/SPageContainer'
 import SText from './components/SText'
@@ -16,7 +17,10 @@ export default function Signup({navigation}) {
   async function submit() {
     const result = await linkemail(email, password)
     if(result) setError(result)
-    else navigation.goBack()
+    else {
+      navigation.goBack()
+      Analytics.logEvent('Signup')
+    }
   }
 
   return (

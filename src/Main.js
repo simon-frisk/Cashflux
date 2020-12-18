@@ -1,9 +1,10 @@
 import 'react-native-gesture-handler';
-import React from 'react'
+import React, {useRef} from 'react'
 import { ActivityIndicator, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { enableScreens } from 'react-native-screens'
 import { createNativeStackNavigator } from 'react-native-screens/native-stack'
+import * as Analytics from 'expo-firebase-analytics'
 import { StatusBar } from 'expo-status-bar'
 import useData from './data/useData'
 import dataContext from './dataContext'
@@ -12,17 +13,19 @@ import useStyle from './util/useStyle'
 import Options from './Options'
 import Expense from './Expense'
 import AddExpense from './AddExpense'
-import Category from './Category';
-import AddCategory from './AddCategory';
-import Signup from './Signup';
-import Signin from './Signin';
+import Category from './Category'
+import AddCategory from './AddCategory'
+import Signup from './Signup'
+import Signin from './Signin'
 
 enableScreens()
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator()
 
 export default function Main() {
   const data = useData()
   const style = useStyle(data.theme)
+  const routeNameRef = useRef()
+  const navigationRef = useRef()
 
   if (!data.initialLoadDone)
     return (
@@ -34,7 +37,21 @@ export default function Main() {
   return (
     <dataContext.Provider value={data}>
       <StatusBar style={style.themeMode == 'Dark' ? 'light' : 'dark'} />
-      <NavigationContainer theme={style.navigationTheme}>
+      <NavigationContainer
+        theme={style.navigationTheme}
+        ref={navigationRef}
+        onReady={() => {
+          routeNameRef.current = navigationRef.current.getCurrentRoute().name
+          Analytics.setCurrentScreen(routeNameRef.current)
+        }}
+        onStateChange={() => {
+          const previousRouteName = routeNameRef.current;
+          const currentRouteName = navigationRef.current.getCurrentRoute().name
+          if (previousRouteName !== currentRouteName)
+            Analytics.setCurrentScreen(currentRouteName)
+          routeNameRef.current = currentRouteName
+        }}
+      >
         <Stack.Navigator>
           <Stack.Screen name='Home' component={Home} options={{headerShown: false}} />
           <Stack.Screen name='Options' component={Options} />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { View } from 'react-native'
 import SColorPicker from './SColorPicker'
 import SText from './SText'
@@ -12,14 +12,9 @@ export default function CategoryForm({
   emoji, setEmoji,
   color, setColor,
   submit, submitText,
-  effect
 }) {
   const style = useStyle()
   const [error, setError] = useState('')
-  
-  useEffect(() => {
-    if(effect) handleSubmit()
-  }, [name, emoji, color])
 
   function handleSubmit() {
     if(name == '') {
@@ -35,11 +30,6 @@ export default function CategoryForm({
       return
     }
     submit()
-    if(!effect) {
-      setName('')
-      setEmoji('')
-      setColor(null)
-    }
     setError('')
   }
 
@@ -51,7 +41,7 @@ export default function CategoryForm({
         <SEmojiPicker style={{width: '49%'}} emoji={emoji} setEmoji={setEmoji} />
       </View>
       {!!error && <SText color={style.errorColor}>{error}</SText>}
-      {!effect && <SButton text={submitText} action={handleSubmit} />}
+      <SButton text={submitText} action={handleSubmit} />
     </View>
   )
 }

@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import * as Analytics from 'expo-firebase-analytics'
 import { View, Alert } from 'react-native'
 import SPageContainer from './components/SPageContainer'
 import SText from './components/SText'
@@ -17,6 +18,11 @@ export default function Category({route, navigation}) {
 
   const {updateCategory, deleteCategory, expenses} = useContext(dataContext)
 
+  function handleUpdate() {
+    updateCategory({...category, name, emoji, color})
+    Analytics.logEvent('UpdateCategory')
+  }
+
   function handleDelete() {
     let expensesLeft = false
     for (const expense of expenses) {
@@ -29,6 +35,7 @@ export default function Category({route, navigation}) {
     else {
       deleteCategory(category.id)
       navigation.goBack()
+      Analytics.logEvent('DeleteCategory')
     }
   }
 
@@ -40,8 +47,8 @@ export default function Category({route, navigation}) {
           name={name} setName={setName}
           emoji={emoji} setEmoji={setEmoji}
           color={color} setColor={setColor}
-          submit={() => updateCategory({...category, name, emoji, color})}
-          effect={true}
+          submit={handleUpdate}
+          submitText='Update'
         />
       </View>
       <SButton

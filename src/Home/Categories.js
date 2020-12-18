@@ -1,9 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import SText from '../components/SText'
 import dataContext from '../dataContext'
-import CategoryForm from '../components/CategoryForm'
 
 export default function Categories() {
   const {categories} = useContext(dataContext)

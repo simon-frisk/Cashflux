@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
+import * as Analytics from 'expo-firebase-analytics'
 import { View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import * as WebBrowser from 'expo-web-browser'
@@ -61,13 +62,18 @@ function Account() {
   const {user, signout} = useContext(dataContext)
   const navigation = useNavigation()
 
+  function handleSignout() {
+    signout()
+    Analytics.logEvent('Signout')
+  }
+
   return (
     <View>
       <SText fontSize={35}>Account</SText>
       {user.isAnonymous === false ? (
         <>
           <SText>Signed in {user.email}</SText>
-          <SButton text='Signout' action={signout} />
+          <SButton text='Signout' action={handleSignout} />
         </>
       ) : (
         <>
