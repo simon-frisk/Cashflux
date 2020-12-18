@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Animated, ScrollView, View } from 'react-native'
+import { Animated, Platform, ScrollView, View } from 'react-native'
 import SText from '../components/SText'
 import dataContext from '../dataContext'
 import { getMonthlyCategories } from '../util/DateTools'
@@ -74,7 +74,7 @@ function BarBlock({height, category}) {
     <InView onChange={setInView}>
       <Animated.View
         style={{
-          height: heightAnimation,
+          height: Platform.OS == 'ios' ? heightAnimation : height,
           width: 60,
           backgroundColor: category.color, 
           marginVertical: 2, 
