@@ -4,20 +4,18 @@ import { TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import { Octicons } from '@expo/vector-icons'
 import Charts from '../Charts/Charts'
-import Categories from './Categories'
+import CategoryScroller from '../components/CategoryScroller'
 import ExpenseList from './ExpenseList'
 import useStyle from '../util/useStyle'
 import SButton from '../components/SButton'
 import SPageContainer from '../components/SPageContainer'
 
 export default function Home({navigation}) {
-  const style = useStyle()
-
   return (
     <SPageContainer>
         <OptionsButton />
         <Charts />
-        <Categories />
+        <CategoryScroller />
         <SButton text='Add expense' action={() => navigation.navigate('Addexpense')} />
         <ExpenseList />
       </SPageContainer>

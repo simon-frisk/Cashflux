@@ -5,40 +5,55 @@ import dataContext from '../dataContext'
 import { getMonthlyCategories } from '../util/DateTools'
 import InView from 'react-native-component-inview'
 
-export default function BarChart() {
+export default function BarChart({width}) {
   const {expenses, categories, currency} = useContext(dataContext)
 
   const monthlyCategories = getMonthlyCategories(expenses)
-  const highestMonth = Math.max(...monthlyCategories.map(category => category.total))
-
-  if(!highestMonth) 
-    return (
-      <View style={{alignItems: 'center', justifyContent: 'center', height: '100%'}}>
-        <SText>Add expenses to see barchart</SText>
-      </View>
-    )
+  const highestMonthCost = Math.max(...monthlyCategories.map(category => category.total))
   
   return (
       <ScrollView
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         bounces={false}
+        style={{width}}
       >
-        {monthlyCategories.map(month => {
-          return (
-            <View style={{marginHorizontal: 5, justifyContent: 'flex-end'}} key={month.string}>
-              <SText fontSize={15}>{month.total}{currency}</SText>
-              {categories.map(category => {
-                  const current = month[category.id] || 0
-                  const height = current / highestMonth * 300
-                  if(height < 5) return
-                  else return <BarBlock height={height} category={category} key={category.name.toString() + month.string} />
-              })}
-              <SText fontSize={25}>{month.string}</SText>
-            </View>
-          )
-        })}
+        {monthlyCategories.map(month => (
+          <MonthBar
+            currency={currency}
+            month={month}
+            categories={categories}
+            highestMonthCost={highestMonthCost}
+            key={month.string}
+          />
+        ))}
       </ScrollView>
+  )
+}
+
+function MonthBar({currency, month, categories, highestMonthCost}) {
+  return (
+    <View
+      style={{
+        height: '100%',
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        marginHorizontal: 5,
+      }}
+    >
+      <View>
+        <SText fontSize={15}>{month.total}{currency}</SText>
+        {categories.map(category => {
+          const current = month[category.id] || 0
+          const height = current / highestMonthCost * 220
+            if(height < 5) return
+            else return (
+              <BarBlock height={height} category={category} key={category.name.toString() + month.string} />
+            )
+        })}
+        <SText fontSize={25}>{month.string}</SText>
+      </View>
+    </View>
   )
 }
 

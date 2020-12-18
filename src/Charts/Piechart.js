@@ -8,19 +8,12 @@ import SSelectionSlider from '../components/SSelectionSlider'
 import { Text } from 'react-native-svg'
 import useStyle from '../util/useStyle'
 
-export default function ExpensePie() {
+export default function ExpensePie({width}) {
   const style = useStyle()
 
   const {expenses, categories, currency} = useContext(dataContext)
   const [monthIndex, setMonthIndex] = useState(0)
   const monthlyCategories = getMonthlyCategories(expenses)
-
-  if(monthlyCategories.length == 1 && monthlyCategories[0].total == 0)
-      return (
-          <View style={{alignItems: 'center', justifyContent: 'center', height: '100%'}}>
-              <SText>Add expenses to see piechart</SText>
-          </View>
-      )
   
   const pieData = categories
       .map(category => ({
@@ -34,9 +27,9 @@ export default function ExpensePie() {
       }))
   
   return (
-    <View style={{height: '100%'}}>
+    <View style={{width}}>
       <View>
-        <PieChart style={{ height: 250, marginVertical: 45 }} innerRadius='68%' padAngle={ .05 } data={pieData}>
+        <PieChart style={{ height: 230 }} innerRadius='68%' padAngle={ .05 } data={pieData}>
           <Labels />
         </PieChart>
         <View style={{position: 'absolute', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
@@ -50,7 +43,7 @@ export default function ExpensePie() {
         keyExtractor={month => month.string}
         textExtractor={month => month.string}
         selectColor={style.primaryColor}
-        boxStyle={{alignSelf: 'flex-end'}}
+        boxStyle={{marginTop: 20}}
       />
     </View>
   )

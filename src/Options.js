@@ -9,8 +9,7 @@ import SSelectionSlider from './components/SSelectionSlider'
 import SButton from './components/SButton'
 import SPageContainer from './components/SPageContainer'
 import useStyle from './util/useStyle'
-
-const currencies = ['kr', '$', '£', '€', '¥', 'CHf']
+import CurrencySelector from './components/CurrrencySelector'
 
 export default function Options() {
   return (
@@ -20,24 +19,6 @@ export default function Options() {
       <Account />
       <More />
     </SPageContainer>
-  )
-}
-
-function CurrencySelector() {
-  const {currency, setCurrency} = useContext(dataContext)
-
-  return (
-    <>
-      <SText fontSize={35}>Currency</SText>
-      <SSelectionSlider
-        items={currencies}
-        selected={currency}
-        setSelected={setCurrency}
-        keyExtractor={currency => currency}
-        textExtractor={currency => currency}
-        boxStyle={{paddingHorizontal: 10}}
-      />
-    </>
   )
 }
 

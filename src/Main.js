@@ -1,5 +1,5 @@
-import 'react-native-gesture-handler';
-import React, {useRef} from 'react'
+import 'react-native-gesture-handler'
+import React, {useEffect, useRef} from 'react'
 import { ActivityIndicator, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { enableScreens } from 'react-native-screens'
@@ -17,6 +17,7 @@ import Category from './Category'
 import AddCategory from './AddCategory'
 import Signup from './Signup'
 import Signin from './Signin'
+import Getstarted from './Getstarted'
 
 enableScreens()
 const Stack = createNativeStackNavigator()
@@ -52,7 +53,11 @@ export default function Main() {
           routeNameRef.current = currentRouteName
         }}
       >
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName={
+          data.user.isAnonymous && data.categories.length == 0
+            ? 'Getstarted'
+            : 'Home'
+        }>
           <Stack.Screen name='Home' component={Home} options={{headerShown: false}} />
           <Stack.Screen name='Options' component={Options} />
           <Stack.Screen name='Expense' component={Expense} />
@@ -61,6 +66,7 @@ export default function Main() {
           <Stack.Screen name='Addcategory' component={AddCategory} options={{title: 'Add category'}} />
           <Stack.Screen name='Signup' component={Signup} />
           <Stack.Screen name='Signin' component={Signin} />
+          <Stack.Screen name='Getstarted' component={Getstarted} options={{title: 'Get started', headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
     </dataContext.Provider>
