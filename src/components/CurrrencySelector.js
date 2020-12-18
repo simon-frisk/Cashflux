@@ -2,8 +2,7 @@ import React, { useContext } from "react"
 import dataContext from "../dataContext"
 import SSelectionSlider from "./SSelectionSlider"
 import SText from "./SText"
-
-const currencies = ['kr', '$', '£', '€', '¥', 'CHf']
+import {currencies} from '../util/currency'
 
 export default function CurrencySelector() {
   const {currency, setCurrency} = useContext(dataContext)

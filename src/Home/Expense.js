@@ -6,6 +6,7 @@ import SText from '../components/SText'
 import { getDayString } from '../util/DateTools'
 import useStyle from '../util/useStyle'
 import dataContext from '../dataContext'
+import { getCostString } from '../util/currency';
 
 export default ({expense}) => {
   const navigation = useNavigation()
@@ -17,7 +18,7 @@ export default ({expense}) => {
       <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
         <View>
           <SText fontSize={25}>{expense.text}</SText>
-          <SText color={style.lightText}>{expense.category.emoji} {expense.category.name} - {getDayString(expense.date)} - {expense.cost}{currency}</SText>
+          <SText color={style.lightText}>{expense.category.emoji} {expense.category.name} - {getDayString(expense.date)} - {getCostString(expense.cost, currency)}</SText>
         </View>
         <TouchableOpacity onPress={() => navigation.navigate('Expense', {expense})}>
           <Entypo name="dots-three-vertical" size={28} style={{padding: 10}} color={style.lightText} />

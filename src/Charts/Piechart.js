@@ -7,6 +7,7 @@ import { getMonthlyCategories } from '../util/DateTools'
 import SSelectionSlider from '../components/SSelectionSlider'
 import { Text } from 'react-native-svg'
 import useStyle from '../util/useStyle'
+import { currencies, getCostString } from '../util/currency'
 
 export default function ExpensePie({width}) {
   const style = useStyle()
@@ -33,7 +34,7 @@ export default function ExpensePie({width}) {
           <Labels />
         </PieChart>
         <View style={{position: 'absolute', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
-          <SText fontSize={30}>{monthlyCategories[monthIndex].total}{currency}</SText>
+          <SText fontSize={30}>{getCostString(monthlyCategories[monthIndex].total, currency)}</SText>
         </View>
       </View>
       <SSelectionSlider

@@ -4,6 +4,7 @@ import SText from '../components/SText'
 import dataContext from '../dataContext'
 import { getMonthlyCategories } from '../util/DateTools'
 import InView from 'react-native-component-inview'
+import { currencies, getCostString } from '../util/currency'
 
 export default function BarChart({width}) {
   const {expenses, categories, currency} = useContext(dataContext)
@@ -42,7 +43,7 @@ function MonthBar({currency, month, categories, highestMonthCost}) {
       }}
     >
       <View>
-        <SText fontSize={15}>{month.total}{currency}</SText>
+        <SText fontSize={15}>{getCostString(month.total, currency)}</SText>
         {categories.map(category => {
           const current = month[category.id] || 0
           const height = current / highestMonthCost * 220
