@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react'
-import * as Analytics from 'expo-firebase-analytics'
 import CategoryForm from './components/CategoryForm'
 import SPageContainer from './components/SPageContainer'
 import SText from './components/SText'
@@ -22,7 +21,6 @@ export default function AddCategory({navigation}) {
         submit={() => {
           addCategory({name, emoji, color})
           navigation.goBack()
-          Analytics.logEvent('AddCategory')
         }}
         submitText='Add category'
       />

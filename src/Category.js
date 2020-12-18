@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react'
-import * as Analytics from 'expo-firebase-analytics'
 import { View, Alert } from 'react-native'
 import SPageContainer from './components/SPageContainer'
 import SText from './components/SText'
@@ -20,7 +19,6 @@ export default function Category({route, navigation}) {
 
   function handleUpdate() {
     updateCategory({...category, name, emoji, color})
-    Analytics.logEvent('UpdateCategory')
   }
 
   function handleDelete() {
@@ -35,7 +33,6 @@ export default function Category({route, navigation}) {
     else {
       deleteCategory(category.id)
       navigation.goBack()
-      Analytics.logEvent('DeleteCategory')
     }
   }
 

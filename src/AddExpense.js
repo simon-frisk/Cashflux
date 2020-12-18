@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react'
-import * as Analytics from 'expo-firebase-analytics'
 import dataContext from './dataContext'
 import ExpenseForm from './components/ExpenseForm'
 import SPageContainer from './components/SPageContainer'
@@ -27,7 +26,6 @@ export default function AddExpense({navigation}) {
         submit={() => {
           addExpense({date: date.toDateString(), text, cost: Number(cost), category})
           navigation.goBack()
-          Analytics.logEvent('AddExpense')
         }}
       />
     </SPageContainer>

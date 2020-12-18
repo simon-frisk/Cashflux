@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import * as Analytics from 'expo-firebase-analytics'
 import * as firebaseApi from './firebase'
 
 export default function useData() {
@@ -47,27 +48,31 @@ export default function useData() {
     expense.id = id
     const newExpenses = [...expenses, expense]
     saveData(newExpenses, categories, currency, theme)
+    Analytics.logEvent('AddExpense')
   }
-
+  
   function updateExpense(updated) {
     const newExpenses = expenses.map(expense => {
       if(expense.id == updated.id) return updated
       else return expense
     })
     saveData(newExpenses, categories, currency, theme)
+    Analytics.logEvent('UpdateExpense')
   }
-
+  
   function deleteExpense(id) {
     const newExpenses = expenses.filter(expense => expense.id != id)
     saveData(newExpenses, categories, currency, theme)
+    Analytics.logEvent('DeleteExpense')
   }
-
+  
   function addCategory(category) {
     const current_ids = categories.map(category => category.id)
     const id = current_ids.length != 0 ? Math.max(...current_ids) + 1 : 0
     category.id = id
     const newCategories = [category, ...categories]
     saveData(expenses, newCategories, currency, theme)
+    Analytics.logEvent('AddCategory')
   }
 
   function updateCategory(updated) {
@@ -76,11 +81,13 @@ export default function useData() {
       else return updated
     })
     saveData(expenses, newCategories, currency, theme)
+    Analytics.logEvent('UpdateCategory')
   }
 
   function deleteCategory(id) {
     const newCategories = categories.filter(category => category.id != id)
     saveData(expenses, newCategories, currency, theme)
+    Analytics.logEvent('DeleteCategory')
   }
 
   function mapExpenses() {
