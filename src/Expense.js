@@ -24,6 +24,7 @@ export default function Expense({route, navigation}) {
       cost: Number(cost), 
       category
     })
+    navigation.goBack()
   }
   
   function handleDelete() {
