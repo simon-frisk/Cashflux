@@ -8,7 +8,7 @@ import SPageContainer from '../components/SPageContainer'
 
 export default function Home({navigation}) {
   return (
-    <SPageContainer>
+    <SPageContainer style={{paddingTop: 0}}>
         <Charts />
         <CategoryScroller />
         <SButton text='Add expense' action={() => navigation.navigate('Addexpense')} />

@@ -3,10 +3,9 @@ import { Animated, Platform, ScrollView, View } from 'react-native'
 import SText from '../components/SText'
 import dataContext from '../dataContext'
 import { getMonthlyCategories } from '../util/DateTools'
-import InView from 'react-native-component-inview'
-import { currencies, getCostString } from '../util/currency'
+import { getCostString } from '../util/currency'
 
-export default function BarChart({width}) {
+export default function BarChart({width, active}) {
   const {expenses, categories, currency} = useContext(dataContext)
 
   const monthlyCategories = getMonthlyCategories(expenses)
@@ -25,6 +24,7 @@ export default function BarChart({width}) {
             month={month}
             categories={categories}
             highestMonthCost={highestMonthCost}
+            active={active}
             key={month.string}
           />
         ))}
@@ -32,7 +32,7 @@ export default function BarChart({width}) {
   )
 }
 
-function MonthBar({currency, month, categories, highestMonthCost}) {
+function MonthBar({currency, month, categories, highestMonthCost, active}) {
   return (
     <View
       style={{
@@ -46,10 +46,10 @@ function MonthBar({currency, month, categories, highestMonthCost}) {
         <SText fontSize={15}>{getCostString(month.total, currency)}</SText>
         {categories.map(category => {
           const current = month[category.id] || 0
-          const height = current / highestMonthCost * 220
+          const height = current / highestMonthCost * 250
             if(height < 5) return
             else return (
-              <BarBlock height={height} category={category} key={category.name.toString() + month.string} />
+              <BarBlock height={height} category={category} key={category.name.toString() + month.string} active={active} />
             )
         })}
         <SText fontSize={25}>{month.string}</SText>
@@ -58,33 +58,30 @@ function MonthBar({currency, month, categories, highestMonthCost}) {
   )
 }
 
-function BarBlock({height, category}) {
+function BarBlock({height, category, active}) {
   const [heightAnimation] = useState(new Animated.Value(0))
-  const [inView, setInView] = useState(false)
 
   useEffect(() => {
     Animated.timing(heightAnimation, {
-      toValue: inView ? height : height * 0.5,
+      toValue: active ? height : height * 0.5,
       duration: 1000,
       useNativeDriver: false
     }).start()
-  }, [inView])
+  }, [active])
 
   return (
-    <InView onChange={setInView}>
-      <Animated.View
-        style={{
-          height: Platform.OS == 'ios' ? heightAnimation : height,
-          width: 60,
-          backgroundColor: category.color, 
-          marginVertical: 2, 
-          borderRadius: 5,
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      >
-        {height > 22 && <SText fontSize={15}>{category.emoji}</SText>}
-      </Animated.View>
-    </InView>
+    <Animated.View
+      style={{
+        height: heightAnimation,
+        width: 60,
+        backgroundColor: category.color, 
+        marginVertical: 2, 
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+    >
+      {height > 22 && <SText fontSize={15}>{category.emoji}</SText>}
+    </Animated.View>
   )
 }

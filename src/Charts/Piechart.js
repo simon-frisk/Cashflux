@@ -28,7 +28,7 @@ export default function ExpensePie({width}) {
       }))
   
   return (
-    <View style={{width}}>
+    <View style={{width, paddingTop: 30}}>
       <View>
         <PieChart style={{ height: 230 }} innerRadius='68%' padAngle={ .05 } data={pieData}>
           <Labels />
