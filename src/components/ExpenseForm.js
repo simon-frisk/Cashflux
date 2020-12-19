@@ -38,7 +38,7 @@ export default function ExpenseForm({text, setText, category, setCategory, date,
   return (
     <View>
       <STextField placeholder='Text' value={text} onChangeText={setText} />
-      <STextField placeholder='Cost' value={cost} onChangeText={setCost} />
+      <STextField placeholder='Cost' value={cost} onChangeText={setCost} keyboardType='numeric' />
       <SSelectionSlider
         items={categories.map(c => c.id)}
         selected={category}

@@ -25,7 +25,7 @@ export default function Signup({navigation}) {
 
   return (
     <SPageContainer>
-      <STextField placeholder='email' value={email} onChangeText={setEmail} autoCapitalize='none' />
+      <STextField placeholder='email' value={email} onChangeText={setEmail} autoCapitalize='none' keyboardType='email-address' />
       <STextField placeholder='password' value={password} onChangeText={setPassword} secureTextEntry={true} />
       {!!error && <SText color={style.errorColor}>{error}</SText>}
       <SButton text='Sign up' action={submit} />

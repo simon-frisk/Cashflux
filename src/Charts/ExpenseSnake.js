@@ -15,7 +15,7 @@ export default function ExpenseSnake({width}) {
   return (
     <ScrollView
       style={{width, height: 360}}
-      contentContainerStyle={{paddingVertical: 40}}
+      contentContainerStyle={{paddingTop: 40}}
     >
       {expenses.map(expense => {
         const isNewMonth = lastMonth != getMonthString(expense.date)
