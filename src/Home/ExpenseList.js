@@ -15,7 +15,7 @@ export default () => {
   return (
     <View>
       {monthlyExpenses.map(month => (
-        <View key={month.string} style={{marginTop: 25, marginBottom: 15}}>
+        <View key={month.string} style={{marginBottom: 35}}>
           <SText color={style.lightText} fontSize={25} style={{marginBottom: 5}}>{month.string}</SText>
           <View  />
           {month.expenses.map(expense => <Expense expense={expense} key={expense.id.toString()} />)}

@@ -1,5 +1,7 @@
 import { useColorScheme } from 'react-native-appearance'
 import { Platform } from 'react-native'
+import { useContext } from 'react'
+import dataContext from '../dataContext'
 
 const dark = {
   backgroundColor: '#111',
@@ -36,14 +38,12 @@ function getNavigationTheme(theme, isDark) {
   }
 }
 
-let modeState = 'System'
-
-export default function useStyle(mode) {
-  if(mode) modeState = mode
+export default function useStyle() {
+  const { theme: selectedTheme } = useContext(dataContext)
   const systemThemeMode = useColorScheme()
-  const themeMode = modeState == 'System'
+  const themeMode = selectedTheme == 'System'
     ? systemThemeMode == 'dark' ? 'Dark' : 'Light'
-    : modeState
+    : selectedTheme
   const theme = themeMode == 'Dark' ? dark : light
 
   const font = Platform.select({

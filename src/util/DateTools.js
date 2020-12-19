@@ -17,6 +17,7 @@ export function nextMonth(date) {
 
 export function getMonthlyExpenses(expenses) {
   //Returns a list of expenses for different months
+  if(expenses.length == 0) return []
   let currentMonth = new Date(expenses[0].date)
   const months = [{string: getMonthString(currentMonth), expenses: []}]
   

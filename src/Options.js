@@ -78,7 +78,6 @@ function Account() {
 }
 
 function More() {
-  useContext(dataContext)
   const style = useStyle()
 
   return (

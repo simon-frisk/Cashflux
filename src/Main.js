@@ -1,9 +1,8 @@
 import 'react-native-gesture-handler'
-import React, {useEffect, useRef} from 'react'
-import { ActivityIndicator, View, TouchableOpacity } from 'react-native'
+import React, { useRef, useContext } from 'react'
+import { ActivityIndicator, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { enableScreens } from 'react-native-screens'
-import { Octicons } from '@expo/vector-icons'
 import { createNativeStackNavigator } from 'react-native-screens/native-stack'
 import * as Analytics from 'expo-firebase-analytics'
 import { StatusBar } from 'expo-status-bar'
@@ -23,13 +22,13 @@ import Getstarted from './Getstarted'
 enableScreens()
 const Stack = createNativeStackNavigator()
 
-export default function Main() {
-  const data = useData()
-  const style = useStyle(data.theme)
+function Main() {
+  const {initialLoadDone, user, categories} = useContext(dataContext)
+  const style = useStyle()
   const routeNameRef = useRef()
   const navigationRef = useRef()
 
-  if (!data.initialLoadDone)
+  if (!initialLoadDone)
     return (
       <View style={{backgroundColor: style.backgroundColor, width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center'}}>
         <ActivityIndicator />
@@ -37,7 +36,7 @@ export default function Main() {
     )
   
   return (
-    <dataContext.Provider value={data}>
+    <>
       <StatusBar style={style.themeMode == 'Dark' ? 'light' : 'dark'} />
       <NavigationContainer
         theme={style.navigationTheme}
@@ -56,7 +55,7 @@ export default function Main() {
       >
         <Stack.Navigator 
           initialRouteName={
-            data.user.isAnonymous && data.categories.length == 0
+            user.isAnonymous && categories.length == 0
               ? 'Getstarted'
               : 'Home'
           }
@@ -69,20 +68,7 @@ export default function Main() {
           <Stack.Screen
             name='Home'
             component={Home}
-            options={({navigation}) => ({
-              headerRight: () => (
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('Options')}
-                >
-                  <Octicons
-                    name="gear"
-                    size={25}
-                    color={style.text}
-                  />
-                </TouchableOpacity>
-              ),
-              title: '',
-            })}
+            options={{headerShown: false}}
           />
           <Stack.Screen name='Options' component={Options} />
           <Stack.Screen name='Expense' component={Expense} />
@@ -94,6 +80,16 @@ export default function Main() {
           <Stack.Screen name='Getstarted' component={Getstarted} options={{title: 'Get started', headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
+    </>
+  )
+}
+
+export default function () {
+  const data = useData()
+
+  return (
+    <dataContext.Provider value={data}>
+      <Main />
     </dataContext.Provider>
   )
 }

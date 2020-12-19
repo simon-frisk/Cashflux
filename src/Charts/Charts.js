@@ -5,7 +5,6 @@ import dataContext from '../dataContext'
 import Barchart from './Barchart'
 import Piechart from './Piechart'
 import ExpenseSnake from './ExpenseSnake'
-import ChartImage from '../../assets/Charts.png'
 import useStyle from '../util/useStyle'
 
 export default function Charts() {
@@ -17,8 +16,7 @@ export default function Charts() {
 
     if(expenses.length == 0)
         return (
-            <View style={{height: 150, alignItems: 'center', justifyContent: 'center'}}>
-                <Image source={ChartImage} style={{ width: 200, height: 100 }} /> 
+            <View style={{height: 220, paddingTop: 40, alignItems: 'center', justifyContent: 'center'}}>
                 <SText>Add an expense to view charts</SText>
             </View>
         )
