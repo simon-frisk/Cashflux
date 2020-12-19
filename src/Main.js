@@ -54,11 +54,18 @@ export default function Main() {
           routeNameRef.current = currentRouteName
         }}
       >
-        <Stack.Navigator initialRouteName={
-          data.user.isAnonymous && data.categories.length == 0
-            ? 'Getstarted'
-            : 'Home'
-        }>
+        <Stack.Navigator 
+          initialRouteName={
+            data.user.isAnonymous && data.categories.length == 0
+              ? 'Getstarted'
+              : 'Home'
+          }
+          screenOptions={{
+            headerTitleStyle: {
+              ...style.font
+            }
+          }}
+        >
           <Stack.Screen
             name='Home'
             component={Home}
@@ -80,7 +87,7 @@ export default function Main() {
           <Stack.Screen name='Options' component={Options} />
           <Stack.Screen name='Expense' component={Expense} />
           <Stack.Screen name='Addexpense' component={AddExpense} options={{title:'Add expense'}} />
-          <Stack.Screen name='Category' component={Category} />
+          <Stack.Screen name='Category' component={Category} options={({route}) => ({title: route.params.category.name})} />
           <Stack.Screen name='Addcategory' component={AddCategory} options={{title: 'Add category'}} />
           <Stack.Screen name='Signup' component={Signup} />
           <Stack.Screen name='Signin' component={Signin} />

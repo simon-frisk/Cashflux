@@ -1,11 +1,14 @@
-import React, { useContext, useState } from 'react'
-import { View, Alert } from 'react-native'
+import React, { useContext, useState, useEffect } from 'react'
+import { View, Alert, Animated } from 'react-native'
 import SPageContainer from './components/SPageContainer'
 import SText from './components/SText'
 import SButton from './components/SButton'
 import useStyle from './util/useStyle'
 import dataContext from './dataContext'
 import CategoryForm from './components/CategoryForm'
+import { ScrollView } from 'react-native-gesture-handler'
+import { getMonthlyCategories } from './util/DateTools'
+import { getCostString } from './util/currency'
 
 export default function Category({route, navigation}) {
   const {category} = route.params
@@ -38,7 +41,7 @@ export default function Category({route, navigation}) {
 
   return (
     <SPageContainer>
-      <SText fontSize={30}>{name}</SText>
+      <CategoryGraph category={category} />
       <View style={{marginVertical: 10}}>
         <CategoryForm
           name={name} setName={setName}
@@ -54,5 +57,71 @@ export default function Category({route, navigation}) {
         action={handleDelete}
       />
     </SPageContainer>
+  )
+}
+
+function CategoryGraph({category}) {
+  const {expenses, currency} = useContext(dataContext)
+
+  const monthlyCategories = getMonthlyCategories(expenses)
+  const highestMonthCost = Math.max(...monthlyCategories.map(category => category.total))
+  const style = useStyle()
+  
+  return (
+    <ScrollView
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}
+      bounces={false}
+      contentContainerStyle={{alignItems: 'flex-end', marginVertical: 15}}
+    >
+      {monthlyCategories.map(month => {
+        const cost = month[category.id] || 0
+        return (
+          <View key={month.string}>
+            <View
+              style={{
+                height: month.total / highestMonthCost * 200, 
+                backgroundColor: style.interfaceColor,
+                borderRadius: 10,
+                marginRight: 10,
+                justifyContent: 'flex-end',
+                overflow: 'hidden'
+              }}
+            >
+              <MonthPortion 
+                height={cost / highestMonthCost * 200} 
+                color={category.color}
+              />
+            </View>
+            <SText fontSize={22}>{month.string}</SText>
+            <SText color={style.lightText}>{getCostString(cost, currency)}</SText>
+            <SText color={style.lightText}>{Math.round(cost / month.total * 100)}%</SText>
+          </View>
+        )
+      })}
+    </ScrollView>
+  )
+}
+
+function MonthPortion({height, color}) {
+  const [heightAnimation] = useState(new Animated.Value(0))
+
+  useEffect(() => {
+    Animated.timing(heightAnimation, {
+      toValue: height,
+      duration: 1000,
+      useNativeDriver: false
+    }).start()
+  }, [])
+
+  return (
+    <Animated.View
+      style={{
+        width: 50,
+        height: heightAnimation,
+        backgroundColor: color,
+        borderRadius: 10
+      }}
+    />
   )
 }
