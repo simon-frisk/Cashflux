@@ -8,7 +8,7 @@
       "ios",
       "android"
     ],
-    "version": "1.0.2",
+    "version": "1.0.3",
     "primaryColor": "#111111",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -33,7 +33,8 @@
     "githubUrl": "https://github.com/simon-frisk/Cashflux",
     "android": {
       "package": "com.expenses.expensesapp",
-      "googleServicesFile": "./keys/google-services.json"
+      "googleServicesFile": "./keys/google-services.json",
+      "versionCode": 2
     },
     "web": {
       "config": {
