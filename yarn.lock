@@ -5842,11 +5842,6 @@ react-native-appearance@~0.3.3:
     invariant "^2.2.4"
     use-subscription "^1.0.0"
 
-react-native-component-inview@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/react-native-component-inview/-/react-native-component-inview-1.0.2.tgz#da2140bb6c89f40706695ffaed2efbb007f491e7"
-  integrity sha512-BlzgpZDxpGx+5MQD0xA1jKzlej/0tOw72DEIHVb7FOEaGduXkWMIKag+nf50jgbez0S7qAFRH53ctF6q5xrrBw==
-
 react-native-gesture-handler@~1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.8.0.tgz#18f61f51da50320f938957b0ee79bc58f47449dc"

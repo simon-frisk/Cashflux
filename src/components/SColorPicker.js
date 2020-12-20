@@ -16,33 +16,33 @@ const colors = [
 ]
 
 export default function SColorPicker({color: current, setColor}) {
-  const style = useStyle()
 
   useEffect(() => {
     if(!current) setColor(colors[0])
   }, [])
 
   return (
-    <ScrollView horizontal={true}>
-      {colors.map(color => 
-        <TouchableOpacity 
-          style={{
-            width: 35, 
-            height: 35,
-            borderRadius: 12,
-            marginRight: 5,
-            marginVertical: 5,
-            backgroundColor: color,
-            overflow: 'hidden',
-            borderWidth: 4,
-            borderColor: current == color 
-              ? style.themeMode == 'Dark' ? '#ffee00' : '#003'
-              : style.themeMode == 'Dark' ? '#555' : '#aaa',
-          }}
-          onPress={() => setColor(color)}
-          key={color}
-        />
-      )}
+    <ScrollView horizontal={true} contentContainerStyle={{alignItems: 'center'}} showsHorizontalScrollIndicator={false}>
+      {colors.map(color => {
+        const width = current == color ? 45 : 30
+        return (
+          <TouchableOpacity 
+            style={{
+              width: width, 
+              height: width,
+              borderRadius: 10,
+              marginRight: 5,
+              marginVertical: 5,
+              backgroundColor: color,
+              borderWidth: 2,
+              borderColor: 'black',
+              overflow: 'hidden',
+            }}
+            onPress={() => setColor(color)}
+            key={color}
+          />
+        )
+      })}
     </ScrollView>
   )
 }

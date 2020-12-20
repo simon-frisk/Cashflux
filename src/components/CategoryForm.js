@@ -35,10 +35,15 @@ export default function CategoryForm({
 
   return (
     <View>
-      <SColorPicker color={color} setColor={setColor} />
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <STextField style={{width: '49%'}} placeholder='Name' value={name} onChangeText={setName} />
-        <SEmojiPicker style={{width: '49%'}} emoji={emoji} setEmoji={setEmoji} />
+      <View style={{
+        backgroundColor: style.foregroundColor,
+        padding: 15,
+        borderRadius: 15,
+        marginVertical: 10
+      }}>
+        <STextField placeholder='Name' value={name} onChangeText={setName} />
+        <SEmojiPicker emoji={emoji} setEmoji={setEmoji} />
+        <SColorPicker color={color} setColor={setColor} />
       </View>
       {!!error && <SText color={style.errorColor}>{error}</SText>}
       <SButton text={submitText} action={handleSubmit} />

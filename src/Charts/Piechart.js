@@ -30,7 +30,7 @@ export default function ExpensePie({width}) {
   return (
     <View style={{width, paddingTop: 50}}>
       <View>
-        <PieChart style={{ height: 230 }} innerRadius='68%' padAngle={ .03 } data={pieData}>
+        <PieChart style={{ height: 230 }} innerRadius='68%' padAngle={ .04 } data={pieData}>
           <Labels />
         </PieChart>
         <View style={{position: 'absolute', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>

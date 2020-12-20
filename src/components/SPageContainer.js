@@ -8,7 +8,7 @@ export default function SPageContainer(props) {
   return (
     <ScrollView
       contentContainerStyle={{
-        paddingTop: 40,
+        paddingVertical: 40,
         paddingHorizontal: 15,
         ...props.style
       }}
