@@ -22,7 +22,7 @@ const light = {
   secondaryColor: '#f80',
   errorColor: '#ff453a',
   text: 'black',
-  lightText: '#666'
+  lightText: '#777'
 }
 
 function getNavigationTheme(theme, isDark) {

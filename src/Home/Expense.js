@@ -13,7 +13,7 @@ export default ({expense}) => {
   const {currency} = useContext(dataContext)
 
   return (
-    <TouchableOpacity style={{paddingVertical: 5, borderTopColor: style.interfaceColor, borderTopWidth: 1}} onPress={() => navigation.navigate('Expense', {expense})}>
+    <TouchableOpacity style={{paddingVertical: 5, borderTopColor: style.themeMode == 'Dark' ? style.interfaceColor : '#ccc', borderTopWidth: 1}} onPress={() => navigation.navigate('Expense', {expense})}>
       <SText fontSize={25}>{expense.text}</SText>
       <SText color={style.lightText}>{expense.category.emoji} {expense.category.name} - {getDayString(expense.date)} - {getCostString(expense.cost, currency)}</SText>
     </TouchableOpacity>
