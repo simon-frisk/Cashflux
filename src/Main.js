@@ -36,7 +36,7 @@ function Main() {
     )
   
   return (
-    <>
+    <View style={{backgroundColor: style.backgroundColor, height: '100%'}}>
       <StatusBar style={style.themeMode == 'Dark' ? 'light' : 'dark'} />
       <NavigationContainer
         theme={style.navigationTheme}
@@ -80,7 +80,7 @@ function Main() {
           <Stack.Screen name='Getstarted' component={Getstarted} options={{title: 'Get started', headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
-    </>
+    </View>
   )
 }
 
