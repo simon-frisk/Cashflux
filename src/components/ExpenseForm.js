@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import { Feather, FontAwesome5 } from '@expo/vector-icons'
 import { View } from 'react-native'
 import dataContext from '../dataContext'
 import SButton from './SButton'
@@ -37,8 +38,8 @@ export default function ExpenseForm({text, setText, category, setCategory, date,
 
   return (
     <View>
-      <STextField placeholder='Text' value={text} onChangeText={setText} />
-      <STextField placeholder='Cost' value={cost} onChangeText={setCost} keyboardType='number-pad' />
+      <STextField placeholder='Text' value={text} onChangeText={setText}  icon={<Feather name="file-text" />} />
+      <STextField placeholder='Cost' value={cost} onChangeText={setCost} keyboardType='number-pad' icon={<FontAwesome5 name="coins" />} />
       <SSelectionSlider
         items={categories.map(c => c.id)}
         selected={category}

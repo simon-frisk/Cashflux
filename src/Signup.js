@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import * as Analytics from 'expo-firebase-analytics'
+import { MaterialIcons, FontAwesome } from '@expo/vector-icons'
 import SButton from './components/SButton'
 import SPageContainer from './components/SPageContainer'
 import SText from './components/SText'
@@ -25,8 +26,8 @@ export default function Signup({navigation}) {
 
   return (
     <SPageContainer>
-      <STextField placeholder='email' value={email} onChangeText={setEmail} autoCapitalize='none' keyboardType='email-address' />
-      <STextField placeholder='password' value={password} onChangeText={setPassword} secureTextEntry={true} />
+      <STextField placeholder='email' value={email} onChangeText={setEmail} autoCapitalize='none' keyboardType='email-address' icon={<MaterialIcons name="email" />} />
+      <STextField placeholder='password' value={password} onChangeText={setPassword} secureTextEntry={true} icon={<FontAwesome name="user-secret" />} />
       {!!error && <SText color={style.errorColor}>{error}</SText>}
       <SButton text='Sign up' action={submit} />
     </SPageContainer>

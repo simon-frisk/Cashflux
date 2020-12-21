@@ -15,15 +15,7 @@ export default function Category({route, navigation}) {
   const category = categories.find(category => category.id == route.params.category.id)
   const style = useStyle()
 
-  const [name, setName] = useState(category.name)
-  const [emoji, setEmoji] = useState(category.emoji)
-  const [color, setColor] = useState(category.color)
-
-  const {updateCategory, deleteCategory, expenses} = useContext(dataContext)
-
-  function handleUpdate() {
-    updateCategory({...category, name, emoji, color})
-  }
+  const { deleteCategory, expenses} = useContext(dataContext)
 
   function handleDelete() {
     let expensesLeft = false
@@ -43,17 +35,9 @@ export default function Category({route, navigation}) {
   return (
     <SPageContainer>
       <CategoryGraph category={category} />
-      <View style={{marginVertical: 10}}>
-        <CategoryForm
-          name={name} setName={setName}
-          emoji={emoji} setEmoji={setEmoji}
-          color={color} setColor={setColor}
-          submit={handleUpdate}
-          submitText='Update'
-        />
-      </View>
+      <SButton text='Edit' action={() => navigation.navigate('Editcategory', {category})} />
       <SButton
-        style={{backgroundColor: style.errorColor, width: '30%', alignSelf: 'flex-end'}} 
+        style={{backgroundColor: style.errorColor}} 
         text='Delete' 
         action={handleDelete}
       />

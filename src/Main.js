@@ -18,6 +18,7 @@ import AddCategory from './AddCategory'
 import Signup from './Signup'
 import Signin from './Signin'
 import Getstarted from './Getstarted'
+import EditCategory from './EditCategory'
 
 enableScreens()
 const Stack = createNativeStackNavigator()
@@ -73,8 +74,9 @@ function Main() {
           <Stack.Screen name='Options' component={Options} />
           <Stack.Screen name='Expense' component={Expense} />
           <Stack.Screen name='Addexpense' component={AddExpense} options={{title:'Add expense'}} />
-          <Stack.Screen name='Category' component={Category} options={({route}) => ({title: route.params.category.name})} />
+          <Stack.Screen name='Category' component={Category} options={({route}) => ({title: categories.find(category => category.id == route.params.category.id).name})} />
           <Stack.Screen name='Addcategory' component={AddCategory} options={{title: 'Add category'}} />
+          <Stack.Screen name='Editcategory' component={EditCategory} options={{title: 'Edit category'}} />
           <Stack.Screen name='Signup' component={Signup} />
           <Stack.Screen name='Signin' component={Signin} />
           <Stack.Screen name='Getstarted' component={Getstarted} options={{title: 'Get started', headerShown: false}} />

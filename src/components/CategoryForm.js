@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
+import { Entypo } from '@expo/vector-icons'
 import SColorPicker from './SColorPicker'
 import SText from './SText'
 import STextField from './STextField'
@@ -35,16 +36,23 @@ export default function CategoryForm({
 
   return (
     <View>
-      <View style={{
-        backgroundColor: style.foregroundColor,
-        padding: 15,
-        borderRadius: 15,
-        marginVertical: 10
-      }}>
-        <STextField placeholder='Name' value={name} onChangeText={setName} />
-        <SEmojiPicker emoji={emoji} setEmoji={setEmoji} />
-        <SColorPicker color={color} setColor={setColor} />
+      <View style={{justifyContent: 'center', height: 150, alignItems: 'center'}}>
+        <View
+          style={{
+            backgroundColor: color, 
+            width: 100, 
+            height: 100, 
+            borderRadius: 50,
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
+          <SText fontSize={50}>{emoji}</SText>
+        </View>
       </View>
+      <STextField placeholder='Name' value={name} onChangeText={setName} icon={<Entypo name="pencil" />} />
+      <SColorPicker color={color} setColor={setColor} />
+      <SEmojiPicker emoji={emoji} setEmoji={setEmoji} />
       {!!error && <SText color={style.errorColor}>{error}</SText>}
       <SButton text={submitText} action={handleSubmit} />
     </View>
