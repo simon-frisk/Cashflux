@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
+import { View, FlatList, TouchableOpacity } from 'react-native'
 import { Feather, FontAwesome5 } from '@expo/vector-icons'
-import { View } from 'react-native'
 import dataContext from '../dataContext'
 import SButton from './SButton'
 import STextField from './STextField'
@@ -8,6 +8,7 @@ import SDatePicker from './SDatePicker'
 import SText from './SText'
 import SSelectionSlider from './SSelectionSlider'
 import useStyle from '../util/useStyle'
+import CategoryIcon from './CategoryIcon'
 
 
 export default function ExpenseForm({text, setText, category, setCategory, date, setDate, cost, setCost, submit, submitTitle}) {
@@ -40,12 +41,25 @@ export default function ExpenseForm({text, setText, category, setCategory, date,
     <View>
       <STextField placeholder='Text' value={text} onChangeText={setText}  icon={<Feather name="file-text" />} />
       <STextField placeholder='Cost' value={cost} onChangeText={setCost} keyboardType='number-pad' icon={<FontAwesome5 name="coins" />} />
-      <SSelectionSlider
-        items={categories.map(c => c.id)}
-        selected={category}
-        setSelected={setCategory}
-        keyExtractor={category => category.toString()}
-        textExtractor={categoryId => categories.find(category => category.id == categoryId).name}
+      <FlatList
+        data={categories}TouchableOpacity
+        showsHorizontalScrollIndicator={false}
+        horizontal={true}
+        renderItem={({item}) => (
+          <TouchableOpacity 
+            style={{
+              backgroundColor: item.id == category ? style.secondaryColor : style.foregroundColor, 
+              marginRight: 5, 
+              padding: 10, 
+              borderRadius: 10,
+              marginVertical: 5
+            }}
+            onPress={() => setCategory(item.id)}
+            key={item.id}
+          >
+            <CategoryIcon color={item.color} emoji={item.emoji} size={40} text={item.name} />
+          </TouchableOpacity>
+        )}
       />
       <SDatePicker date={date} onDateChange={setDate} />
       {!!error && <SText color={style.errorColor}>{error}</SText>}

@@ -7,6 +7,7 @@ import STextField from './STextField'
 import SEmojiPicker from './SEmojiPicker'
 import SButton from './SButton'
 import useStyle from '../util/useStyle'
+import CategoryIcon from './CategoryIcon'
 
 export default function CategoryForm({
   name, setName,
@@ -37,18 +38,7 @@ export default function CategoryForm({
   return (
     <View>
       <View style={{justifyContent: 'center', height: 150, alignItems: 'center'}}>
-        <View
-          style={{
-            backgroundColor: color, 
-            width: 100, 
-            height: 100, 
-            borderRadius: 50,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
-        >
-          <SText fontSize={50}>{emoji}</SText>
-        </View>
+        <CategoryIcon color={color} emoji={emoji} size={100} />
       </View>
       <STextField placeholder='Name' value={name} onChangeText={setName} icon={<Entypo name="pencil" />} />
       <SColorPicker color={color} setColor={setColor} />
