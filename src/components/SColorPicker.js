@@ -1,18 +1,20 @@
 import React, { useEffect } from 'react'
 import {ScrollView, TouchableOpacity} from 'react-native'
-import useStyle from '../util/useStyle'
 
 const colors = [
-  '#f57f17',
-  '#64dd17',
-  '#00e5ff',
-  '#64b5f6',
-  '#ff4081',
-  '#78909c',
-  '#e53935',
-  '#4a148c',
-  '#f48fb1',
-  '#3949ab'
+  '#F44336',
+  '#F48FB1',
+  '#9C27B0',
+  '#303F9F',
+  '#03A9F4',
+  '#009688',
+  '#4CAF50',
+  '#FFEB3B',
+  '#FF9800',
+  '#795548',
+  '#9E9E9E',
+  '#607D8B',
+  '#333'
 ]
 
 export default function SColorPicker({color: current, setColor}) {

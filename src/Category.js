@@ -11,7 +11,8 @@ import { getMonthlyCategories } from './util/DateTools'
 import { getCostString } from './util/currency'
 
 export default function Category({route, navigation}) {
-  const {category} = route.params
+  const {categories} = useContext(dataContext)
+  const category = categories.find(category => category.id == route.params.category.id)
   const style = useStyle()
 
   const [name, setName] = useState(category.name)
