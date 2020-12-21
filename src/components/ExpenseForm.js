@@ -1,15 +1,14 @@
 import React, { useContext, useState } from 'react'
-import { View, FlatList, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity, ScrollView } from 'react-native'
 import { Feather, FontAwesome5 } from '@expo/vector-icons'
 import dataContext from '../dataContext'
 import SButton from './SButton'
 import STextField from './STextField'
 import SDatePicker from './SDatePicker'
 import SText from './SText'
-import SSelectionSlider from './SSelectionSlider'
 import useStyle from '../util/useStyle'
 import CategoryIcon from './CategoryIcon'
-
+import SNewCategoryButton from './SNewCategoryButton'
 
 export default function ExpenseForm({text, setText, category, setCategory, date, setDate, cost, setCost, submit, submitTitle}) {
   const [error, setError] = useState('')
@@ -41,11 +40,9 @@ export default function ExpenseForm({text, setText, category, setCategory, date,
     <View>
       <STextField placeholder='Text' value={text} onChangeText={setText}  icon={<Feather name="file-text" />} />
       <STextField placeholder='Cost' value={cost} onChangeText={setCost} keyboardType='number-pad' icon={<FontAwesome5 name="coins" />} />
-      <FlatList
-        data={categories}TouchableOpacity
-        showsHorizontalScrollIndicator={false}
-        horizontal={true}
-        renderItem={({item}) => (
+      <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
+        <SNewCategoryButton />
+        {categories.map(item => (
           <TouchableOpacity 
             style={{
               backgroundColor: item.id == category ? style.secondaryColor : style.foregroundColor, 
@@ -59,8 +56,8 @@ export default function ExpenseForm({text, setText, category, setCategory, date,
           >
             <CategoryIcon color={item.color} emoji={item.emoji} size={40} text={item.name} />
           </TouchableOpacity>
-        )}
-      />
+        ))}
+      </ScrollView>
       <SDatePicker date={date} onDateChange={setDate} />
       {!!error && <SText color={style.errorColor}>{error}</SText>}
       <SButton text={submitTitle} action={handleSubmit} />
