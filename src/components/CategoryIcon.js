@@ -7,7 +7,7 @@ export default function CategoryIcon({emoji, color, size, text}) {
     <View style={{alignItems: 'center'}}>
       <View
         style={{
-          backgroundColor: color, 
+          backgroundColor: color ? color : null, 
           width: size, 
           height: size, 
           borderRadius: size / 2,

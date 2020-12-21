@@ -47,14 +47,14 @@ export default function ExpenseForm({text, setText, category, setCategory, date,
             style={{
               backgroundColor: item.id == category ? style.secondaryColor : style.foregroundColor, 
               marginRight: 5, 
-              padding: 10, 
+              padding: 5, 
               borderRadius: 10,
               marginVertical: 5
             }}
             onPress={() => setCategory(item.id)}
             key={item.id}
           >
-            <CategoryIcon color={item.color} emoji={item.emoji} size={40} text={item.name} />
+            <CategoryIcon emoji={item.emoji} size={40} text={item.name} />
           </TouchableOpacity>
         ))}
       </ScrollView>
