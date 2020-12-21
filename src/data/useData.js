@@ -40,6 +40,10 @@ export default function useData() {
     firebaseApi.storeData(user.uid, {
       expenses, categories, currency, theme
     })
+    Analytics.setUserProperty('numCategories', categories.length.toString())
+    Analytics.setUserProperty('numExpenses', expenses.length.toString())
+    Analytics.setUserProperty('currency', currency)
+    Analytics.setUserProperty('theme', theme)
   }
 
   function addExpense(expense) {
