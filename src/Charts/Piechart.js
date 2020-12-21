@@ -28,9 +28,9 @@ export default function ExpensePie({width}) {
       }))
   
   return (
-    <View style={{width, paddingTop: 50}}>
+    <View style={{width, paddingTop: 70}}>
       <View>
-        <PieChart style={{ height: 230 }} innerRadius='68%' padAngle={ .04 } data={pieData}>
+        <PieChart style={{ height: 250 }} innerRadius='68%' padAngle={ .04 } data={pieData}>
           <Labels />
         </PieChart>
         <View style={{position: 'absolute', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
@@ -44,7 +44,7 @@ export default function ExpensePie({width}) {
         keyExtractor={month => month.string}
         textExtractor={month => month.string}
         selectColor={style.primaryColor}
-        boxStyle={{marginTop: 20}}
+        boxStyle={{marginTop: 40}}
       />
     </View>
   )

@@ -14,7 +14,7 @@ export default function ExpenseSnake({width}) {
 
   return (
     <ScrollView
-      style={{width, height: 360}}
+      style={{width, height: 405}}
       contentContainerStyle={{paddingTop: 40}}
     >
       {expenses.map(expense => {
@@ -38,7 +38,7 @@ export default function ExpenseSnake({width}) {
                 style={{
                   backgroundColor: expense.category.color,
                   width: 30,
-                  height: expense.cost / 15,
+                  height: expense.cost / 17,
                   borderRadius: 5,
                   marginRight: 10,
                   marginVertical: 2

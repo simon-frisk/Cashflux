@@ -46,7 +46,7 @@ function MonthBar({currency, month, categories, highestMonthCost, active}) {
         <SText fontSize={15}>{getCostString(month.total, currency)}</SText>
         {categories.map(category => {
           const current = month[category.id] || 0
-          const height = current / highestMonthCost * 250
+          const height = current / highestMonthCost * 300
             if(height < 5) return
             else return (
               <BarBlock height={height} category={category} key={category.name.toString() + month.string} active={active} />
