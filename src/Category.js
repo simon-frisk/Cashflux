@@ -11,11 +11,9 @@ import { getMonthlyCategories } from './util/DateTools'
 import { getCostString } from './util/currency'
 
 export default function Category({route, navigation}) {
-  const {categories} = useContext(dataContext)
+  const { deleteCategory, expenses, categories, currency} = useContext(dataContext)
   const category = categories.find(category => category.id == route.params.category.id)
   const style = useStyle()
-
-  const { deleteCategory, expenses} = useContext(dataContext)
 
   function handleDelete() {
     let expensesLeft = false
@@ -35,6 +33,7 @@ export default function Category({route, navigation}) {
   return (
     <SPageContainer>
       <CategoryGraph category={category} />
+      <CategoryStats category={category} expenses={expenses} currency={currency} />
       <SButton text='Edit' action={() => navigation.navigate('Editcategory', {category})} />
       <SButton
         style={{backgroundColor: style.errorColor}} 
@@ -108,5 +107,33 @@ function MonthPortion({height, color}) {
         borderRadius: 10
       }}
     />
+  )
+}
+
+function CategoryStats({category, expenses, currency}) {
+  const style = useStyle()
+  const monthlyCategories = getMonthlyCategories(expenses)
+  let totalCategoryCost = 0
+  let totalCost = 0
+
+  for(const month of monthlyCategories) {
+    totalCategoryCost += month[category.id] || 0
+    totalCost += month.total
+  }
+
+  const averageCategoryCost = Math.round(totalCategoryCost / monthlyCategories.length) || 0
+  const averageCategoryPercentage = Math.round(totalCategoryCost / totalCost * 100) || 0
+
+  return (
+    <View style={{
+      padding: 10,
+      backgroundColor: style.foregroundColor,
+      borderRadius: 10,
+      marginBottom: 20
+    }}>
+      <SText fontSize={20}>Average monthly cost</SText>
+      <SText>{getCostString(averageCategoryCost, currency)}</SText>
+      <SText>{averageCategoryPercentage}%</SText>
+    </View>
   )
 }
