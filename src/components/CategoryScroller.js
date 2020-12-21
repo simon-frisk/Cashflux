@@ -3,19 +3,31 @@ import { ScrollView, TouchableOpacity, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import SText from '../components/SText'
 import dataContext from '../dataContext'
+import useStyle from '../util/useStyle'
 
 export default function Categories() {
   const {categories} = useContext(dataContext)
   const navigation = useNavigation()
+  const style = useStyle()
 
   return (
+    <View
+      style={{
+        backgroundColor: style.foregroundColor,
+        borderRadius: 15,
+        paddingVertical: 10,
+        paddingHorizontal: 2,
+        marginTop: 10,
+        marginBottom: 5
+      }}
+    >
     <ScrollView
       horizontal={true}
-      contentContainerStyle={{paddingVertical: 10}}
+      showsHorizontalScrollIndicator={false}
     >
       <TouchableOpacity
         onPress={() => navigation.navigate('Addcategory')}
-        style={{alignItems: 'center', marginRight: 10}}
+        style={{alignItems: 'center', marginHorizontal: 10}}
       >
         <View 
           style={{
@@ -41,7 +53,7 @@ export default function Categories() {
               height: 50, 
               borderRadius: 25,
               borderColor: category.color,
-              borderWidth: 2,
+              borderWidth: 3,
               alignItems: 'center',
               justifyContent: 'center',
             }}
@@ -52,5 +64,6 @@ export default function Categories() {
         </TouchableOpacity>
       ))}
     </ScrollView>
+    </View>
   )
 }
