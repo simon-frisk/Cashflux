@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "865404205910",
+    "project_id": "cashflux-cd86a",
+    "storage_bucket": "cashflux-cd86a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:865404205910:android:7a9aa01b73aa2eb93ab4f7",
+        "android_client_info": {
+          "package_name": "com.expenses.expensesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "865404205910-54lo2cg6597uj1msj3h6jadft9m4o0mq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZSW6nXGEPcsHE24TYgnIs0OQSjT9u7fo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "865404205910-54lo2cg6597uj1msj3h6jadft9m4o0mq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "865404205910-dklk1drcugck4vgogesn8posjk3g5gfm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.expenses.expensesapp",
+                "app_store_id": "1543618784"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
