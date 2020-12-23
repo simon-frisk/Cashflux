@@ -1,41 +1,38 @@
 import React, { useContext } from 'react'
 import * as Analytics from 'expo-firebase-analytics'
-import { View } from 'react-native'
+import { Cell, Section, TableView } from 'react-native-tableview-simple'
+import { View, ScrollView } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import * as WebBrowser from 'expo-web-browser'
 import dataContext from './dataContext'
-import SText from './components/SText'
-import SSelectionSlider from './components/SSelectionSlider'
-import SButton from './components/SButton'
-import SPageContainer from './components/SPageContainer'
 import useStyle from './util/useStyle'
 import CurrencySelector from './components/CurrrencySelector'
+import SPageContainer from './components/SPageContainer'
 
 export default function Options() {
+  const style = useStyle()
+
   return (
-    <SPageContainer>
-      <CurrencySelector />
-      <ThemeSelector />
-      <Account />
-      <More />
-    </SPageContainer>
+    <ScrollView>
+      <SPageContainer><CurrencySelector /></SPageContainer>
+      <TableView appearance={style.themeMode == 'Dark' ? 'dark' : 'light'}>
+        <ThemeSelector />
+        <Account />
+        <More />
+      </TableView>
+    </ScrollView>
   )
 }
 
 function ThemeSelector() {
   const { theme, setTheme } = useContext(dataContext)
-  
+
   return (
-    <>
-      <SText fontSize={35}>Theme</SText>
-      <SSelectionSlider
-        items={['System', 'Light', 'Dark']}
-        selected={theme}
-        setSelected={setTheme}
-        keyExtractor={theme => theme}
-        textExtractor={theme => theme}
-      />
-    </>
+    <Section header='Theme'>
+      <Cell title='Light' accessory={theme == 'Light' ? 'Checkmark' : null} onPress={() => setTheme('Light')} />
+      <Cell title='Dark' accessory={theme == 'Dark' ? 'Checkmark' : null} onPress={() => setTheme('Dark')} />
+      <Cell title='System' accessory={theme == 'System' ? 'Checkmark' : null} onPress={() => setTheme('System')} />
+    </Section>
   )
 }
 
@@ -50,47 +47,32 @@ function Account() {
 
   return (
     <View>
-      <SText fontSize={35}>Account</SText>
-      {user.isAnonymous === false ? (
-        <>
-          <SText>Signed in {user.email}</SText>
-          <SButton text='Signout' action={handleSignout} />
-        </>
-      ) : (
-        <>
-          <SText>Create or log in to an account to save your data and sync it across devices</SText>
-          <View style={{flexDirection: 'row'}}>
-            <SButton 
-              text='Sign up' 
-              action={() => navigation.navigate('Signup')}
-              style={{marginVertical: 10, marginRight: 10}}
-            />
-            <SButton 
-              text='Sign in' 
-              action={() => navigation.navigate('Signin')}
-              style={{marginVertical: 10, marginRight: 10}}
-            />
-          </View>
-        </>
-      )}
+        {user.isAnonymous === false ? (
+          <Section header='Account'>
+            <Cell title='Sign out' onPress={handleSignout} />
+        </Section>
+        ) : (
+          <Section header='Account'>
+            <Cell title='Sign in' onPress={() => navigation.navigate('Signin')} />
+            <Cell title='Sign up' onPress={() => navigation.navigate('Signup')} />
+          </Section>
+        )}
     </View>
   )
 }
 
 function More() {
-  const style = useStyle()
-
   return (
-    <View>
-      <SText fontSize={35}>More</SText>
-      <SText>For privacy policy and support, visit {' '}
-        <SText
-          style={{color: style.primaryColor}}
-          onPress={() =>
-            WebBrowser.openBrowserAsync('https://cashflux.simonfrisk.com')
-          }
-        >cashflux website</SText>
-      </SText>
-    </View>
+    <Section header='More'>
+      <Cell title='Cashflux website' onPress={() =>
+        WebBrowser.openBrowserAsync('https://cashflux.simonfrisk.com')
+      } />
+      <Cell title='Privacy Policy' onPress={() =>
+        WebBrowser.openBrowserAsync('https://cashflux.simonfrisk.com/privacypolicy')
+      } />
+      <Cell title='Contact and suport' onPress={() =>
+        WebBrowser.openBrowserAsync('https://cashflux.simonfrisk.com/contact')
+      } />
+    </Section>
   )
 }
