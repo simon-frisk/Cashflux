@@ -2,7 +2,7 @@ import WidgetKit
 import SwiftUI
 
 struct SharedData: Decodable {
-  let totalCost: Int
+  let totalCostString: String
   let categories: [Category]
 }
 
@@ -19,7 +19,7 @@ struct SimpleEntry: TimelineEntry {
   let data: SharedData
 }
 
-let testData = SharedData(totalCost: 1000, categories: [
+let testData = SharedData(totalCostString: "6539kr", categories: [
   Category(id: 4, name: "Hello", emoji: "💻", color: "#333", percentage: 60)
 ])
 
@@ -40,8 +40,6 @@ struct Provider: TimelineProvider {
     if(sharedDefaults != nil) {
       do {
         let shared = sharedDefaults?.string(forKey: "widgetData")
-        print("hello")
-        print(shared)
         if(shared != nil) {
           data = try JSONDecoder().decode(SharedData.self, from: shared!.data(using: .utf8)!)
         }
@@ -62,8 +60,12 @@ struct widgetEntryView : View {
     var body: some View {
       VStack {
         HStack {
-          Text("This month: \(entry.data.totalCost)")
-            .font(.system(size: 22))
+          VStack(alignment: .leading){
+            Text("This month")
+              .foregroundColor(Color.gray)
+            Text(String(entry.data.totalCostString))
+              .font(.title)
+          }
           Spacer()
         }
         GeometryReader {geometry in

@@ -1,8 +1,9 @@
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
+import { getCostString } from './currency'
 
 const appGroup = 'group.com.cashflux'
 
-export default async function(monthStatistics, categories) {
+export default async function(monthStatistics, categories, currency) {
   try {
     const categoriesData = []
     for(const categoryId in monthStatistics.current.categories) {
@@ -17,7 +18,7 @@ export default async function(monthStatistics, categories) {
     } 
     const data = {
       categories: categoriesData,
-      totalCost: monthStatistics.current.total
+      totalCostString: getCostString(monthStatistics.current.total, currency)
     }
     console.log(data)
     await SharedGroupPreferences.setItem('widgetData', data, appGroup)
