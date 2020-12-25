@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { View, TouchableOpacity, ScrollView } from 'react-native'
-import { Feather, FontAwesome5 } from '@expo/vector-icons'
+import Feather from 'react-native-vector-icons/Feather'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import dataContext from '../dataContext'
 import SButton from './SButton'
 import STextField from './STextField'

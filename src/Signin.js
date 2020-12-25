@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import * as Analytics from 'expo-firebase-analytics'
-import { MaterialIcons, FontAwesome } from '@expo/vector-icons'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import SButton from './components/SButton'
 import SPageContainer from './components/SPageContainer'
 import SText from './components/SText'

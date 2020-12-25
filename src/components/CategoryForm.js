@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
-import { Entypo } from '@expo/vector-icons'
+import Entypo from 'react-native-vector-icons/Entypo'
 import SColorPicker from './SColorPicker'
 import SText from './SText'
 import STextField from './STextField'

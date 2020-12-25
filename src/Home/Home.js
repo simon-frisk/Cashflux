@@ -1,6 +1,6 @@
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
-import { Octicons } from '@expo/vector-icons'
+import Octicons from 'react-native-vector-icons/Octicons'
 import Charts from '../Charts/Charts'
 import CategoryScroller from '../components/CategoryScroller'
 import ExpenseList from './ExpenseList'
