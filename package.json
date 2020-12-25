@@ -31,6 +31,7 @@
     "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "3.1.9",
     "react-native-screens": "^2.16.1",
+    "react-native-shared-group-preferences": "^1.1.20",
     "react-native-svg": "12.1.0",
     "react-native-svg-charts": "^5.4.0",
     "react-native-tableview-simple": "^4.2.1",
@@ -44,6 +45,6 @@
     "react-test-renderer": "~16.13.1"
   },
   "private": true,
-  "name": "Cashflux-1",
+  "name": "cashflux",
   "version": "1.0.0"
 }

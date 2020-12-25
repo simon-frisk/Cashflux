@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler'
-import React, { useRef, useContext } from 'react'
+import React, { useRef, useContext, useEffect } from 'react'
 import { ActivityIndicator, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { enableScreens } from 'react-native-screens'
@@ -19,6 +19,7 @@ import Signup from './Signup'
 import Signin from './Signin'
 import Getstarted from './Getstarted'
 import EditCategory from './EditCategory'
+import shareToShared from './util/shareToShared'
 
 enableScreens()
 const Stack = createNativeStackNavigator()
@@ -28,6 +29,10 @@ function Main() {
   const style = useStyle()
   const routeNameRef = useRef()
   const navigationRef = useRef()
+
+  useEffect(() => {
+    shareToShared()
+  }, [])
 
   if (!initialLoadDone)
     return (
