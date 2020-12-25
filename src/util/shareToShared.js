@@ -4,10 +4,10 @@ const appGroup = 'group.com.cashflux'
 
 export default async function(monthStatistics, categories) {
   try {
-    const data = []
+    const categoriesData = []
     for(const categoryId in monthStatistics.current.categories) {
       const category = categories.find(category => category.id == categoryId)
-      data.push({
+      categoriesData.push({
         id: category.id,
         name: category.name,
         emoji: category. emoji,
@@ -15,6 +15,11 @@ export default async function(monthStatistics, categories) {
         percentage: monthStatistics.current.categories[categoryId].percentage
       })
     } 
+    const data = {
+      categories: categoriesData,
+      totalCost: monthStatistics.current.total
+    }
+    console.log(data)
     await SharedGroupPreferences.setItem('widgetData', data, appGroup)
   } catch(error) {
     console.log(error)
