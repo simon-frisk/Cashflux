@@ -3,7 +3,7 @@ import { getCostString } from './currency'
 
 const appGroup = 'group.com.cashflux'
 
-export default async function(monthStatistics, categories, currency) {
+export default async function(monthStatistics, categories, currency, theme) {
   try {
     const categoriesData = []
     for(const categoryId in monthStatistics.current.categories) {
@@ -15,12 +15,12 @@ export default async function(monthStatistics, categories, currency) {
         color: category.color,
         percentage: monthStatistics.current.categories[categoryId].percentage
       })
-    } 
+    }
     const data = {
       categories: categoriesData,
+      theme,
       totalCostString: getCostString(monthStatistics.current.total, currency)
     }
-    console.log(data)
     await SharedGroupPreferences.setItem('widgetData', data, appGroup)
   } catch(error) {
     console.log(error)

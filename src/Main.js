@@ -25,14 +25,14 @@ enableScreens()
 const Stack = createNativeStackNavigator()
 
 function Main() {
-  const {initialLoadDone, user, categories, monthStatistics, currency} = useContext(dataContext)
+  const {initialLoadDone, user, categories, monthStatistics, currency, theme} = useContext(dataContext)
   const style = useStyle()
   const routeNameRef = useRef()
   const navigationRef = useRef()
 
   useEffect(() => {
-    shareToShared(monthStatistics, categories, currency)
-  }, [monthStatistics])
+    shareToShared(monthStatistics, categories, currency, style.themeMode)
+  }, [monthStatistics, currency, theme])
 
   if (!initialLoadDone)
     return (
