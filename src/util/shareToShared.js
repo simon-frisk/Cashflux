@@ -2,28 +2,20 @@ import SharedGroupPreferences from 'react-native-shared-group-preferences'
 
 const appGroup = 'group.com.cashflux'
 
-const testData = [
-  {
-    id: 5,
-    name: "Food",
-    emoji: "📱",
-    color: "#47f",
-    percentage: 40
-  },
-  {
-    id: 6,
-    name: "Other",
-    emoji: "📱",
-    color: "#333",
-    percentage: 60
-  },
-]
-
-export default async function() {
+export default async function(monthStatistics, categories) {
   try {
-    await SharedGroupPreferences.setItem('widgetData', testData, appGroup)
-    const res = await SharedGroupPreferences.getItem('widgetData', appGroup)
-    console.log(res)
+    const data = []
+    for(const categoryId in monthStatistics.current.categories) {
+      const category = categories.find(category => category.id == categoryId)
+      data.push({
+        id: category.id,
+        name: category.name,
+        emoji: category. emoji,
+        color: category.color,
+        percentage: monthStatistics.current.categories[categoryId].percentage
+      })
+    } 
+    await SharedGroupPreferences.setItem('widgetData', data, appGroup)
   } catch(error) {
     console.log(error)
   }

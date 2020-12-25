@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import * as Statistics from '../util/Statistics'
 import * as Analytics from 'expo-firebase-analytics'
 import * as firebaseApi from './firebase'
 
@@ -8,10 +9,13 @@ export default function useData() {
   const [expenses, setExpenses] = useState([])
   const [theme, setTheme] = useState('Dark')
   const [user, setUser] = useState()
+  const [monthStatistics, setMonthStatistics] = useState()
   const [initialLoadDone, setInitialLoadDone] = useState(false)
 
   useEffect(() => loadUser(), [])
   useEffect(() => subscribeData(), [user])
+
+  useEffect(() => {setMonthStatistics(Statistics.getCatgegoryStatistics(categories, mapExpenses()))}, [expenses, categories])
 
   function loadUser() {
     return firebaseApi.subscribeUserChange(async newUser => {
@@ -140,6 +144,7 @@ export default function useData() {
     signout: firebaseApi.signout,
     theme,
     setTheme: theme => saveData(expenses, categories, currency, theme),
-    initialLoadDone
+    initialLoadDone,
+    monthStatistics
   }
 }
