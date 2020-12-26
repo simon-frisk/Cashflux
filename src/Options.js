@@ -18,9 +18,9 @@ export default function Options() {
       <TableView appearance={style.themeMode == 'Dark' ? 'Dark' : 'light'} customAppearances={{
         Dark: {
             colors: {
-              background: '#222',
+              background: '#1a1a1a',
               muted: '#59595d',
-              separatorColor: '#777',
+              separatorColor: '#555',
               body: '#FFF',
               primary: '#0f64ee',
               secondary: '#aeaeae',

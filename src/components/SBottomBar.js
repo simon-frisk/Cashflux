@@ -15,7 +15,7 @@ export default function SBottomBar({children}) {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingBottom: 30,
+        paddingBottom: 20,
         paddingHorizontal: 30,
         paddingTop: 10,
         backgroundColor: style.backgroundColor,
