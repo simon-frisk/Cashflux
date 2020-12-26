@@ -43,7 +43,7 @@ function Intro({onDone}) {
         if(index != data.length - 1) setIndex(index + 1)
         else onDone()
       }
-      setMode(mode == 'in' ? 'out' : 'in')
+      else setMode(mode == 'in' ? 'out' : 'in')
     }, 2200)
   }, [mode])
 
@@ -74,13 +74,7 @@ function Account({onDone}) {
   return (
     <SPageContainer>
       <SText fontSize={35}>Account</SText>
-      <SText>
-        Cashflux can be used without an account, but it's recommended to have one
-        to sync data between devices and prevent data loss. If you have an account
-        from before, sign in to import all data. This can also be done later on
-        the options page.
-      </SText>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 25}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <SButton 
             text='Sign up' 
             action={() => navigation.navigate('Signup')}
