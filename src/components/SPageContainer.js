@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, View } from "react-native"
+import { ScrollView } from "react-native"
 
 export default function SPageContainer(props) {
   //Container for whole page
