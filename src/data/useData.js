@@ -12,7 +12,7 @@ export default function useData() {
   const [monthStatistics, setMonthStatistics] = useState()
   const [initialLoadDone, setInitialLoadDone] = useState(false)
 
-  useEffect(() => firebaseApi.subscribeUserChange(user => {setUser(user);setInitialLoadDone(true); console.log(user)}), [])
+  useEffect(() => firebaseApi.subscribeUserChange(user => {setUser(user);setInitialLoadDone(true)}), [])
   useEffect(() => subscribeData(), [user])
 
   useEffect(() => {setMonthStatistics(Statistics.getCatgegoryStatistics(categories, mapExpenses()))}, [expenses, categories])

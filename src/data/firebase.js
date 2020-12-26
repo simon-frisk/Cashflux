@@ -6,20 +6,17 @@ export function subscribeUserChange(onChange) {
 }
 
 export async function signupemail(email, password) {
-  console.log('sign up')
   return auth()
     .createUserWithEmailAndPassword(email, password)
 }
 
 export async function signinemail(email, password) {
-  console.log('signin')
   return auth()
     .signInWithEmailAndPassword(email, password)
 }
 
 export async function signout() {
   await auth().signOut()
-  console.log('signout')
 }
 
 export function subscribeData(userId, setData) {
