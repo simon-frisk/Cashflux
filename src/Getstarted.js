@@ -1,11 +1,17 @@
-import React, { useEffect, useState} from 'react'
-import { Animated } from 'react-native'
+import React, { useEffect, useState, useContext } from 'react'
+import { Animated, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import SButton from './components/SButton'
 import SPageContainer from './components/SPageContainer'
 import SText from './components/SText'
 import CategoryScroller from './components/CategoryScroller'
 import CurrencySelector from './components/CurrrencySelector'
+import analytics from '@react-native-firebase/analytics'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import STextField from './components/STextField'
+import dataContext from './dataContext'
+import useStyle from './util/useStyle'
 
 export default function GetStarted() {
   const [intro, setIntro] = useState(true)
@@ -61,19 +67,41 @@ function Intro({onDone}) {
 
 function Account() {
   const navigation = useNavigation()
+  const style = useStyle()
 
   return (
     <SPageContainer>
-      <SText fontSize={35}>Account</SText>
-      <SButton 
-        text='Sign up' 
-        action={() => navigation.navigate('Signup')}
-      />
-      <SButton 
-        text='Sign in' 
-        action={() => navigation.navigate('Signin')}
-      />
+      <SText fontSize={37} style={{marginTop: '40%'}}>Signup</SText>
+      <Signup />
+      <TouchableOpacity onPress={() => navigation.navigate('Signin')}>
+        <SText color={style.primaryColor}>Already have an account? Sign in!</SText>
+      </TouchableOpacity>
     </SPageContainer>
+  )
+}
+
+function Signup() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState()
+  const {signupemail} = useContext(dataContext)
+  const style = useStyle()
+
+  async function submit() {
+    const result = await signupemail(email, password)
+    if(result) setError(result)
+    else {
+      analytics().logSignUp({method: 'email'})
+    }
+  }
+
+  return (
+    <>
+      <STextField placeholder='email' value={email} onChangeText={setEmail} autoCapitalize='none' keyboardType='email-address' icon={<MaterialIcons name="email" />} />
+      <STextField placeholder='password' value={password} onChangeText={setPassword} secureTextEntry={true} icon={<FontAwesome name="user-secret" />} />
+      {!!error && <SText color={style.errorColor}>{error}</SText>}
+      <SButton text='Sign up' action={submit} />
+    </>
   )
 }
 

@@ -15,7 +15,6 @@ import Expense from './Expense'
 import AddExpense from './AddExpense'
 import Category from './Category'
 import AddCategory from './AddCategory'
-import Signup from './Signup'
 import Signin from './Signin'
 import Getstarted from './Getstarted'
 import EditCategory from './EditCategory'
@@ -93,7 +92,6 @@ function Main() {
              : (
                <>
                 <Stack.Screen name='Getstarted' component={Getstarted} options={{title: 'Get started', headerShown: false}} />
-                <Stack.Screen name='Signup' component={Signup} />
                 <Stack.Screen name='Signin' component={Signin} />
                </>
             )
