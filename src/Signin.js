@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import * as Analytics from 'expo-firebase-analytics'
+import analytics from '@react-native-firebase/analytics'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import SButton from './components/SButton'
@@ -9,7 +9,7 @@ import STextField from './components/STextField'
 import dataContext from './dataContext'
 import useStyle from './util/useStyle'
 
-export default function Signin({navigation}) {
+export default function Signin() {
   const style = useStyle()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -20,8 +20,7 @@ export default function Signin({navigation}) {
     const result = await signinemail(email, password)
     if(result) setError(result)
     else {
-      navigation.goBack()
-      Analytics.logEvent('Signin')
+      analytics().logLogin({method: 'email'})
     }
   }
 

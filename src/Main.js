@@ -4,7 +4,7 @@ import { ActivityIndicator, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { enableScreens } from 'react-native-screens'
 import { createNativeStackNavigator } from 'react-native-screens/native-stack'
-import * as Analytics from 'expo-firebase-analytics'
+import analytics from '@react-native-firebase/analytics'
 import { StatusBar } from 'expo-status-bar'
 import useData from './data/useData'
 import dataContext from './dataContext'
@@ -49,42 +49,55 @@ function Main() {
         ref={navigationRef}
         onReady={() => {
           routeNameRef.current = navigationRef.current.getCurrentRoute().name
-          Analytics.setCurrentScreen(routeNameRef.current)
+          analytics().logScreenView({
+            screen_name: routeNameRef.current,
+            screen_class: routeNameRef.current
+          })
         }}
         onStateChange={() => {
           const previousRouteName = routeNameRef.current;
           const currentRouteName = navigationRef.current.getCurrentRoute().name
-          if (previousRouteName !== currentRouteName)
-            Analytics.setCurrentScreen(currentRouteName)
+          if (previousRouteName !== currentRouteName) {
+            analytics().logScreenView({
+              screen_name: currentRouteName,
+              screen_class: currentRouteName
+            })
+          }
           routeNameRef.current = currentRouteName
         }}
       >
         <Stack.Navigator 
-          initialRouteName={
-            user.isAnonymous && categories.length == 0
-              ? 'Getstarted'
-              : 'Home'
-          }
           screenOptions={{
             headerTitleStyle: {
               ...style.font
             }
           }}
         >
-          <Stack.Screen
-            name='Home'
-            component={Home}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen name='Options' component={Options} />
-          <Stack.Screen name='Expense' component={Expense} />
-          <Stack.Screen name='Addexpense' component={AddExpense} options={{title:'Add expense'}} />
-          <Stack.Screen name='Category' component={Category} options={({route}) => ({title: categories.find(category => category.id == route.params.category.id).name})} />
-          <Stack.Screen name='Addcategory' component={AddCategory} options={{title: 'Add category'}} />
-          <Stack.Screen name='Editcategory' component={EditCategory} options={{title: 'Edit category'}} />
-          <Stack.Screen name='Signup' component={Signup} />
-          <Stack.Screen name='Signin' component={Signin} />
-          <Stack.Screen name='Getstarted' component={Getstarted} options={{title: 'Get started', headerShown: false}} />
+          {
+            user
+             ? (
+               <>
+                <Stack.Screen
+                  name='Home'
+                  component={Home}
+                  options={{headerShown: false}}
+                />
+                <Stack.Screen name='Options' component={Options} />
+                <Stack.Screen name='Expense' component={Expense} />
+                <Stack.Screen name='Addexpense' component={AddExpense} options={{title:'Add expense'}} />
+                <Stack.Screen name='Category' component={Category} options={({route}) => ({title: categories.find(category => category.id == route.params.category.id).name})} />
+                <Stack.Screen name='Addcategory' component={AddCategory} options={{title: 'Add category'}} />
+                <Stack.Screen name='Editcategory' component={EditCategory} options={{title: 'Edit category'}} />
+               </>
+             )
+             : (
+               <>
+                <Stack.Screen name='Getstarted' component={Getstarted} options={{title: 'Get started', headerShown: false}} />
+                <Stack.Screen name='Signup' component={Signup} />
+                <Stack.Screen name='Signin' component={Signin} />
+               </>
+            )
+          }
         </Stack.Navigator>
       </NavigationContainer>
     </View>

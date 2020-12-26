@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import * as Analytics from 'expo-firebase-analytics'
+import analytics from '@react-native-firebase/analytics'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import SButton from './components/SButton'
@@ -9,19 +9,18 @@ import STextField from './components/STextField'
 import dataContext from './dataContext'
 import useStyle from './util/useStyle'
 
-export default function Signup({navigation}) {
+export default function Signup() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState()
-  const {linkemail} = useContext(dataContext)
+  const {signupemail} = useContext(dataContext)
   const style = useStyle()
 
   async function submit() {
-    const result = await linkemail(email, password)
+    const result = await signupemail(email, password)
     if(result) setError(result)
     else {
-      navigation.goBack()
-      Analytics.logEvent('Signup')
+      analytics().logSignUp({method: 'email'})
     }
   }
 

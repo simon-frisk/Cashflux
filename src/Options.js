@@ -1,8 +1,7 @@
 import React, { useContext } from 'react'
-import * as Analytics from 'expo-firebase-analytics'
+import analytics from '@react-native-firebase/analytics'
 import { Cell, Section, TableView } from 'react-native-tableview-simple'
-import { View, ScrollView } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { ScrollView } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import dataContext from './dataContext'
 import useStyle from './util/useStyle'
@@ -48,27 +47,17 @@ function ThemeSelector() {
 }
 
 function Account() {
-  const {user, signout} = useContext(dataContext)
-  const navigation = useNavigation()
+  const {signout} = useContext(dataContext)
 
   function handleSignout() {
     signout()
-    Analytics.logEvent('Signout')
+    analytics().logEvent('Signout')
   }
 
   return (
-    <View>
-        {user.isAnonymous === false ? (
-          <Section header='Account'>
-            <Cell title='Sign out' onPress={handleSignout} />
-        </Section>
-        ) : (
-          <Section header='Account'>
-            <Cell title='Sign in' onPress={() => navigation.navigate('Signin')} />
-            <Cell title='Sign up' onPress={() => navigation.navigate('Signup')} />
-          </Section>
-        )}
-    </View>
+    <Section header='Account'>
+      <Cell title='Sign out' onPress={handleSignout} />
+    </Section>
   )
 }
 

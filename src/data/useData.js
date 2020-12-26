@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import * as Statistics from '../util/Statistics'
-import * as Analytics from 'expo-firebase-analytics'
+import analytics from '@react-native-firebase/analytics'
 import * as firebaseApi from './firebase'
 
 export default function useData() {
@@ -12,18 +12,10 @@ export default function useData() {
   const [monthStatistics, setMonthStatistics] = useState()
   const [initialLoadDone, setInitialLoadDone] = useState(false)
 
-  useEffect(() => loadUser(), [])
+  useEffect(() => firebaseApi.subscribeUserChange(user => {setUser(user);setInitialLoadDone(true); console.log(user)}), [])
   useEffect(() => subscribeData(), [user])
 
   useEffect(() => {setMonthStatistics(Statistics.getCatgegoryStatistics(categories, mapExpenses()))}, [expenses, categories])
-
-  function loadUser() {
-    return firebaseApi.subscribeUserChange(async newUser => {
-      if(!newUser)
-        newUser = (await firebaseApi.signupananym()).user
-      setUser(newUser)
-    })
-  }
 
   function subscribeData() {
     if(!user) return
@@ -34,20 +26,19 @@ export default function useData() {
         setExpenses(data.expenses)
         setTheme(data.theme)
       } else saveData(expenses, categories, currency, theme)
-      setInitialLoadDone(true)
     })
   }
 
   async function saveData(expenses, categories, currency, theme) {
     if(!user) return
     expenses.sort((e1, e2) => new Date(e1.date) < new Date(e2.date))
-    firebaseApi.storeData(user.uid, {
+    await firebaseApi.storeData(user.uid, {
       expenses, categories, currency, theme
     })
-    Analytics.setUserProperty('numCategories', categories.length.toString())
-    Analytics.setUserProperty('numExpenses', expenses.length.toString())
-    Analytics.setUserProperty('currency', currency)
-    Analytics.setUserProperty('theme', theme)
+    analytics().setUserProperty('numCategories', categories.length.toString())
+    analytics().setUserProperty('numExpenses', expenses.length.toString())
+    analytics().setUserProperty('currency', currency)
+    analytics().setUserProperty('theme', theme)
   }
 
   function addExpense(expense) {
@@ -56,7 +47,7 @@ export default function useData() {
     expense.id = id
     const newExpenses = [...expenses, expense]
     saveData(newExpenses, categories, currency, theme)
-    Analytics.logEvent('AddExpense')
+    analytics().logEvent('AddExpense')
   }
   
   function updateExpense(updated) {
@@ -65,13 +56,13 @@ export default function useData() {
       else return expense
     })
     saveData(newExpenses, categories, currency, theme)
-    Analytics.logEvent('UpdateExpense')
+    analytics().logEvent('UpdateExpense')
   }
   
   function deleteExpense(id) {
     const newExpenses = expenses.filter(expense => expense.id != id)
     saveData(newExpenses, categories, currency, theme)
-    Analytics.logEvent('DeleteExpense')
+    analytics().logEvent('DeleteExpense')
   }
   
   function addCategory(category) {
@@ -80,7 +71,7 @@ export default function useData() {
     category.id = id
     const newCategories = [category, ...categories]
     saveData(expenses, newCategories, currency, theme)
-    Analytics.logEvent('AddCategory')
+    analytics().logEvent('AddCategory')
   }
 
   function updateCategory(updated) {
@@ -89,13 +80,13 @@ export default function useData() {
       else return updated
     })
     saveData(expenses, newCategories, currency, theme)
-    Analytics.logEvent('UpdateCategory')
+    analytics().logEvent('UpdateCategory')
   }
 
   function deleteCategory(id) {
     const newCategories = categories.filter(category => category.id != id)
     saveData(expenses, newCategories, currency, theme)
-    Analytics.logEvent('DeleteCategory')
+    analytics().logEvent('DeleteCategory')
   }
 
   function mapExpenses() {
@@ -109,20 +100,17 @@ export default function useData() {
     })
   }
 
-  async function linkemail(email, password) {
+  async function signinemail(email, password) {
     try {
-      const user = await firebaseApi.linkemail(email, password)
-      setUser({...user})
+      await firebaseApi.signinemail(email, password)
     } catch(error) {
       return error.message
     }
   }
 
-  async function signinemail(email, password) {
+  async function signupemail(email, password) {
     try {
-      const oldUser = user
-      await firebaseApi.signinemail(email, password)
-      firebaseApi.deleteUser(oldUser)
+      await firebaseApi.signupemail(email, password)
     } catch(error) {
       return error.message
     }
@@ -140,7 +128,7 @@ export default function useData() {
     currency,
     setCurrency: currency => saveData(expenses, categories, currency, theme),
     user,
-    linkemail, signinemail,
+    signupemail, signinemail,
     signout: firebaseApi.signout,
     theme,
     setTheme: theme => saveData(expenses, categories, currency, theme),
