@@ -15,7 +15,18 @@ export default function Options() {
   return (
     <ScrollView>
       <SPageContainer><CurrencySelector /></SPageContainer>
-      <TableView appearance={style.themeMode == 'Dark' ? 'dark' : 'light'}>
+      <TableView appearance={style.themeMode == 'Dark' ? 'Dark' : 'light'} customAppearances={{
+        Dark: {
+            colors: {
+              background: '#222',
+              muted: '#59595d',
+              separatorColor: '#777',
+              body: '#FFF',
+              primary: '#0f64ee',
+              secondary: '#aeaeae',
+            },
+        }
+      }}>
         <ThemeSelector />
         <Account />
         <More />

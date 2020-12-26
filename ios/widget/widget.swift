@@ -2,7 +2,8 @@ import WidgetKit
 import SwiftUI
 
 struct SharedData: Decodable {
-  let totalCost: Int
+  let totalCostString: String
+  let theme: String
   let categories: [Category]
 }
 
@@ -19,7 +20,7 @@ struct SimpleEntry: TimelineEntry {
   let data: SharedData
 }
 
-let testData = SharedData(totalCost: 1000, categories: [
+let testData = SharedData(totalCostString: "6539kr", theme: "Dark", categories: [
   Category(id: 4, name: "Hello", emoji: "💻", color: "#333", percentage: 60)
 ])
 
@@ -40,8 +41,6 @@ struct Provider: TimelineProvider {
     if(sharedDefaults != nil) {
       do {
         let shared = sharedDefaults?.string(forKey: "widgetData")
-        print("hello")
-        print(shared)
         if(shared != nil) {
           data = try JSONDecoder().decode(SharedData.self, from: shared!.data(using: .utf8)!)
         }
@@ -60,30 +59,46 @@ struct widgetEntryView : View {
     var entry: Provider.Entry
 
     var body: some View {
-      VStack {
-        HStack {
-          Text("This month: \(entry.data.totalCost)")
-            .font(.system(size: 22))
-          Spacer()
-        }
-        GeometryReader {geometry in
-          HStack(spacing: 2){
-            ForEach(entry.data.categories) {category in
-              ZStack {
-                if(category.percentage > 1) {
-                  Rectangle()
-                    .fill(Color(hex: category.color))
-                    .frame(width: CGFloat(category.percentage * Int(geometry.size.width) / 100), height: 40)
-                    .cornerRadius(5)
-                  Text(category.percentage > 8 ? category.emoji : "")
+      ZStack {
+        entry.data.theme == "Dark" ? Color(hex: "#222") : Color.white
+        VStack {
+          HStack {
+            VStack(alignment: .leading){
+              Text("Expenses this month")
+                .foregroundColor(Color.gray)
+              Text(String(entry.data.totalCostString))
+                .font(.title)
+                .foregroundColor(entry.data.theme == "Dark" ? Color.white : Color.black)
+            }
+            Spacer()
+          }
+          GeometryReader {geometry in
+            HStack(alignment: .top, spacing: 2){
+              ForEach(entry.data.categories) {category in
+                VStack(alignment: .center) {
+                  ZStack {
+                    if(category.percentage > 1) {
+                      Rectangle()
+                        .fill(Color(hex: category.color))
+                        .frame(width: CGFloat(category.percentage * Int(geometry.size.width) / 100), height: 40)
+                        .cornerRadius(5)
+                      Text(category.percentage > 8 ? category.emoji : "")
+                    }
+                  }
+                  if(category.percentage > 23) {
+                    Text(category.name)
+                      .foregroundColor(Color.gray)
+                      .font(.system(size: 12))
+                  }
+                  Spacer()
                 }
               }
             }
           }
         }
+        .padding()
       }
-      .padding()
-    }
+      }
 }
 
 @main
