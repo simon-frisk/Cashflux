@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Dimensions, ScrollView, View, Image } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import SText from '../components/SText'
 import dataContext from '../dataContext'
 import Barchart from './Barchart'
@@ -12,7 +12,7 @@ export default function Charts() {
     const {expenses} = useContext(dataContext)
     const [currentIndex, setCurrentIndex] = useState(0)
     const style = useStyle()
-    const width = Dimensions.get('window').width - 30
+    const [width, setWidth] = useState(0)
 
     if(expenses.length == 0)
         return (
@@ -22,13 +22,15 @@ export default function Charts() {
         )
     
     return (
-        <View>
+        <View onLayout={event => setWidth(event.nativeEvent.layout.width)}>
             <ScrollView
                 horizontal={true}
                 pagingEnabled={true}
                 showsHorizontalScrollIndicator={false}
                 bounces={false}
-                onScroll={event => setCurrentIndex(Math.round(event.nativeEvent.contentOffset.x / width))}
+                onScroll={event => {
+                    setCurrentIndex(Math.round(event.nativeEvent.contentOffset.x / width))
+                }}
                 scrollEventThrottle={16}
             >
                 {components.map((Component, index) => (

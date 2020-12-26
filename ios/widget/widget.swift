@@ -66,6 +66,7 @@ struct widgetEntryView : View {
             VStack(alignment: .leading){
               Text("Expenses this month")
                 .foregroundColor(Color.gray)
+                .font(.system(size: 15))
               Text(String(entry.data.totalCostString))
                 .font(.title)
                 .foregroundColor(entry.data.theme == "Dark" ? Color.white : Color.black)

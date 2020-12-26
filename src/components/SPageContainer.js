@@ -1,19 +1,20 @@
 import React from 'react'
-import { ScrollView } from "react-native"
-import useStyle from "../util/useStyle"
+import { ScrollView, View } from "react-native"
 
 export default function SPageContainer(props) {
-  const style = useStyle()
+  //Container for whole page
   
   return (
-    <ScrollView
-      contentContainerStyle={{
-        paddingVertical: 40,
-        paddingHorizontal: 15,
-        ...props.style
-      }}
-    >
-      {props.children}
-    </ScrollView>
+      <ScrollView
+        contentContainerStyle={{
+          width: '92%',
+          alignSelf: 'center',
+          paddingVertical: 40,
+          maxWidth: 600,
+          ...props.style
+        }}
+      >
+        {props.children}
+      </ScrollView>
   )
 }
