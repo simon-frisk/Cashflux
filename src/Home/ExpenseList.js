@@ -13,7 +13,7 @@ export default () => {
   const monthlyExpenses = getMonthlyExpenses(expenses)
 
   return (
-    <View>
+    <View style={{marginTop: 30}}>
       {monthlyExpenses.map(month => (
         <View key={month.string} style={{marginBottom: 35}}>
           <SText color={style.lightText} fontSize={25} style={{marginBottom: 5}}>{month.string}</SText>

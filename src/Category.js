@@ -1,14 +1,16 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { View, Alert, Animated } from 'react-native'
+import { View, Alert, Animated, TouchableOpacity } from 'react-native'
 import SPageContainer from './components/SPageContainer'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import SText from './components/SText'
 import SButton from './components/SButton'
 import useStyle from './util/useStyle'
 import dataContext from './dataContext'
-import CategoryForm from './components/CategoryForm'
 import { ScrollView } from 'react-native-gesture-handler'
 import { getMonthlyCategories } from './util/DateTools'
 import { getCostString } from './util/currency'
+import SBottomBar from './components/SBottomBar'
+import STextButton from './components/STextButton'
 
 export default function Category({route, navigation}) {
   const { deleteCategory, expenses, categories, currency} = useContext(dataContext)
@@ -31,16 +33,20 @@ export default function Category({route, navigation}) {
   }
 
   return (
-    <SPageContainer>
-      <CategoryGraph category={category} />
-      <CategoryStats category={category} expenses={expenses} currency={currency} />
-      <SButton text='Edit' action={() => navigation.navigate('Editcategory', {category})} />
-      <SButton
-        style={{backgroundColor: style.errorColor}} 
-        text='Delete' 
-        action={handleDelete}
-      />
-    </SPageContainer>
+    <>
+      <SPageContainer>
+        <CategoryGraph category={category} />
+        <CategoryStats category={category} expenses={expenses} currency={currency} />
+      </SPageContainer>
+      <SBottomBar>
+        <TouchableOpacity onPress={() => navigation.navigate('Editcategory', {category})}>
+          <STextButton text='Edit' icon={<AntDesign name='edit' />} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleDelete}>
+          <STextButton text='Delete' icon={<AntDesign name='delete' />} color={style.errorColor} />
+        </TouchableOpacity>
+      </SBottomBar>
+    </>
   )
 }
 
