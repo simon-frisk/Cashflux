@@ -14,8 +14,8 @@ export default function SBottomBar({children}) {
         left: 0,
         width: '100%',
         backgroundColor: style.backgroundColor,
-        borderTopWidth: .3,
-        borderTopColor: style.lightText,
+        borderTopWidth: 1,
+        borderTopColor: style.light,
         
       }}
     >

@@ -7,22 +7,24 @@ const dark = {
   backgroundColor: '#111',
   foregroundColor: '#333',
   interfaceColor: '#333',
+  light: '#333',
   primaryColor: "rgb(10, 132, 255)",
   secondaryColor: '#f80',
   errorColor: '#ff453a',
   text: 'white',
-  lightText: '#aaa'
+  lightText: '#aaa',
 }
 
 const light = {
   backgroundColor: '#f3f3f6',
   foregroundColor: 'white',
   interfaceColor: '#b5b5b5',
+  light: '#ccc',
   primaryColor: "rgb(0, 122, 255)",
   secondaryColor: '#f80',
   errorColor: '#ff453a',
   text: 'black',
-  lightText: '#666'
+  lightText: '#666',
 }
 
 function getNavigationTheme(theme, isDark) {
