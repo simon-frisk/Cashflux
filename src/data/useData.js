@@ -13,17 +13,26 @@ export default function useData() {
   const [loading, setLoading] = useState(true)
   const [initialAuthCheckDone, setInitialAuthCheckDone] = useState(false)
 
-  useEffect(() => firebaseApi.subscribeUserChange(user => {setUser(user);setInitialAuthCheckDone(true)}), [])
+  useEffect(() => firebaseApi.subscribeUserChange(user => {
+    setUser(user);
+    setInitialAuthCheckDone(true)
+  }), [])
+
   useEffect(() => {
     setLoading(true)
     subscribeData()
   }, [user])
 
+  useEffect(() => {
+    if(!user && initialAuthCheckDone) setLoading(false)
+  }, [initialAuthCheckDone])
+
   useEffect(() => {setMonthStatistics(Statistics.getCatgegoryStatistics(categories, mapExpenses()))}, [expenses, categories])
 
   function subscribeData() {
     if(!user) {
-      if(initialAuthCheckDone) setLoading(false)
+      if(initialAuthCheckDone)
+        setLoading(false)
       return
     }
     return firebaseApi.subscribeData(user.uid, data => {
