@@ -7,6 +7,7 @@ import dataContext from './dataContext'
 import useStyle from './util/useStyle'
 import CurrencySelector from './components/CurrrencySelector'
 import SPageContainer from './components/SPageContainer'
+import SText from './components/SText'
 
 export default function Options() {
   const style = useStyle()
@@ -19,13 +20,14 @@ export default function Options() {
             colors: {
               background: '#1a1a1a',
               muted: '#59595d',
-              separatorColor: '#555',
+              separatorColor: '#3a3a3a',
               body: '#FFF',
               primary: '#0f64ee',
               secondary: '#aeaeae',
             },
         }
-      }}>
+      }}
+    >
         <ThemeSelector />
         <Account />
         <More />
@@ -39,9 +41,9 @@ function ThemeSelector() {
 
   return (
     <Section header='Theme'>
-      <Cell title='Light' accessory={theme == 'Light' ? 'Checkmark' : null} onPress={() => setTheme('Light')} />
-      <Cell title='Dark' accessory={theme == 'Dark' ? 'Checkmark' : null} onPress={() => setTheme('Dark')} />
-      <Cell title='System' accessory={theme == 'System' ? 'Checkmark' : null} onPress={() => setTheme('System')} />
+      <Cell title='Light' accessory={theme == 'Light' ? 'Checkmark' : null} onPress={() => setTheme('Light')} image={<SText>🌕</SText>} />
+      <Cell title='Dark' accessory={theme == 'Dark' ? 'Checkmark' : null} onPress={() => setTheme('Dark')} image={<SText>🌑</SText>} />
+      <Cell title='System' accessory={theme == 'System' ? 'Checkmark' : null} onPress={() => setTheme('System')} image={<SText>🌗</SText>} />
     </Section>
   )
 }
@@ -56,7 +58,7 @@ function Account() {
 
   return (
     <Section header='Account'>
-      <Cell title='Sign out' onPress={handleSignout} />
+      <Cell title='Sign out' onPress={handleSignout} image={<SText>👋</SText>} />
     </Section>
   )
 }
@@ -64,15 +66,27 @@ function Account() {
 function More() {
   return (
     <Section header='More'>
-      <Cell title='Cashflux website' onPress={() =>
-        WebBrowser.openBrowserAsync('https://cashflux.simonfrisk.com')
-      } />
-      <Cell title='Privacy Policy' onPress={() =>
-        WebBrowser.openBrowserAsync('https://cashflux.simonfrisk.com/privacypolicy')
-      } />
-      <Cell title='Contact and suport' onPress={() =>
-        WebBrowser.openBrowserAsync('https://cashflux.simonfrisk.com/contact')
-      } />
+      <Cell 
+        title='Cashflux website' 
+        onPress={() =>
+          WebBrowser.openBrowserAsync('https://cashflux.simonfrisk.com')
+        }
+        image={<SText>🌎</SText>}
+      />
+      <Cell 
+        title='Privacy Policy' 
+        onPress={() =>
+          WebBrowser.openBrowserAsync('https://cashflux.simonfrisk.com/privacypolicy')
+        }
+        image={<SText>🔐</SText>}  
+      />
+      <Cell
+        title='Contact and support'
+        onPress={() =>
+          WebBrowser.openBrowserAsync('https://cashflux.simonfrisk.com/contact')
+        }
+        image={<SText>📨</SText>}    
+      />
     </Section>
   )
 }
