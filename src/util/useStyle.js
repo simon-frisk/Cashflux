@@ -15,7 +15,7 @@ const dark = {
 }
 
 const light = {
-  backgroundColor: '#fafafa',
+  backgroundColor: '#eeeef5',
   foregroundColor: 'white',
   interfaceColor: '#b5b5b5',
   primaryColor: "rgb(0, 122, 255)",
