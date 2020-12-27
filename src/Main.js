@@ -29,7 +29,7 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
 });
 
 function Main() {
-  const {initialLoadDone, user, categories, monthStatistics, currency, theme} = useContext(dataContext)
+  const {loading, user, categories, monthStatistics, currency, theme} = useContext(dataContext)
   const style = useStyle()
   const routeNameRef = useRef()
   const navigationRef = useRef()
@@ -50,7 +50,7 @@ function Main() {
     analytics().setUserProperty('notificationsEnabled', enabled.toString())
   }
 
-  if (!initialLoadDone)
+  if (loading)
     return (
       <View style={{backgroundColor: style.backgroundColor, width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center'}}>
         <ActivityIndicator />

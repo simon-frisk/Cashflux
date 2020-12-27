@@ -10,15 +10,22 @@ export default function useData() {
   const [theme, setTheme] = useState('Dark')
   const [user, setUser] = useState()
   const [monthStatistics, setMonthStatistics] = useState()
-  const [initialLoadDone, setInitialLoadDone] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [initialAuthCheckDone, setInitialAuthCheckDone] = useState(false)
 
-  useEffect(() => firebaseApi.subscribeUserChange(user => {setUser(user);setInitialLoadDone(true)}), [])
-  useEffect(() => subscribeData(), [user])
+  useEffect(() => firebaseApi.subscribeUserChange(user => {setUser(user);setInitialAuthCheckDone(true)}), [])
+  useEffect(() => {
+    setLoading(true)
+    subscribeData()
+  }, [user])
 
   useEffect(() => {setMonthStatistics(Statistics.getCatgegoryStatistics(categories, mapExpenses()))}, [expenses, categories])
 
   function subscribeData() {
-    if(!user) return
+    if(!user) {
+      if(initialAuthCheckDone) setLoading(false)
+      return
+    }
     return firebaseApi.subscribeData(user.uid, data => {
       if(data)  {
         setCurrency(data.currency)
@@ -26,6 +33,7 @@ export default function useData() {
         setExpenses(data.expenses)
         setTheme(data.theme)
       } else saveData(expenses, categories, currency, theme)
+      setLoading(false)
     })
   }
 
@@ -132,7 +140,7 @@ export default function useData() {
     signout: firebaseApi.signout,
     theme,
     setTheme: theme => saveData(expenses, categories, currency, theme),
-    initialLoadDone,
+    loading,
     monthStatistics
   }
 }
