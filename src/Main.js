@@ -2,6 +2,7 @@ import 'react-native-gesture-handler'
 import React, { useRef, useContext, useEffect } from 'react'
 import { ActivityIndicator, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
+import messaging from '@react-native-firebase/messaging'
 import { enableScreens } from 'react-native-screens'
 import { createNativeStackNavigator } from 'react-native-screens/native-stack'
 import analytics from '@react-native-firebase/analytics'
@@ -23,6 +24,10 @@ import shareToShared from './util/shareToShared'
 enableScreens()
 const Stack = createNativeStackNavigator()
 
+messaging().setBackgroundMessageHandler(async remoteMessage => {
+  console.log('FCM Message --- : ', remoteMessage);
+});
+
 function Main() {
   const {initialLoadDone, user, categories, monthStatistics, currency, theme} = useContext(dataContext)
   const style = useStyle()
@@ -32,6 +37,18 @@ function Main() {
   useEffect(() => {
     shareToShared(monthStatistics, categories, currency, style.themeMode)
   }, [monthStatistics, currency, theme])
+
+  useEffect(() => {requestPermissions()}, [])
+
+  async function requestPermissions() {
+    const authStatus = await messaging().requestPermission()
+
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL
+    
+    analytics().setUserProperty('notificationsEnabled', enabled.toString())
+  }
 
   if (!initialLoadDone)
     return (
