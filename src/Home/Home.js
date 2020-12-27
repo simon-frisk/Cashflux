@@ -27,7 +27,7 @@ export default function Home({navigation}) {
           <TouchableOpacity onPress={() => navigation.navigate('Options')}>
             <Octicons
               name="gear"
-              size={25}
+              size={27}
               color={style.lightText}
             />
           </TouchableOpacity>

@@ -15,14 +15,14 @@ const dark = {
 }
 
 const light = {
-  backgroundColor: 'rgb(242, 242, 242)',
+  backgroundColor: '#fafafa',
   foregroundColor: 'white',
-  interfaceColor: '#aaa',
+  interfaceColor: '#b5b5b5',
   primaryColor: "rgb(0, 122, 255)",
   secondaryColor: '#f80',
   errorColor: '#ff453a',
   text: 'black',
-  lightText: '#777'
+  lightText: '#666'
 }
 
 function getNavigationTheme(theme, isDark) {
