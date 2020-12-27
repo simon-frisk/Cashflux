@@ -28,6 +28,9 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
   console.log('FCM Message --- : ', remoteMessage);
 });
 
+analytics()
+  .setAnalyticsCollectionEnabled(!__DEV__)
+
 function Main() {
   const {loading, user, categories, monthStatistics, currency, theme} = useContext(dataContext)
   const style = useStyle()
