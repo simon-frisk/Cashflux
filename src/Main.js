@@ -20,6 +20,7 @@ import Signin from './Signin'
 import Getstarted from './Getstarted'
 import EditCategory from './EditCategory'
 import shareToShared from './util/shareToShared'
+import Subscription from './Subscription'
 
 enableScreens()
 const Stack = createNativeStackNavigator()
@@ -107,6 +108,7 @@ function Main() {
                 <Stack.Screen name='Category' component={Category} options={({route}) => ({title: categories.find(category => category.id == route.params.category.id).name})} />
                 <Stack.Screen name='Addcategory' component={AddCategory} options={{title: 'Add category'}} />
                 <Stack.Screen name='Editcategory' component={EditCategory} options={{title: 'Edit category'}} />
+                <Stack.Screen name='Subscription' component={Subscription} />
                </>
              )
              : (

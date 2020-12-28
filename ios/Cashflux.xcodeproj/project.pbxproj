@@ -15,6 +15,7 @@
 		96905EF65AED1B983A6B3ABC /* libPods-Cashflux.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-Cashflux.a */; };
 		A909DF002597805A003B41F7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A909DEFF2597805A003B41F7 /* GoogleService-Info.plist */; };
 		A909DF012597805A003B41F7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A909DEFF2597805A003B41F7 /* GoogleService-Info.plist */; };
+		A910B91D2599D89D0087AFF1 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A910B91C2599D89D0087AFF1 /* StoreKit.framework */; };
 		A9372F0025960C0D00E0A8BB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9372EFF25960C0D00E0A8BB /* WidgetKit.framework */; };
 		A9372F0225960C0D00E0A8BB /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9372F0125960C0D00E0A8BB /* SwiftUI.framework */; };
 		A9372F0525960C0D00E0A8BB /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9372F0425960C0D00E0A8BB /* widget.swift */; };
@@ -60,6 +61,7 @@
 		6C2E3173556A471DD304B334 /* Pods-Cashflux.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cashflux.debug.xcconfig"; path = "Target Support Files/Pods-Cashflux/Pods-Cashflux.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4D352CD337FB3A3BF06240 /* Pods-Cashflux.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cashflux.release.xcconfig"; path = "Target Support Files/Pods-Cashflux/Pods-Cashflux.release.xcconfig"; sourceTree = "<group>"; };
 		A909DEFF2597805A003B41F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A910B91C2599D89D0087AFF1 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		A9372EFE25960C0D00E0A8BB /* widgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = widgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9372EFF25960C0D00E0A8BB /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		A9372F0125960C0D00E0A8BB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -79,6 +81,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96905EF65AED1B983A6B3ABC /* libPods-Cashflux.a in Frameworks */,
+				A910B91D2599D89D0087AFF1 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +123,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A910B91C2599D89D0087AFF1 /* StoreKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				58EEBF8E8E6FB1BC6CAF49B5 /* libPods-Cashflux.a */,
