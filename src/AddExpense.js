@@ -1,10 +1,17 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import dataContext from './dataContext'
 import ExpenseForm from './components/ExpenseForm'
 import SPageContainer from './components/SPageContainer'
+import {boundary} from './Subscription'
 
 export default function AddExpense({navigation}) {
-  const {addExpense} = useContext(dataContext)
+  const {addExpense, expenses, subscription} = useContext(dataContext)
+
+  useEffect(() => {
+    if(expenses.length > boundary && !subscription) {
+      navigation.replace('Subscription')
+    }
+  })
 
   const [category, setCategory] = useState()
   const [date, setDate] = useState(new Date())

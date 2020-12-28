@@ -8,6 +8,8 @@ import useStyle from './util/useStyle'
 import SButton from './components/SButton'
 import dataContext from './dataContext'
 
+export const boundary = 25
+
 const productIds = Platform.select({
   ios: [
     'com.cashflux.1monthstandardsubscription',
@@ -63,7 +65,12 @@ export default function Subscription() {
   return (
     <SPageContainer>
       <View style={{marginBottom: 20}}>
-        <SText fontSize={35}>Subscription</SText>
+        <SText fontSize={35}>{storedSubscription ? 'Subscription' : 'Upgrade account'}</SText>
+        {!storedSubscription && (
+          <SText style={{color: style.lightText}}>
+            Free accounts can add up to {boundary} expenses. Upgrade for unlimited access!
+          </SText>
+        )}
       </View>
       {!!error && (
         <SText color={style.errorColor}>{error}</SText>
