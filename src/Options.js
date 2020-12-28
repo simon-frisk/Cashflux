@@ -62,6 +62,7 @@ function Account() {
     <Section header='Account'>
       <Cell title='Subscription' onPress={() => navigation.navigate('Subscription')} image={<SText>🏡</SText>} />
       <Cell title='Sign out' onPress={handleSignout} image={<SText>👋</SText>} />
+      <Cell title='Change password' onPress={() => navigation.navigate('Resetpassword')} image={<SText>🔓</SText>} />
     </Section>
   )
 }

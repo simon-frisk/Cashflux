@@ -8,8 +8,9 @@ import SText from './components/SText'
 import STextField from './components/STextField'
 import dataContext from './dataContext'
 import useStyle from './util/useStyle'
+import { TouchableOpacity } from 'react-native'
 
-export default function Signin() {
+export default function Signin({navigation}) {
   const style = useStyle()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -30,6 +31,9 @@ export default function Signin() {
       <STextField placeholder='password' value={password} onChangeText={setPassword} secureTextEntry={true} icon={<FontAwesome name="user-secret" />} />
       {!!error && <SText color={style.errorColor}>{error}</SText>}
       <SButton text='Sign in' action={submit} />
+      <TouchableOpacity onPress={() => navigation.navigate('Resetpassword')}>
+        <SText color={style.primaryColor}>I forgot my password</SText>
+      </TouchableOpacity>
     </SPageContainer>
   )
 }

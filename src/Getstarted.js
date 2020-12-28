@@ -73,9 +73,8 @@ function Account() {
     <SPageContainer>
       <SText fontSize={37} style={{marginTop: '40%'}}>Sign up</SText>
       <Signup />
-      <TouchableOpacity onPress={() => navigation.navigate('Signin')}>
-        <SText color={style.primaryColor}>Already have an account? Sign in!</SText>
-      </TouchableOpacity>
+      <SText fontSize={25} style={{marginTop: 25}}>Already have an account?</SText>
+      <SButton text='Sign in' action={() => navigation.navigate('Signin')} style={{backgroundColor: style.interfaceColor}} />
     </SPageContainer>
   )
 }

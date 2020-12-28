@@ -21,6 +21,7 @@ import Getstarted from './Getstarted'
 import EditCategory from './EditCategory'
 import shareToShared from './util/shareToShared'
 import Subscription from './Subscription'
+import ResetPassword from './ResetPassword'
 
 enableScreens()
 const Stack = createNativeStackNavigator()
@@ -95,8 +96,8 @@ function Main() {
         >
           {
             user
-             ? (
-               <>
+            ? (
+              <>
                 <Stack.Screen
                   name='Home'
                   component={Home}
@@ -118,6 +119,7 @@ function Main() {
                </>
             )
           }
+          <Stack.Screen name='Resetpassword' component={ResetPassword} options={{title: 'Reset Password'}} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

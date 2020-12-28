@@ -1,4 +1,5 @@
 import React from 'react'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { TextInput, View } from "react-native"
 import useStyle from '../util/useStyle'
 
