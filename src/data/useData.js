@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import * as Statistics from '../util/Statistics'
 import analytics from '@react-native-firebase/analytics'
 import * as firebaseApi from './firebase'
+import firestore from '@react-native-firebase/firestore'
 
 export default function useData() {
   const [currency, setCurrency] = useState('kr')
@@ -43,79 +44,89 @@ export default function useData() {
         setExpenses(data.expenses)
         setTheme(data.theme)
         setSubsription(data.subscription ? data.subscription.plan : null)
-      } else saveData(expenses, categories, currency, theme, subscription)
+      } else {
+        firestore().collection('users').doc(user.uid).set({
+          currency, 
+          categories, 
+          expenses,
+          theme,
+          subscription: null
+        })
+      }
       setLoading(false)
     })
   }
 
-  async function saveData(expenses, categories, currency, theme) {
-    if(!user) return
-    expenses.sort((e1, e2) => new Date(e1.date) < new Date(e2.date))
-    await firebaseApi.storeData(user.uid, {
-      expenses, categories, currency, theme
-    })
-    analytics().setUserProperty('numCategories', categories.length.toString())
-    analytics().setUserProperty('numExpenses', expenses.length.toString())
-    analytics().setUserProperty('currency', currency)
-    analytics().setUserProperty('theme', theme)
-  }
-
-  function addExpense(expense) {
+  async function addExpense(expense) {
     const current_ids = expenses.map(expense => expense.id)
     const id = current_ids.length != 0 ? Math.max(...current_ids) + 1 : 0
     expense.id = id
     const newExpenses = [...expenses, expense]
-    saveData(newExpenses, categories, currency, theme)
+    await firestore().collection('users').doc(user.uid).update({
+      expenses: newExpenses
+    })
+    analytics().setUserProperty('numExpenses', newExpenses.length.toString())
     analytics().logEvent('AddExpense')
   }
-  
-  function updateExpense(updated) {
+
+  async function updateExpense(updated) {
     const newExpenses = expenses.map(expense => {
       if(expense.id == updated.id) return updated
       else return expense
     })
-    saveData(newExpenses, categories, currency, theme)
+    await firestore().collection('users').doc(user.uid).update({
+      expenses: newExpenses
+    })
     analytics().logEvent('UpdateExpense')
   }
   
-  function deleteExpense(id) {
+  async function deleteExpense(id) {
     const newExpenses = expenses.filter(expense => expense.id != id)
-    saveData(newExpenses, categories, currency, theme)
+    await firestore().collection('users').doc(user.uid).update({
+      expenses: newExpenses
+    })
     analytics().logEvent('DeleteExpense')
   }
   
-  function addCategory(category) {
+  async function addCategory(category) {
     const current_ids = categories.map(category => category.id)
     const id = current_ids.length != 0 ? Math.max(...current_ids) + 1 : 0
     category.id = id
     const newCategories = [category, ...categories]
-    saveData(expenses, newCategories, currency, theme)
+    await firestore().collection('users').doc(user.uid).update({
+      categories: newCategories
+    })
     analytics().logEvent('AddCategory')
   }
 
-  function updateCategory(updated) {
+  async function updateCategory(updated) {
     const newCategories = categories.map(category => {
       if(category.id != updated.id) return category
       else return updated
     })
-    saveData(expenses, newCategories, currency, theme)
+    await firestore().collection('users').doc(user.uid).update({
+      categories: newCategories
+    })
     analytics().logEvent('UpdateCategory')
   }
 
-  function deleteCategory(id) {
+  async function deleteCategory(id) {
     const newCategories = categories.filter(category => category.id != id)
-    saveData(expenses, newCategories, currency, theme)
+    await firestore().collection('users').doc(user.uid).update({
+      categories: newCategories
+    })
     analytics().logEvent('DeleteCategory')
   }
 
-  function mapExpenses() {
-    if(!expenses) return null
-    return expenses.map(expense => {
-      const category = categories.find(category => category.id == expense.category)
-      return {
-        ...expense,
-        category
-      }
+  async function updateCurrency(currency) {
+    await firestore().collection('users').doc(user.uid).update({
+      currency
+    })
+  }
+
+  async function updateTheme(theme) {
+    await firestore().collection('users').doc(user.uid).update({
+      theme
     })
   }
 
@@ -134,6 +145,17 @@ export default function useData() {
       return error.message
     }
   }
+
+  function mapExpenses() {
+    if(!expenses) return null
+    return expenses.map(expense => {
+      const category = categories.find(category => category.id == expense.category)
+      return {
+        ...expense,
+        category
+      }
+    })
+  }
   
   return {
     expenses: mapExpenses(),
@@ -145,12 +167,12 @@ export default function useData() {
     updateCategory,
     deleteCategory,
     currency,
-    setCurrency: currency => saveData(expenses, categories, currency, theme),
+    setCurrency: updateCurrency,
     user,
     signupemail, signinemail,
     signout: firebaseApi.signout,
     theme,
-    setTheme: theme => saveData(expenses, categories, currency, theme),
+    setTheme: updateTheme,
     subscription,
     loading,
     monthStatistics
