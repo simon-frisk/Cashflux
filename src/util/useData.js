@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import analytics from '@react-native-firebase/analytics'
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
-import * as Statistics from '../util/Statistics'
+import * as Statistics from './Statistics'
 
 export default function useData() {
   const [currency, setCurrency] = useState('kr')
