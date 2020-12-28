@@ -73,7 +73,7 @@ export default function Subscription() {
         }}
       >
         {subscriptions.map(subscription => (
-          <View>
+          <View key={subscription.productId}>
             <TouchableOpacity
               style={{
                 padding: 10,
@@ -82,7 +82,6 @@ export default function Subscription() {
                 borderRadius: 10,
                 alignItems: 'center',
               }}
-              key={subscription.productId}
               onPress={() => {IAP.requestSubscription(subscription.productId); setProcessing(true); setError('')}}
               disabled={processing || storedSubscription}
             >
