@@ -8,6 +8,7 @@ export default function useData() {
   const [categories, setCategories] = useState([])
   const [expenses, setExpenses] = useState([])
   const [theme, setTheme] = useState('Dark')
+  const [subscription, setSubsription] = useState()
   const [user, setUser] = useState()
   const [monthStatistics, setMonthStatistics] = useState()
   const [loading, setLoading] = useState(true)
@@ -32,7 +33,8 @@ export default function useData() {
         setCategories(data.categories)
         setExpenses(data.expenses)
         setTheme(data.theme)
-      } else saveData(expenses, categories, currency, theme)
+        setSubsription(data.subscription ? data.subscription.plan : null)
+      } else saveData(expenses, categories, currency, theme, subscription)
       setLoading(false)
     })
   }
@@ -140,6 +142,7 @@ export default function useData() {
     signout: firebaseApi.signout,
     theme,
     setTheme: theme => saveData(expenses, categories, currency, theme),
+    subscription,
     loading,
     monthStatistics
   }

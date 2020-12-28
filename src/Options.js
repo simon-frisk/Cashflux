@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import analytics from '@react-native-firebase/analytics'
+import { useNavigation } from '@react-navigation/native'
 import { Cell, Section, TableView } from 'react-native-tableview-simple'
 import { ScrollView } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -50,6 +51,7 @@ function ThemeSelector() {
 
 function Account() {
   const {signout} = useContext(dataContext)
+  const navigation = useNavigation()
 
   function handleSignout() {
     signout()
@@ -58,6 +60,7 @@ function Account() {
 
   return (
     <Section header='Account'>
+      <Cell title='Subscription' onPress={() => navigation.navigate('Subscription')} image={<SText>🏡</SText>} />
       <Cell title='Sign out' onPress={handleSignout} image={<SText>👋</SText>} />
     </Section>
   )
