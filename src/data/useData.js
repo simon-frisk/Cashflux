@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import * as Statistics from '../util/Statistics'
 import analytics from '@react-native-firebase/analytics'
-import * as firebaseApi from './firebase'
 import firestore from '@react-native-firebase/firestore'
+import auth from '@react-native-firebase/auth'
+import * as Statistics from '../util/Statistics'
 
 export default function useData() {
   const [currency, setCurrency] = useState('kr')
@@ -15,7 +15,7 @@ export default function useData() {
   const [loading, setLoading] = useState(true)
   const [initialAuthCheckDone, setInitialAuthCheckDone] = useState(false)
 
-  useEffect(() => firebaseApi.subscribeUserChange(user => {
+  useEffect(() => auth().onAuthStateChanged(user => {
     setUser(user);
     setInitialAuthCheckDone(true)
   }), [])
@@ -37,24 +37,32 @@ export default function useData() {
         setLoading(false)
       return
     }
-    return firebaseApi.subscribeData(user.uid, data => {
-      if(data)  {
-        setCurrency(data.currency)
-        setCategories(data.categories)
-        setExpenses(data.expenses)
-        setTheme(data.theme)
-        setSubsription(data.subscription ? data.subscription.plan : null)
-      } else {
-        firestore().collection('users').doc(user.uid).set({
-          currency, 
-          categories, 
-          expenses,
-          theme,
-          subscription: null
+    try {
+      return firestore()
+        .collection('users')
+        .doc(user.uid)
+        .onSnapshot(doc => {
+          const data = doc.data()
+          if(data)  {
+            setCurrency(data.currency)
+            setCategories(data.categories)
+            setExpenses(data.expenses)
+            setTheme(data.theme)
+            setSubsription(data.subscription ? data.subscription.plan : null)
+          } else {
+            firestore().collection('users').doc(user.uid).set({
+              currency, 
+              categories, 
+              expenses,
+              theme,
+              subscription: null
+            })
+          }
+          setLoading(false)
         })
-      }
-      setLoading(false)
-    })
+    } catch(error) {
+      console.log(error)
+    }
   }
 
   async function addExpense(expense) {
@@ -132,7 +140,7 @@ export default function useData() {
 
   async function signinemail(email, password) {
     try {
-      await firebaseApi.signinemail(email, password)
+      await auth().signInWithEmailAndPassword(email, password)
     } catch(error) {
       return error.message
     }
@@ -140,10 +148,14 @@ export default function useData() {
 
   async function signupemail(email, password) {
     try {
-      await firebaseApi.signupemail(email, password)
+      await auth().createUserWithEmailAndPassword(email, password)
     } catch(error) {
       return error.message
     }
+  }
+
+  async function signout() {
+    await auth().signOut()
   }
 
   function mapExpenses() {
@@ -169,8 +181,9 @@ export default function useData() {
     currency,
     setCurrency: updateCurrency,
     user,
-    signupemail, signinemail,
-    signout: firebaseApi.signout,
+    signupemail, 
+    signinemail,
+    signout,
     theme,
     setTheme: updateTheme,
     subscription,
