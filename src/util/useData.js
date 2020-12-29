@@ -4,12 +4,20 @@ import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import * as Statistics from './Statistics'
 
+const defaultUserData = {
+  currency: 'kr',
+  theme: 'Dark',
+  categories: [],
+  expenses: [],
+  subscription: null
+}
+
 export default function useData() {
-  const [currency, setCurrency] = useState()
-  const [categories, setCategories] = useState()
-  const [expenses, setExpenses] = useState()
-  const [theme, setTheme] = useState()
-  const [subscription, setSubsription] = useState()
+  const [currency, setCurrency] = useState(defaultUserData.currency)
+  const [categories, setCategories] = useState(defaultUserData.categories)
+  const [expenses, setExpenses] = useState(defaultUserData.expenses)
+  const [theme, setTheme] = useState(defaultUserData.theme)
+  const [subscription, setSubsription] = useState(defaultUserData.subscription)
   const [user, setUser] = useState()
   const [monthStatistics, setMonthStatistics] = useState()
   const [loading, setLoading] = useState(true)
@@ -141,13 +149,7 @@ export default function useData() {
       await firestore()
         .collection('users')
         .doc(newUserCredentials.user.uid)
-        .set({
-          expenses: [],
-          categories: [],
-          currency: 'kr',
-          theme: 'Dark',
-          subscription: null
-        })
+        .set(defaultUserData)
     } catch(error) {
       return error.message
     }
