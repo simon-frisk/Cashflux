@@ -43,7 +43,6 @@ export default function ExpensePie({width}) {
         setSelected={month => setMonthIndex(monthlyCategories.indexOf(month))}
         keyExtractor={month => month.string}
         textExtractor={month => month.string}
-        selectColor={style.primaryColor}
         boxStyle={{marginTop: 40}}
       />
     </View>

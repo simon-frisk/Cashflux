@@ -21,7 +21,7 @@ export default ({
         <TouchableOpacity
           key={keyExtractor(item)}
           style={{
-            backgroundColor: item == selected ? selectColor || style.secondaryColor : style.interfaceColor,
+            backgroundColor: item == selected ? selectColor || style.primaryColor : style.interfaceColor,
             marginHorizontal: 4,
             padding: 8,
             borderRadius: 10,
