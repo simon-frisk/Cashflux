@@ -40,7 +40,8 @@ function Main() {
   const navigationRef = useRef()
 
   useEffect(() => {
-    shareToShared(monthStatistics, categories, currency, style.themeMode)
+    if(!loading)
+      shareToShared(monthStatistics, categories, currency, style.themeMode)
   }, [monthStatistics, currency, theme])
 
   useEffect(() => {requestPermissions()}, [])
@@ -54,15 +55,12 @@ function Main() {
     
     analytics().setUserProperty('notificationsEnabled', enabled.toString())
   }
-
-  if (loading)
-    return (
-      <View style={{backgroundColor: style.backgroundColor, width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center'}}>
-        <ActivityIndicator />
-      </View>
-    )
   
-  return (
+  return loading ? (
+    <View style={{backgroundColor: style.backgroundColor, width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center'}}>
+      <ActivityIndicator />
+    </View>
+  ) : (
     <View style={{backgroundColor: style.backgroundColor, height: '100%'}}>
       <StatusBar style={style.themeMode == 'Dark' ? 'light' : 'dark'} />
       <NavigationContainer

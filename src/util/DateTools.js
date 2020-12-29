@@ -20,10 +20,12 @@ export function getMonthlyExpenses(expenses) {
   if(expenses.length == 0) return []
   let currentMonth = new Date(expenses[0].date)
   const months = [{string: getMonthString(currentMonth), expenses: []}]
+
+  expenses.sort((e1, e2) => new Date(e2.date) > new Date(e1.date))
   
   for (const expense of expenses) {
     const month = expense.date
-    while(getMonthString(month) != getMonthString(currentMonth.toDateString())) {
+    while(getMonthString(month) != getMonthString(currentMonth.toDateString())) { // This is bad, tends to get to infinite loop (eg. if expenses list not sorted)
       currentMonth = nextMonth(currentMonth)
       months.push({string: getMonthString(currentMonth), expenses: []})
     }

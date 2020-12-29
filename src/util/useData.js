@@ -5,10 +5,10 @@ import auth from '@react-native-firebase/auth'
 import * as Statistics from './Statistics'
 
 export default function useData() {
-  const [currency, setCurrency] = useState('kr')
-  const [categories, setCategories] = useState([])
-  const [expenses, setExpenses] = useState([])
-  const [theme, setTheme] = useState('Dark')
+  const [currency, setCurrency] = useState()
+  const [categories, setCategories] = useState()
+  const [expenses, setExpenses] = useState()
+  const [theme, setTheme] = useState()
   const [subscription, setSubsription] = useState()
   const [user, setUser] = useState()
   const [monthStatistics, setMonthStatistics] = useState()
@@ -29,7 +29,10 @@ export default function useData() {
     if(!user && initialAuthCheckDone) setLoading(false)
   }, [initialAuthCheckDone])
 
-  useEffect(() => {setMonthStatistics(Statistics.getCatgegoryStatistics(categories, mapExpenses()))}, [expenses, categories])
+  useEffect(() => {
+    if(expenses && categories)
+      setMonthStatistics(Statistics.getCatgegoryStatistics(categories, mapExpenses()))
+  }, [expenses, categories])
 
   function subscribeData() {
     if(!user) {
@@ -37,32 +40,18 @@ export default function useData() {
         setLoading(false)
       return
     }
-    try {
-      return firestore()
-        .collection('users')
-        .doc(user.uid)
-        .onSnapshot(doc => {
-          const data = doc.data()
-          if(data)  {
-            setCurrency(data.currency)
-            setCategories(data.categories)
-            setExpenses(data.expenses)
-            setTheme(data.theme)
-            setSubsription(data.subscription ? data.subscription.plan : null)
-          } else {
-            firestore().collection('users').doc(user.uid).set({
-              currency, 
-              categories, 
-              expenses,
-              theme,
-              subscription: null
-            })
-          }
-          setLoading(false)
-        })
-    } catch(error) {
-      console.log(error)
-    }
+    return firestore()
+      .collection('users')
+      .doc(user.uid)
+      .onSnapshot(async doc => {
+        const data = doc.data()
+        setCurrency(data.currency)
+        setCategories(data.categories)
+        setExpenses(data.expenses)
+        setTheme(data.theme)
+        setSubsription(data.subscription ? data.subscription.plan : null)
+        setLoading(false)
+      })
   }
 
   async function addExpense(expense) {
@@ -148,7 +137,17 @@ export default function useData() {
 
   async function signupemail(email, password) {
     try {
-      await auth().createUserWithEmailAndPassword(email, password)
+      const newUserCredentials = await auth().createUserWithEmailAndPassword(email, password)
+      await firestore()
+        .collection('users')
+        .doc(newUserCredentials.user.uid)
+        .set({
+          expenses: [],
+          categories: [],
+          currency: 'kr',
+          theme: 'Dark',
+          subscription: null
+        })
     } catch(error) {
       return error.message
     }

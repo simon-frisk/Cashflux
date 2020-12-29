@@ -16,22 +16,22 @@ export default function Home({navigation}) {
   return (
     <>
       <SPageContainer style={{paddingTop: 0}}>
-          <Charts />
-          <CategoryScroller />
-          <ExpenseList />
-        </SPageContainer>
-        <SBottomBar>
-          <TouchableOpacity onPress={() => navigation.navigate('Addexpense')}>
-            <STextButton text='Add expense' icon={<AntDesign name='pluscircle' />} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Options')}>
-            <Octicons
-              name="gear"
-              size={27}
-              color={style.lightText}
-            />
-          </TouchableOpacity>
-        </SBottomBar>
-      </>
+        <Charts />
+        <CategoryScroller />
+        <ExpenseList />
+      </SPageContainer>
+      <SBottomBar>
+        <TouchableOpacity onPress={() => navigation.navigate('Addexpense')}>
+          <STextButton text='Add expense' icon={<AntDesign name='pluscircle' />} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Options')}>
+          <Octicons
+            name="gear"
+            size={27}
+            color={style.lightText}
+          />
+        </TouchableOpacity>
+      </SBottomBar>
+    </>
   )
 }
