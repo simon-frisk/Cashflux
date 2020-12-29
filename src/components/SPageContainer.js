@@ -9,7 +9,7 @@ export default function SPageContainer(props) {
         contentContainerStyle={{
           width: '92%',
           alignSelf: 'center',
-          paddingVertical: 50,
+          paddingVertical: 30,
           maxWidth: 600,
           ...props.style
         }}

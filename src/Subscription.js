@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
-import SPageContainer from './components/SPageContainer'
 import functions from '@react-native-firebase/functions'
 import SText from './components/SText'
 import IAP from 'react-native-iap'
 import { Linking, Platform, TouchableOpacity, View } from 'react-native'
 import useStyle from './util/useStyle'
 import SButton from './components/SButton'
+import SPageContainer from './components/SPageContainer'
 import dataContext from './dataContext'
 
 export const boundary = 25
@@ -64,58 +64,63 @@ export default function Subscription() {
   
   return (
     <SPageContainer>
-      <View style={{marginBottom: 20}}>
-        <SText fontSize={35}>{storedSubscription ? 'Subscription' : 'Upgrade account'}</SText>
-        {!storedSubscription && (
-          <SText style={{color: style.lightText}}>
-            Free accounts can add up to {boundary} expenses. Upgrade for unlimited access!
+      {!storedSubscription && (
+        <View style={{paddingHorizontal: 40, height: 500, justifyContent: 'center'}}>
+          <SText fontSize={40} style={{marginBottom: 10}}>Expense Tracking Redefined</SText>
+          <SText color={style.lightText}>Premium subscription gives you unlimited access. Leveling up your personal economy.</SText>
+          <SButton text='Get Premium' />
+          <SText style={{marginTop: 20}} fontSize={10} color={style.lightText}>
+            Free accounts are limited to {boundary} expenses
           </SText>
-        )}
-      </View>
-      {!!error && (
-        <SText color={style.errorColor}>{error}</SText>
+        </View>
       )}
       <View
         style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between'
+          padding: 40,
         }}
       >
-        {subscriptions.map(subscription => (
-          <View key={subscription.productId}>
-            <TouchableOpacity
-              style={{
-                padding: 10,
-                borderWidth: (storedSubscription == subscription.productId) ? 3 : 1,
-                borderColor: (storedSubscription == subscription.productId) ? style.primaryColor : style.light,
-                borderRadius: 10,
-                alignItems: 'center',
-              }}
-              onPress={() => {
-                if(processing)
-                  return
-                else if(storedSubscription)
-                  goToStoreSubscriptionPage()
-                else
-                  IAP.requestSubscription(subscription.productId); setProcessing(true); setError('')}
-              }
-            >
-              <SText fontSize={10} color={style.lightText}>{subscription.description}</SText>
-              <SText fontSize={12}>{subscription.title}</SText>
-              <SText fontSize={25}>{subscription.localizedPrice}</SText>
-            </TouchableOpacity>
-            {storedSubscription == subscription.productId && (
-              <SText fontSize={12}>Currently active</SText>
-            )}
-          </View>
-        ))}
+        <SText fontSize={35}>Plans</SText>
+        {!!error && (
+          <SText color={style.errorColor}>{error}</SText>
+        )}
+        <View>
+          {subscriptions.map(subscription => (
+            <View key={subscription.productId}>
+              <TouchableOpacity
+                style={{
+                  padding: 15,
+                  borderWidth: (storedSubscription == subscription.productId) ? 3 : 1,
+                  borderColor: (storedSubscription == subscription.productId) ? style.primaryColor : style.light,
+                  borderRadius: 15,
+                  alignItems: 'center',
+                  marginVertical: 10
+                }}
+                onPress={() => {
+                  if(processing)
+                    return
+                  else if(storedSubscription)
+                    goToStoreSubscriptionPage()
+                  else
+                    IAP.requestSubscription(subscription.productId); setProcessing(true); setError('')}
+                }
+              >
+                <SText fontSize={10} color={style.lightText}>{subscription.description}</SText>
+                <SText fontSize={12}>{subscription.title}</SText>
+                <SText fontSize={25}>{subscription.localizedPrice}</SText>
+              </TouchableOpacity>
+              {storedSubscription == subscription.productId && (
+                <SText fontSize={12}>Currently active</SText>
+              )}
+            </View>
+          ))}
+        </View>
+        {storedSubscription && (
+          <SButton
+            text='Manage Subscription'
+            action={goToStoreSubscriptionPage}
+          />
+        )}
       </View>
-      {storedSubscription && (
-        <SButton
-          text='Manage Subscription'
-          action={goToStoreSubscriptionPage}
-        />
-      )}
     </SPageContainer>
   )
 }
