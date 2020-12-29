@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import analytics from '@react-native-firebase/analytics'
 import { useNavigation } from '@react-navigation/native'
 import { Cell, Section, TableView } from 'react-native-tableview-simple'
-import { ScrollView } from 'react-native'
+import { Alert, ScrollView } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import dataContext from './dataContext'
 import useStyle from './util/useStyle'
@@ -50,7 +50,7 @@ function ThemeSelector() {
 }
 
 function Account() {
-  const {signout} = useContext(dataContext)
+  const {signout, deleteAccount} = useContext(dataContext)
   const navigation = useNavigation()
 
   function handleSignout() {
@@ -58,11 +58,30 @@ function Account() {
     analytics().logEvent('Signout')
   }
 
+  function handleDeleteAccount() {
+    Alert.alert(
+      'Warning',
+      'This action will delete all data and is irreversible.',
+      [
+        {
+          text: 'Delete account',
+          onPress: deleteAccount,
+          style: 'destructive'
+        },
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+      ]
+    )
+  }
+
   return (
     <Section header='Account'>
       <Cell title='Subscription' onPress={() => navigation.navigate('Subscription')} image={<SText>🏡</SText>} />
-      <Cell title='Sign out' onPress={handleSignout} image={<SText>👋</SText>} />
       <Cell title='Change password' onPress={() => navigation.navigate('Resetpassword')} image={<SText>🔓</SText>} />
+      <Cell title='Sign out' onPress={handleSignout} image={<SText>👋</SText>} />
+      <Cell title='Delete account' onPress={handleDeleteAccount} image={<SText>🗑</SText>} />
     </Section>
   )
 }

@@ -157,6 +157,12 @@ export default function useData() {
     await auth().signOut()
   }
 
+  async function deleteAccount() {
+    const uid = user.uid
+    await user.delete()
+    await firestore().collection('users').doc(uid).delete()
+  }
+
   function mapExpenses() {
     if(!expenses) return null
     return expenses.map(expense => {
@@ -183,6 +189,7 @@ export default function useData() {
     signupemail, 
     signinemail,
     signout,
+    deleteAccount,
     theme,
     setTheme: updateTheme,
     subscription,
