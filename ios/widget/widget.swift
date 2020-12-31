@@ -20,8 +20,9 @@ struct SimpleEntry: TimelineEntry {
   let data: SharedData
 }
 
+// TODO: Improve this test data
 let testData = SharedData(totalCostString: "6539kr", theme: "Dark", categories: [
-  Category(id: 4, name: "Hello", emoji: "💻", color: "#333", percentage: 60)
+  Category(id: 4, name: " ", emoji: "💻", color: "#333", percentage: 60),
 ])
 
 struct Provider: TimelineProvider {
@@ -61,7 +62,7 @@ struct widgetEntryView : View {
     var body: some View {
       ZStack {
         entry.data.theme == "Dark" ? Color(hex: "#222") : Color.white
-        VStack {
+        VStack(spacing: 5) {
           HStack {
             VStack(alignment: .leading){
               Text("Expenses this month")
