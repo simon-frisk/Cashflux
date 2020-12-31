@@ -85,7 +85,7 @@ export default function Subscription() {
         )}
         <View>
           {subscriptions.map(subscription => (
-            <View key={subscription.productId}>
+            <View key={subscription.productId} style={{marginVertical: 10}}>
               <TouchableOpacity
                 style={{
                   padding: 15,
@@ -93,7 +93,6 @@ export default function Subscription() {
                   borderColor: (storedSubscription == subscription.productId) ? style.primaryColor : style.light,
                   borderRadius: 15,
                   alignItems: 'center',
-                  marginVertical: 10
                 }}
                 onPress={() => {
                   if(processing)
