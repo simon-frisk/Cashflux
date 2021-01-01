@@ -31,6 +31,14 @@ const currencyData = [
   {
     unit: '₺',
     order: 'before'
+  },
+  {
+    unit: '₹',
+    order: 'before'
+  },
+  {
+    unit: 'R',
+    order: 'before'
   }
 ]
 
