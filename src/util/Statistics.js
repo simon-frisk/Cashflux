@@ -5,9 +5,11 @@ export function getCatgegoryStatistics(categories, expenses) {
     current: {
       total: 0,
       categories: {}
-    }
+    },
+    months: []
   }
 
+  //Current month
   const currentDate = new Date()
   
   for(const expense of expenses) {
@@ -26,5 +28,9 @@ export function getCatgegoryStatistics(categories, expenses) {
     stats.current.categories[categoryId].percentage = Math.round(stats.current.categories[categoryId].cost / stats.current.total * 100) || 0
   }
 
+  //All months
+  
+
+  //Return
   return stats
 }
