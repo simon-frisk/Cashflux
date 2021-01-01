@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Animated, TouchableOpacity } from 'react-native'
+import { Animated } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import SButton from './components/SButton'
 import SPageContainer from './components/SPageContainer'
 import SText from './components/SText'
-import CategoryScroller from './components/CategoryScroller'
-import CurrencySelector from './components/CurrrencySelector'
 import analytics from '@react-native-firebase/analytics'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -101,21 +99,5 @@ function Signup() {
       {!!error && <SText color={style.errorColor}>{error}</SText>}
       <SButton text='Sign up' action={submit} />
     </>
-  )
-}
-
-function Settings() {
-  const navigation = useNavigation()
-
-  return (
-    <SPageContainer>
-      <SText fontSize={35}>Categories</SText>
-      <SText>
-        Cashflux uses categories to organize expenses. Create your first ones here!
-      </SText>
-      <CategoryScroller />
-      <CurrencySelector />
-      <SButton text='Finish' action={() => navigation.replace('Home')} />
-    </SPageContainer>
   )
 }
