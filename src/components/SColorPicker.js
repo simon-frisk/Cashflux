@@ -14,7 +14,7 @@ const colors = [
   '#795548',
   '#9E9E9E',
   '#607D8B',
-  '#333'
+  '#222'
 ]
 
 export default function SColorPicker({color: current, setColor}) {
