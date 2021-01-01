@@ -21,9 +21,7 @@ export default function Home({navigation}) {
         <ExpenseList />
       </SPageContainer>
       <SBottomBar>
-        <TouchableOpacity onPress={() => navigation.navigate('Addexpense')}>
-          <STextButton text='Add expense' icon={<AntDesign name='pluscircle' />} />
-        </TouchableOpacity>
+        <STextButton text='Add expense' icon={<AntDesign name='pluscircle' />} action={() => navigation.navigate('Addexpense')} />
         <TouchableOpacity onPress={() => navigation.navigate('Options')}>
           <Octicons
             name="gear"

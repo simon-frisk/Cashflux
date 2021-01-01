@@ -103,6 +103,13 @@ function More() {
         }
         image={<SText>🔐</SText>}  
       />
+      <Cell 
+        title='End user license agreement' 
+        onPress={() =>
+          WebBrowser.openBrowserAsync('https://cashflux.simonfrisk.com/eula')
+        }
+        image={<SText>📃</SText>}  
+      />
       <Cell
         title='Contact and support'
         onPress={() =>

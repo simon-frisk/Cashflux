@@ -4,7 +4,6 @@ import dataContext from './dataContext'
 import ExpenseForm from './components/ExpenseForm'
 import useStyle from './util/useStyle'
 import SPageContainer from './components/SPageContainer'
-import { TouchableOpacity } from 'react-native'
 import SBottomBar from './components/SBottomBar'
 import STextButton from './components/STextButton'
 
@@ -52,9 +51,7 @@ export default function Expense({route, navigation}) {
         />
       </SPageContainer>
       <SBottomBar>
-        <TouchableOpacity onPress={handleDelete}>
-          <STextButton text='Delete' icon={<AntDesign name='delete' />} color={style.errorColor} />
-        </TouchableOpacity>
+        <STextButton text='Delete' icon={<AntDesign name='delete' />} color={style.errorColor} action={handleDelete} />
       </SBottomBar>
     </>
   )

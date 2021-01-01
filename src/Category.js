@@ -38,12 +38,8 @@ export default function Category({route, navigation}) {
         <CategoryStats category={category} expenses={expenses} currency={currency} />
       </SPageContainer>
       <SBottomBar>
-        <TouchableOpacity onPress={() => navigation.navigate('Editcategory', {category})}>
-          <STextButton text='Edit' icon={<AntDesign name='edit' />} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleDelete}>
-          <STextButton text='Delete' icon={<AntDesign name='delete' />} color={style.errorColor} />
-        </TouchableOpacity>
+        <STextButton text='Edit' icon={<AntDesign name='edit' />} action={() => navigation.navigate('Editcategory', {category})} />
+        <STextButton text='Delete' icon={<AntDesign name='delete' />} color={style.errorColor} action={handleDelete} />
       </SBottomBar>
     </>
   )
