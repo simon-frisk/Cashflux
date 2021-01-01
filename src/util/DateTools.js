@@ -18,11 +18,10 @@ export function nextMonth(date) {
 export function getMonthlyExpenses(expenses) {
   //Returns a list of expenses for different months
   if(expenses.length == 0) return []
+  expenses.sort((e1, e2) => new Date(e2.date) > new Date(e1.date))
   let currentMonth = new Date(expenses[0].date)
   const months = [{string: getMonthString(currentMonth), expenses: []}]
 
-  expenses.sort((e1, e2) => new Date(e2.date) > new Date(e1.date))
-  
   for (const expense of expenses) {
     const month = expense.date
     while(getMonthString(month) != getMonthString(currentMonth.toDateString())) { // This is bad, tends to get to infinite loop (eg. if expenses list not sorted)
