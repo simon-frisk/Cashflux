@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import functions from '@react-native-firebase/functions'
 import SText from './components/SText'
 import IAP from 'react-native-iap'
-import { Linking, Platform, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Linking, Platform, TouchableOpacity, View } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import useStyle from './util/useStyle'
 import SButton from './components/SButton'
@@ -29,39 +29,37 @@ export default function Subscription() {
   const style = useStyle()
   const {subscription: storedSubscription} = useContext(dataContext)
 
-  useEffect(init, [])
+  useEffect(() => {init()}, [])
   const [subscriptions, setSubscriptions] = useState([])
 
   const [processing, setProcessing] = useState(false)
   const [error, setError] = useState('')
 
-  function init() {
-    IAP.flushFailedPurchasesCachedAsPendingAndroid()
-    IAP.getSubscriptions(productIds)
-      .then(subscriptions => setSubscriptions(subscriptions))
+  async function init() {
+    await IAP.initConnection()
     
-    const purchaseUpdateListener = IAP.purchaseUpdatedListener(async purchase => {
+    await IAP.getSubscriptions(productIds)
+      .then(subscriptions => setSubscriptions(subscriptions))
+
+    await IAP.flushFailedPurchasesCachedAsPendingAndroid()
+    
+    IAP.purchaseUpdatedListener(async purchase => {
       const receipt = purchase.transactionReceipt
       if(receipt) {
-        await IAP.finishTransaction(purchase, false)
         const response = await functions().httpsCallable('validateIOSIAP')({ receipt })
         if(!response.data.success)
-          setError(response.data.error)
+        setError(response.data.error)
       } else {
+        await IAP.finishTransaction(purchase, false)
         setError('Failed to process subscription')
       }
       setProcessing(false)
     })
 
-    const purchaseErrorSubscription = IAP.purchaseErrorListener(() => {
+    IAP.purchaseErrorListener(() => {
       setError('Failed to process subcription')
       setProcessing(false)
     })
-
-    return () => {
-      purchaseUpdateListener.remove()
-      purchaseErrorSubscription.remove()
-    }
   }
   
   return (
@@ -82,6 +80,11 @@ export default function Subscription() {
           <SText color={style.errorColor}>{error}</SText>
         )}
         <View>
+          {processing && (
+            <View style={{justifyContent: 'center', alignItems: 'center', height: 150}}>
+              <ActivityIndicator />
+            </View>
+          )}
           {subscriptions.map(subscription => (
             <View key={subscription.productId} style={{marginVertical: 10}}>
               <TouchableOpacity
@@ -97,9 +100,12 @@ export default function Subscription() {
                     return
                   else if(storedSubscription)
                     goToStoreSubscriptionPage()
-                  else
-                    IAP.requestSubscription(subscription.productId); setProcessing(true); setError('')}
-                }
+                  else {
+                    IAP.requestSubscription(subscription.productId)
+                    setProcessing(true)
+                    setError('')
+                  }
+                }}
               >
                 <SText fontSize={10} color={style.lightText}>{subscription.description}</SText>
                 <SText fontSize={12}>{subscription.title}</SText>
@@ -117,7 +123,7 @@ export default function Subscription() {
             action={goToStoreSubscriptionPage}
           />
         )}
-        <SText fontSize={35}>Terms</SText>
+        <SText fontSize={30}>Terms</SText>
         <SText color={style.lightText} fontSize={11}>
           Your payment will be charged your iTunes account once you confirm purchase. Your iTunes account will be charged again when the
           subscription renews at the end of the subscription period unless auto renew is turned off at least 24 hours before the end of the
