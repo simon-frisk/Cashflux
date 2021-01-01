@@ -20,10 +20,24 @@ struct SimpleEntry: TimelineEntry {
   let data: SharedData
 }
 
-// TODO: Improve this test data
-let testData = SharedData(totalCostString: "6539kr", theme: "Dark", categories: [
-  Category(id: 4, name: " ", emoji: "💻", color: "#333", percentage: 60),
-])
+let testData = SharedData(totalCostString: "0kr", theme: "Dark", categories: [])
+
+func getSharedData() -> SharedData {
+  let sharedDefaults = UserDefaults.init(suiteName: "group.com.cashflux")
+  var data = testData
+  
+  if(sharedDefaults != nil) {
+    do {
+      let shared = sharedDefaults?.string(forKey: "widgetData")
+      if(shared != nil) {
+        data = try JSONDecoder().decode(SharedData.self, from: shared!.data(using: .utf8)!)
+      }
+    } catch {
+      print(error)
+    }
+  }
+  return data
+}
 
 struct Provider: TimelineProvider {
   func placeholder(in context: Context) -> SimpleEntry {
@@ -31,26 +45,14 @@ struct Provider: TimelineProvider {
   }
 
   func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-    let entry = SimpleEntry(date: Date(), data: testData)
+    let sharedData = getSharedData()
+    let entry = SimpleEntry(date: Date(), data: sharedData)
     completion(entry)
   }
 
   func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-    let sharedDefaults = UserDefaults.init(suiteName: "group.com.cashflux")
-    var data = testData
-    
-    if(sharedDefaults != nil) {
-      do {
-        let shared = sharedDefaults?.string(forKey: "widgetData")
-        if(shared != nil) {
-          data = try JSONDecoder().decode(SharedData.self, from: shared!.data(using: .utf8)!)
-        }
-      } catch {
-        print(error)
-      }
-    }
-    
-    let entry = SimpleEntry(date: Date(), data: data)
+    let sharedData = getSharedData()
+    let entry = SimpleEntry(date: Date(), data: sharedData)
     let timeline = Timeline(entries: [entry], policy: .atEnd)
     completion(timeline)
   }
