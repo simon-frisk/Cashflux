@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
 import functions from '@react-native-firebase/functions'
 import SText from './components/SText'
 import IAP from 'react-native-iap'
@@ -27,6 +27,7 @@ function goToStoreSubscriptionPage() {
 
 export default function Subscription() {
   const style = useStyle()
+  const scrollViewRef = useRef()
   const {subscription: storedSubscription} = useContext(dataContext)
 
   useEffect(() => {init()}, [])
@@ -63,12 +64,12 @@ export default function Subscription() {
   }
   
   return (
-    <SPageContainer>
+    <SPageContainer ref={scrollViewRef}>
       {!storedSubscription && (
         <View style={{paddingHorizontal: 40, height: 500, justifyContent: 'center'}}>
           <SText fontSize={45} style={{marginBottom: 10}}>Expense Tracking Redefined</SText>
           <SText color={style.lightText}>Premium subscription gives you unlimited access. Leveling up your personal economy.</SText>
-          <SButton text='Get Premium' />
+          <SButton text='Get Premium' action={() => scrollViewRef.current.scrollToEnd()} />
           <SText style={{marginTop: 20}} fontSize={10} color={style.lightText}>
             Free accounts are limited to {boundary} expenses
           </SText>
