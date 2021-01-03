@@ -3,22 +3,17 @@ import { View } from 'react-native'
 import SText from '../components/SText'
 import { PieChart } from 'react-native-svg-charts'
 import dataContext from '../dataContext'
-import { getMonthlyCategories } from '../util/DateTools'
 import SSelectionSlider from '../components/SSelectionSlider'
 import { Text } from 'react-native-svg'
-import useStyle from '../util/useStyle'
-import { currencies, getCostString } from '../util/currency'
+import { getCostString } from '../util/currency'
 
 export default function ExpensePie({width}) {
-  const style = useStyle()
-
-  const {expenses, categories, currency} = useContext(dataContext)
+  const {categories, currency, monthStatistics} = useContext(dataContext)
   const [monthIndex, setMonthIndex] = useState(0)
-  const monthlyCategories = getMonthlyCategories(expenses)
   
   const pieData = categories
       .map(category => ({
-          value: monthlyCategories[monthIndex][category.id] || 0,
+          value: monthStatistics.months[monthIndex].categories[category.id].cost,
           emoji: category.emoji,
           svg: {
               fill: category.color,
@@ -34,13 +29,13 @@ export default function ExpensePie({width}) {
           <Labels />
         </PieChart>
         <View style={{position: 'absolute', height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
-          <SText fontSize={30}>{getCostString(monthlyCategories[monthIndex].total, currency)}</SText>
+          <SText fontSize={30}>{getCostString(monthStatistics.months[monthIndex].total, currency)}</SText>
         </View>
       </View>
       <SSelectionSlider
-        items={monthlyCategories}
-        selected={monthlyCategories[monthIndex]}
-        setSelected={month => setMonthIndex(monthlyCategories.indexOf(month))}
+        items={monthStatistics.months}
+        selected={monthStatistics.months[monthIndex]}
+        setSelected={month => setMonthIndex(monthStatistics.months.indexOf(month))}
         keyExtractor={month => month.string}
         textExtractor={month => month.string}
         boxStyle={{marginTop: 40}}

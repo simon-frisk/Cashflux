@@ -6,13 +6,12 @@ import SText from './components/SText'
 import useStyle from './util/useStyle'
 import dataContext from './dataContext'
 import { ScrollView } from 'react-native-gesture-handler'
-import { getMonthlyCategories } from './util/DateTools'
 import { getCostString } from './util/currency'
 import SBottomBar from './components/SBottomBar'
 import STextButton from './components/STextButton'
 
 export default function Category({route, navigation}) {
-  const { deleteCategory, expenses, categories, currency} = useContext(dataContext)
+  const { deleteCategory, expenses, categories, currency, monthStatistics} = useContext(dataContext)
   const category = categories.find(category => category.id == route.params.category.id)
   const style = useStyle()
 
@@ -35,7 +34,7 @@ export default function Category({route, navigation}) {
     <>
       <SPageContainer>
         <CategoryGraph category={category} />
-        <CategoryStats category={category} expenses={expenses} currency={currency} />
+        <CategoryStats category={category} currency={currency} monthStatistics={monthStatistics} />
       </SPageContainer>
       <SBottomBar>
         <STextButton text='Edit' icon={<AntDesign name='edit' />} action={() => navigation.navigate('Editcategory', {category})} />
@@ -46,10 +45,9 @@ export default function Category({route, navigation}) {
 }
 
 function CategoryGraph({category}) {
-  const {expenses, currency} = useContext(dataContext)
+  const {currency, monthStatistics} = useContext(dataContext)
 
-  const monthlyCategories = getMonthlyCategories(expenses)
-  const highestMonthCost = Math.max(...monthlyCategories.map(category => category.total))
+  const highestMonthCost = Math.max(...monthStatistics.months.map(month => month.total))
   const style = useStyle()
   
   return (
@@ -59,13 +57,14 @@ function CategoryGraph({category}) {
       bounces={false}
       contentContainerStyle={{alignItems: 'flex-end', marginVertical: 15}}
     >
-      {monthlyCategories.map(month => {
-        const cost = month[category.id] || 0
+      {monthStatistics.months.map(month => {
+        const cost = month.categories[category.id].cost
         return (
           <View key={month.string}>
             <View
               style={{
                 height: month.total / highestMonthCost * 200, 
+                width: 50,
                 backgroundColor: style.interfaceColor,
                 borderRadius: 10,
                 marginRight: 10,
@@ -78,9 +77,9 @@ function CategoryGraph({category}) {
                 color={category.color}
               />
             </View>
-            <SText fontSize={22}>{month.string}</SText>
+            <SText fontSize={22}>{month.string.split(' ')[0]}</SText>
             <SText color={style.lightText}>{getCostString(cost, currency)}</SText>
-            <SText color={style.lightText}>{Math.round(cost / month.total * 100)}%</SText>
+            <SText color={style.lightText}>{month.categories[category.id].percentage}%</SText>
           </View>
         )
       })}
@@ -111,19 +110,9 @@ function MonthPortion({height, color}) {
   )
 }
 
-function CategoryStats({category, expenses, currency}) {
+function CategoryStats({category, currency, monthStatistics}) {
   const style = useStyle()
-  const monthlyCategories = getMonthlyCategories(expenses)
-  let totalCategoryCost = 0
-  let totalCost = 0
-
-  for(const month of monthlyCategories) {
-    totalCategoryCost += month[category.id] || 0
-    totalCost += month.total
-  }
-
-  const averageCategoryCost = Math.round(totalCategoryCost / monthlyCategories.length) || 0
-  const averageCategoryPercentage = Math.round(totalCategoryCost / totalCost * 100) || 0
+  const stat = monthStatistics.avg12Months.categories[category.id]
 
   return (
     <View style={{
@@ -132,9 +121,9 @@ function CategoryStats({category, expenses, currency}) {
       borderRadius: 10,
       marginBottom: 20
     }}>
-      <SText fontSize={20}>Average monthly cost</SText>
-      <SText>{getCostString(averageCategoryCost, currency)}</SText>
-      <SText>{averageCategoryPercentage}%</SText>
+      <SText fontSize={20}>Average last {monthStatistics.avg12Months.numMonths} months</SText>
+      <SText>{getCostString(stat.cost, currency)}</SText>
+      <SText>{stat.percentage}%</SText>
     </View>
   )
 }

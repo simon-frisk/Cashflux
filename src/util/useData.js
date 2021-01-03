@@ -19,7 +19,6 @@ export default function useData() {
   const [theme, setTheme] = useState(defaultUserData.theme)
   const [subscription, setSubsription] = useState(defaultUserData.subscription)
   const [user, setUser] = useState()
-  const [monthStatistics, setMonthStatistics] = useState()
   const [loading, setLoading] = useState(true)
   const [initialAuthCheckDone, setInitialAuthCheckDone] = useState(false)
 
@@ -36,11 +35,6 @@ export default function useData() {
   useEffect(() => {
     if(!user && initialAuthCheckDone) setLoading(false)
   }, [initialAuthCheckDone])
-
-  useEffect(() => {
-    if(expenses && categories)
-      setMonthStatistics(Statistics.getCatgegoryStatistics(categories, mapExpenses()))
-  }, [expenses, categories])
 
   function subscribeData() {
     if(!user) {
@@ -196,6 +190,6 @@ export default function useData() {
     setTheme: updateTheme,
     subscription,
     loading,
-    monthStatistics
+    monthStatistics: Statistics.getCatgegoryStatistics(categories, mapExpenses())
   }
 }

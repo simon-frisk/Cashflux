@@ -1,41 +1,37 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Animated, Platform, ScrollView, View } from 'react-native'
+import { Animated, ScrollView, View } from 'react-native'
 import SText from '../components/SText'
 import dataContext from '../dataContext'
-import { getMonthlyCategories } from '../util/DateTools'
 import { getCostString } from '../util/currency'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
 export default function BarChart({width, active}) {
-  const {expenses, categories, currency} = useContext(dataContext)
-
+  const {categories, currency, monthStatistics} = useContext(dataContext)
   const [selectedMonth, setSelectedMonth] = useState(null)
-
-  const monthlyCategories = getMonthlyCategories(expenses)
-  const highestMonthCost = Math.max(...monthlyCategories.map(category => category.total))
+  const highestMonthCost = Math.max(...monthStatistics.months.map(month => month.total))
   
   return (
-      <ScrollView
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        bounces={false}
-        style={{width}}
-        contentContainerStyle={{paddingBottom: 20}}
-      >
-        {monthlyCategories.map((month, index) => (
-          <MonthBar
-            currency={currency}
-            selected={index == selectedMonth}
-            toggleSelected={() => setSelectedMonth(index == selectedMonth ? null : index)}
-            month={month}
-            categories={categories}
-            highestMonthCost={highestMonthCost}
-            active={active}
-            isTransparent={selectedMonth !== null && selectedMonth !== index}
-            key={month.string}
-          />
-        ))}
-      </ScrollView>
+    <ScrollView
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}
+      bounces={false}
+      style={{width}}
+      contentContainerStyle={{paddingBottom: 20}}
+    >
+      {monthStatistics.months.map((month, index) => (
+        <MonthBar
+          currency={currency}
+          selected={index == selectedMonth}
+          toggleSelected={() => setSelectedMonth(index == selectedMonth ? null : index)}
+          month={month}
+          categories={categories}
+          highestMonthCost={highestMonthCost}
+          active={active}
+          isTransparent={selectedMonth !== null && selectedMonth !== index}
+          key={month.string}
+        />
+      ))}
+    </ScrollView>
   )
 }
 
@@ -89,7 +85,7 @@ function MonthBar({currency, month, categories, highestMonthCost, active, select
               />
             )
         })}
-        <SText fontSize={25}>{month.string}</SText>
+        <SText fontSize={25}>{month.string.split(' ')[0]}</SText>
       </TouchableOpacity>
     </Animated.View>
   )
@@ -112,10 +108,11 @@ function BarBlock({isSelected, month, highestMonthCost, category, active}) {
   }, [active, height])
 
   function getHeight() {
-    const current = month[category.id] || 0
+    const current = month.categories[category.id]
+    if(month.total == 0) return 0
     const height = isSelected
-      ? current / month.total * 280
-      : current / highestMonthCost * 280
+      ? current.cost / month.total * 280
+      : current.cost / highestMonthCost * 280
     return height
   }
 

@@ -3,27 +3,33 @@ import { FlatList, TouchableOpacity, View } from 'react-native'
 import SText from '../components/SText'
 import { useNavigation } from '@react-navigation/native'
 import dataContext from '../dataContext'
-import { getMonthlyExpenses, getDayString } from '../util/DateTools'
+import { getDayString } from '../util/DateTools'
 import useStyle from '../util/useStyle'
 import { getCostString } from '../util/currency'
+import { useEffect } from 'react/cjs/react.development'
 
 export default () => {
-  const {expenses} = useContext(dataContext)
+  const {monthStatistics} = useContext(dataContext)
   const style = useStyle()
+  console.log(monthStatistics)
+  function getDefaultMonth() {
+    return monthStatistics.months.length != 0 ? monthStatistics.months[0] : null
+  }
 
-  const monthlyExpenses = getMonthlyExpenses(expenses)
-  const defaultMonth = monthlyExpenses.length != 0 ? monthlyExpenses[0].string : null
-  const [selectedMonth, setSelectedMonth] = useState(defaultMonth)
-  const monthExpenses = monthlyExpenses.find(month => month.string == selectedMonth)
-  
+  const [selectedMonth, setSelectedMonth] = useState(getDefaultMonth())
+
+  useEffect(() => {
+    setSelectedMonth(getDefaultMonth())
+  }, [monthStatistics])
+
   return (
     <View
       style={{marginTop: 15, marginBottom: 30}}
     >
       <FlatList
-        data={monthlyExpenses.map(month => month.string)}
+        data={monthStatistics.months}
         horizontal={true}
-        keyExtractor={month => month}
+        keyExtractor={month => month.string}
         contentContainerStyle={{paddingBottom: 7, alignItems: 'center'}}
         showsHorizontalScrollIndicator={false}
         renderItem={({item: month}) => (
@@ -38,7 +44,7 @@ export default () => {
             <SText
               fontSize={selectedMonth == month ? 25 : 20}
               color={selectedMonth == month ? style.text : style.lightText}
-            >{month}</SText>
+            >{month.string}</SText>
           </TouchableOpacity>
         )}
       />
@@ -50,10 +56,15 @@ export default () => {
           borderBottomWidth: .5
         }}
       >
-        {!!monthExpenses && monthExpenses.expenses.map(expense => (
+        {!!selectedMonth && selectedMonth.expenses.map(expense => (
           <Expense expense={expense} key={expense.id.toString()} />
         ))}
       </View>
+      {!!selectedMonth && selectedMonth.expenses.length == 0 && (
+        <View style={{justifyContent: 'center', alignItems: 'center', height: 100}}>
+          <SText>No expenses this month</SText>
+        </View>
+      )}
     </View>
   )
 }
