@@ -11,7 +11,6 @@ import { useEffect } from 'react/cjs/react.development'
 export default () => {
   const {monthStatistics} = useContext(dataContext)
   const style = useStyle()
-  console.log(monthStatistics)
   function getDefaultMonth() {
     return monthStatistics.months.length != 0 ? monthStatistics.months[0] : null
   }
