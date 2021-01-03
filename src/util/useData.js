@@ -190,6 +190,6 @@ export default function useData() {
     setTheme: updateTheme,
     subscription,
     loading,
-    monthStatistics: Statistics.getCatgegoryStatistics(categories, mapExpenses())
+    monthStatistics: loading ? null : Statistics.getCatgegoryStatistics(categories, mapExpenses())
   }
 }

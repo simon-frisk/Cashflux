@@ -85,6 +85,7 @@ export function getCatgegoryStatistics(categories, expenses) {
 
         month.expenses.push(expense)
         month.total += expense.cost
+        console.log(expense)
         month.categories[expense.category.id].cost += expense.cost
         expenseIndex += 1
       }
